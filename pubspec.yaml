@@ -1,6 +1,6 @@
 name: saavn_play
 description: Unofficial API client for JioSaavn. Search songs, albums, artists, playlists, podcasts, radio stations, and more.
-version: 1.0.0
+version: 1.0.1
 
 homepage: https://github.com/krishna-9099/saavn_play
 repository: https://github.com/krishna-9099/saavn_play
@@ -18,8 +18,8 @@ environment:
   sdk: '^3.0.0'
 
 dependencies:
-  dio: ^5.4.0
-  json_annotation: ^4.9.0
+  dio: ^5.9.1
+  json_annotation: ^4.11.0
   dart_des: ^1.0.2
   pointycastle: ^4.0.0
 

@@ -145,7 +145,7 @@ void main() async {
                         {/* Version badge */}
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-sm font-medium mb-8">
                             <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse" />
-                            v1.0.0 - Stable Release
+                            v1.0.1 - Stable Release
                         </div>
 
                         {/* Title */}

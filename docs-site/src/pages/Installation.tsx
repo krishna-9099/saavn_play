@@ -1,8 +1,9 @@
+import { Link } from 'react-router-dom';
 import CodeBlock from '../components/ui/CodeBlock';
 
 const Installation = () => {
   const pubspecCode = `dependencies:
-  saavn_play: ^1.0.0`;
+  saavn_play: ^1.0.1`;
 
   const installCode = `dart pub get`;
 
@@ -122,12 +123,12 @@ void main() async {
           Now that you have saavn_play installed, explore the API documentation to learn about all available features.
         </p>
         <div className="flex flex-wrap gap-4">
-          <a href="/api-reference" className="btn btn-primary">
+          <Link to="/api-reference" className="btn btn-primary">
             API Reference
-          </a>
-          <a href="/examples" className="btn btn-secondary">
+          </Link>
+          <Link to="/examples" className="btn btn-secondary">
             Examples
-          </a>
+          </Link>
         </div>
       </section>
     </div>
