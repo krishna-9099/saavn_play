@@ -1,13 +1,12 @@
 import 'package:saavn_play/saavn_play.dart';
-import 'package:saavn_play/src/saavn_play.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('RadioEndpoint', () {
-    late saavn_playClient client;
+    late SaavnPlayClient client;
 
     setUpAll(() {
-      client = saavn_playClient();
+      client = SaavnPlayClient();
     });
 
     test('getFeaturedStations returns a list of radio stations', () async {

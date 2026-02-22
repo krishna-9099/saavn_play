@@ -34,62 +34,59 @@ class AllSearchResponse {
   ) {
     return AllSearchResponse(
       topQuery: SearchResponse(
-        results: allSearchResults["topquery"]?["data"]
+        results: allSearchResults['topquery']?['data']
             .map((item) {
               return SearchTopQueryResponse.fromJson({
                 ...item,
-                ...?item?["more_info"],
+                ...?item?['more_info'],
               });
             })
             .toList()
             .cast<SearchTopQueryResponse>(),
-        position: allSearchResults["topquery"]?["position"],
+        position: allSearchResults['topquery']?['position'],
       ),
-
       songs: SearchResponse(
-        results: allSearchResults["songs"]?["data"]
+        results: allSearchResults['songs']?['data']
             .map((item) {
               return SearchSongResponse.fromJson({
                 ...item,
-                ...?item["more_info"],
+                ...?item['more_info'],
               });
             })
             .toList()
             .cast<SearchSongResponse>(),
-        position: allSearchResults["songs"]["position"],
+        position: allSearchResults['songs']['position'],
       ),
       albums: SearchResponse(
-        results: allSearchResults["albums"]?["data"]
+        results: allSearchResults['albums']?['data']
             .map(
               (item) => SearchAlbumResponse.fromJson({
                 ...item,
-                ...?item["more_info"],
+                ...?item['more_info'],
               }),
             )
             .toList()
             .cast<SearchAlbumResponse>(),
-        position: allSearchResults["albums"]?["position"],
+        position: allSearchResults['albums']?['position'],
       ),
-
       artists: SearchResponse(
-        results: allSearchResults["artists"]?["data"]
+        results: allSearchResults['artists']?['data']
             .map((item) => SearchArtistResponse.fromJson(item))
             .toList()
             .cast<SearchArtistResponse>(),
-        position: allSearchResults["artists"]?["position"],
+        position: allSearchResults['artists']?['position'],
       ),
-
       playlists: SearchResponse(
-        results: allSearchResults["playlists"]?["data"]
+        results: allSearchResults['playlists']?['data']
             .map(
               (item) => SearchPlaylistResponse.fromJson({
                 ...item,
-                ...?item["more_info"],
+                ...?item['more_info'],
               }),
             )
             .toList()
             .cast<SearchPlaylistResponse>(),
-        position: allSearchResults["playlists"]?["position"],
+        position: allSearchResults['playlists']?['position'],
       ),
     );
   }
@@ -110,7 +107,8 @@ class SearchResponse<T> {
   factory SearchResponse.fromJson(
     Map<String, dynamic> json,
     T Function(Object? json) fromJsonT,
-  ) => _$SearchResponseFromJson(json, fromJsonT);
+  ) =>
+      _$SearchResponseFromJson(json, fromJsonT);
 
   Map<String, dynamic> toJson(Object? Function(T value) toJsonT) =>
       _$SearchResponseToJson(this, toJsonT);

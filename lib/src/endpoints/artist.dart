@@ -31,14 +31,14 @@ class ArtistEndpoint extends BaseClient {
     final response = await request(
       call: endpoints.artists.songs,
       queryParameters: {
-        "artistId": artistId,
-        "page": page,
-        if (category != null) "category": category,
-        if (sort != null) "sort_order": sort,
+        'artistId': artistId,
+        'page': page,
+        if (category != null) 'category': category,
+        if (sort != null) 'sort_order': sort,
       },
     );
 
-    final artist = ArtistSongRequest.fromJson(response["topSongs"]);
+    final artist = ArtistSongRequest.fromJson(response['topSongs']);
 
     return ArtistSongResponse(
       lastPage: artist.lastPage,
@@ -59,13 +59,13 @@ class ArtistEndpoint extends BaseClient {
         call: endpoints.artists.albums,
         isAPIv4: true,
         queryParameters: {
-          "artistId": artistId,
-          "page": page,
-          if (category != null) "category": category,
-          if (sort != null) "sort_order": sort,
+          'artistId': artistId,
+          'page': page,
+          if (category != null) 'category': category,
+          if (sort != null) 'sort_order': sort,
         });
 
-    final album = ArtistAlbumRequest.fromJson(response["topAlbums"]);
+    final album = ArtistAlbumRequest.fromJson(response['topAlbums']);
 
     return ArtistAlbumResponse(
       lastPage: album.lastPage,

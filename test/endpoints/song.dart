@@ -6,10 +6,10 @@ import 'package:test/test.dart';
 void main(List<String> args) {
   final song = SongEndpoint();
 
-  group("Song Endpoint => ", () {
-    test("Get song Details by Ids", () async {
+  group('Song Endpoint => ', () {
+    test('Get song Details by Ids', () async {
       // Fetch each id individually to avoid batch failures
-      final ids = ["5WXAlMNt", "csaEsVWV"];
+      final ids = ['5WXAlMNt', 'csaEsVWV'];
       for (final id in ids) {
         final res = await song.detailsById([id]);
         print('Fetched details for $id (count: ${res.length})');
@@ -50,7 +50,7 @@ void main(List<String> args) {
       }
     });
 
-    test("Get song Details by URL id", () async {
+    test('Get song Details by URL id', () async {
       // The perma_url contains AjBfaz1SXWE, but the API pid can differ.
       // We'll search for the title to discover the actual API id, then fetch details.
       final sendpoint = SearchEndpoint();

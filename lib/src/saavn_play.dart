@@ -53,4 +53,4 @@ class SaavnPlayClient {
 
 /// Deprecated: Use [SaavnPlayClient] instead.
 @Deprecated('Use SaavnPlayClient instead')
-typedef saavn_playClient = SaavnPlayClient;
+typedef SaavnPlayclient = SaavnPlayClient;

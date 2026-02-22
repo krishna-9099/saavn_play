@@ -80,8 +80,7 @@ class FeaturedPlaylistsResponse {
 
   factory FeaturedPlaylistsResponse.fromJson(Map<String, dynamic> json) {
     return FeaturedPlaylistsResponse(
-      data:
-          (json['data'] as List<dynamic>?)
+      data: (json['data'] as List<dynamic>?)
               ?.map(
                 (e) => FeaturedPlaylistItem.fromJson(e as Map<String, dynamic>),
               )

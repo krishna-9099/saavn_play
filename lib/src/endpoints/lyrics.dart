@@ -12,7 +12,7 @@ class LyricsEndpoint extends BaseClient {
     final response = await request(
       call: endpoints.lyrics,
       isAPIv4: true,
-      queryParameters: {"lyrics_id": songId},
+      queryParameters: {'lyrics_id': songId},
     );
 
     final lyricReq = LyricsRequest.fromJson(response);
@@ -20,7 +20,7 @@ class LyricsEndpoint extends BaseClient {
     if (lyricReq.lyrics == null) {
       throw DioException(
         type: DioExceptionType.badResponse,
-        error: "Lyrics not found for this song",
+        error: 'Lyrics not found for this song',
         requestOptions: RequestOptions(
           baseUrl: options?.baseUrl,
           queryParameters: options?.queryParameters,

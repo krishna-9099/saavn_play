@@ -17,29 +17,32 @@ ArtistSearchRequest _$ArtistSearchRequestFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ArtistSearchRequestToJson(
   ArtistSearchRequest instance,
-) => <String, dynamic>{
-  'total': instance.total,
-  'start': instance.start,
-  'results': instance.results,
-};
+) =>
+    <String, dynamic>{
+      'total': instance.total,
+      'start': instance.start,
+      'results': instance.results,
+    };
 
 ArtistSearchResponse _$ArtistSearchResponseFromJson(
   Map<String, dynamic> json,
-) => ArtistSearchResponse(
-  total: (json['total'] as num).toInt(),
-  start: (json['start'] as num).toInt(),
-  results: (json['results'] as List<dynamic>)
-      .map((e) => ArtistResponse.fromJson(e as Map<String, dynamic>))
-      .toList(),
-);
+) =>
+    ArtistSearchResponse(
+      total: (json['total'] as num).toInt(),
+      start: (json['start'] as num).toInt(),
+      results: (json['results'] as List<dynamic>)
+          .map((e) => ArtistResponse.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$ArtistSearchResponseToJson(
   ArtistSearchResponse instance,
-) => <String, dynamic>{
-  'total': instance.total,
-  'start': instance.start,
-  'results': instance.results,
-};
+) =>
+    <String, dynamic>{
+      'total': instance.total,
+      'start': instance.start,
+      'results': instance.results,
+    };
 
 ArtistSongResponse _$ArtistSongResponseFromJson(Map<String, dynamic> json) =>
     ArtistSongResponse(
@@ -68,39 +71,40 @@ ArtistAlbumResponse _$ArtistAlbumResponseFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$ArtistAlbumResponseToJson(
   ArtistAlbumResponse instance,
-) => <String, dynamic>{
-  'total': instance.total,
-  'last_page': instance.lastPage,
-  'results': instance.results,
-};
+) =>
+    <String, dynamic>{
+      'total': instance.total,
+      'last_page': instance.lastPage,
+      'results': instance.results,
+    };
 
 Artist _$ArtistFromJson(Map<String, dynamic> json) => Artist(
-  id: json['id'] as String?,
-  name: json['name'] as String,
-  image: json['image'] as String?,
-  role: json['role'] as String?,
-  permaUrl: json['perma_url'] as String?,
-  type: json['type'] as String,
-  miniObj: json['mini_obj'] as bool?,
-  ctr: (json['ctr'] as num?)?.toDouble(),
-  entity: (json['entity'] as num?)?.toInt(),
-  isRadioPresent: json['is_radio_present'] as bool?,
-  isFollowed: json['is_followed'] as bool?,
-);
+      id: json['id'] as String?,
+      name: json['name'] as String,
+      image: json['image'] as String?,
+      role: json['role'] as String?,
+      permaUrl: json['perma_url'] as String?,
+      type: json['type'] as String,
+      miniObj: json['mini_obj'] as bool?,
+      ctr: (json['ctr'] as num?)?.toDouble(),
+      entity: (json['entity'] as num?)?.toInt(),
+      isRadioPresent: json['is_radio_present'] as bool?,
+      isFollowed: json['is_followed'] as bool?,
+    );
 
 Map<String, dynamic> _$ArtistToJson(Artist instance) => <String, dynamic>{
-  'id': instance.id,
-  'name': instance.name,
-  'ctr': instance.ctr,
-  'entity': instance.entity,
-  'image': instance.image,
-  'role': instance.role,
-  'perma_url': instance.permaUrl,
-  'type': instance.type,
-  'mini_obj': instance.miniObj,
-  'is_radio_present': instance.isRadioPresent,
-  'is_followed': instance.isFollowed,
-};
+      'id': instance.id,
+      'name': instance.name,
+      'ctr': instance.ctr,
+      'entity': instance.entity,
+      'image': instance.image,
+      'role': instance.role,
+      'perma_url': instance.permaUrl,
+      'type': instance.type,
+      'mini_obj': instance.miniObj,
+      'is_radio_present': instance.isRadioPresent,
+      'is_followed': instance.isFollowed,
+    };
 
 ArtistSongRequest _$ArtistSongRequestFromJson(Map<String, dynamic> json) =>
     ArtistSongRequest(
@@ -135,12 +139,12 @@ Map<String, dynamic> _$ArtistAlbumRequestToJson(ArtistAlbumRequest instance) =>
     };
 
 ArtistUrls _$ArtistUrlsFromJson(Map<String, dynamic> json) => ArtistUrls(
-  albums: json['albums'] as String,
-  bio: json['bio'] as String,
-  comments: json['comments'] as String,
-  songs: json['songs'] as String,
-  overview: json['overview'] as String,
-);
+      albums: json['albums'] as String,
+      bio: json['bio'] as String,
+      comments: json['comments'] as String,
+      songs: json['songs'] as String,
+      overview: json['overview'] as String,
+    );
 
 Map<String, dynamic> _$ArtistUrlsToJson(ArtistUrls instance) =>
     <String, dynamic>{

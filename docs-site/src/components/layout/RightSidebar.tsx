@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 
 interface TocItem {
     id: string;
@@ -9,6 +10,7 @@ interface TocItem {
 const RightSidebar = () => {
     const [tocItems, setTocItems] = useState<TocItem[]>([]);
     const [activeId, setActiveId] = useState<string>('');
+    const location = useLocation();
 
     // Extract headings from the main content
     useEffect(() => {
@@ -34,6 +36,7 @@ const RightSidebar = () => {
             });
 
             setTocItems(items);
+            setActiveId(''); // Reset active ID when page changes
         };
 
         // Run on mount and after a short delay for dynamic content
@@ -41,7 +44,7 @@ const RightSidebar = () => {
         const timer = setTimeout(extractHeadings, 100);
 
         return () => clearTimeout(timer);
-    }, []);
+    }, [location.pathname]); // Re-run when path changes
 
     // Track active section using Intersection Observer
     useEffect(() => {

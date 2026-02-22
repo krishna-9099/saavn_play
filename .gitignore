@@ -5,15 +5,8 @@
 pubspec.lock
 build/
 
-# Generated Dart files (json_serializable, etc.)
-*.g.dart
-
 #plans 
 plans/
-
-#tools 
-tool/
-
 
 # IDEs and editors
 .idea/

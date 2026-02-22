@@ -135,8 +135,7 @@ class PlaylistResponse {
       shares: playlist.share ?? '',
       image: createImageLinks(playlist.image) ?? [],
       url: playlist.permaUrl ?? '',
-      songs:
-          playlist.songs
+      songs: playlist.songs
               ?.map((song) => SongResponse.fromSongRequest(song))
               .toList() ??
           [],

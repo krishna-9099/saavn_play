@@ -13,7 +13,7 @@ class SearchEndpoint extends BaseClient {
     // api v4 doest not provide positions
     final result = await request(
       call: endpoints.search.all,
-      queryParameters: {"query": query},
+      queryParameters: {'query': query},
     );
 
     return AllSearchResponse.fromCustomJson(result);
@@ -27,7 +27,7 @@ class SearchEndpoint extends BaseClient {
     // api v4 does not contain media_preview_url
     final response = await request(
       call: endpoints.search.songs,
-      queryParameters: {"q": query, "p": page, "n": limit},
+      queryParameters: {'q': query, 'p': page, 'n': limit},
     );
 
     final req = SongSearchRequest.fromJson(response);
@@ -47,15 +47,14 @@ class SearchEndpoint extends BaseClient {
     // api v4 does not contain media_preview_url
     final response = await request(
       call: endpoints.search.albums,
-      queryParameters: {"q": query, "p": page, "n": limit},
+      queryParameters: {'q': query, 'p': page, 'n': limit},
     );
 
     final req = AlbumSearchRequest.fromJson(response);
 
     return AlbumSearchResponse(
-      results: req.results
-          .map((e) => AlbumResponse.fromAlbumRequest(e))
-          .toList(),
+      results:
+          req.results.map((e) => AlbumResponse.fromAlbumRequest(e)).toList(),
       start: req.start,
       total: req.total,
     );
@@ -69,15 +68,14 @@ class SearchEndpoint extends BaseClient {
     // api v4 does not contain media_preview_url
     final response = await request(
       call: endpoints.search.artists,
-      queryParameters: {"q": query, "p": page, "n": limit},
+      queryParameters: {'q': query, 'p': page, 'n': limit},
     );
 
     final req = ArtistSearchRequest.fromJson(response);
 
     return ArtistSearchResponse(
-      results: req.results
-          .map((e) => ArtistResponse.fromArtistRequest(e))
-          .toList(),
+      results:
+          req.results.map((e) => ArtistResponse.fromArtistRequest(e)).toList(),
       start: req.start,
       total: req.total,
     );
@@ -90,7 +88,7 @@ class SearchEndpoint extends BaseClient {
   }) async {
     final response = await request(
       call: endpoints.search.playlists,
-      queryParameters: {"q": query, "p": page, "n": limit},
+      queryParameters: {'q': query, 'p': page, 'n': limit},
     );
 
     final req = PlaylistSearchRequest.fromJson(response);

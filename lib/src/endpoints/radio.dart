@@ -127,31 +127,24 @@ class RadioStationSongsResponse {
     final artistMap = moreInfo['artistMap'] as Map<String, dynamic>? ?? {};
 
     // Extract primary artists
-    final primaryArtists =
-        (artistMap['primary_artists'] as List<dynamic>?)
+    final primaryArtists = (artistMap['primary_artists'] as List<dynamic>?)
             ?.map((a) => a['name'] as String)
             .join(', ') ??
         '';
-    final primaryArtistsId =
-        (artistMap['primary_artists'] as List<dynamic>?)
+    final primaryArtistsId = (artistMap['primary_artists'] as List<dynamic>?)
             ?.map((a) => a['id'] as String)
             .join(', ') ??
         '';
 
     // Extract featured artists
-    final featuredArtists =
-        (artistMap['featured_artists'] as List<dynamic>?)
+    final featuredArtists = (artistMap['featured_artists'] as List<dynamic>?)
             ?.map((a) => a['name'] as String)
             .join(', ') ??
         '';
-    final featuredArtistsId =
-        (artistMap['featured_artists'] as List<dynamic>?)
+    final featuredArtistsId = (artistMap['featured_artists'] as List<dynamic>?)
             ?.map((a) => a['id'] as String)
             .join(', ') ??
         '';
-
-    // Extract rights
-    final rights = moreInfo['rights'] as Map<String, dynamic>? ?? {};
 
     return SongResponse(
       id: json['id'] as String? ?? '',

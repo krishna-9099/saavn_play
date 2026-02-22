@@ -53,8 +53,8 @@ List<DownloadLink>? createImageLinks(String? link) {
 }
 
 String sanitizeLyrics(String lyrics) => lyrics
-        .replaceAll("\"", "'")
-        .replaceAll(RegExp(" {2}", caseSensitive: false), ' ')
+        .replaceAll('"', "'")
+        .replaceAll(RegExp(' {2}', caseSensitive: false), ' ')
         .split('<br>')
         .map((text) {
       if (text.isEmpty) return text;

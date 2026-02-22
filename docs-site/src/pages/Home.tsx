@@ -140,7 +140,7 @@ void main() async {
                 <div className="absolute top-20 left-10 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl animate-pulse" />
                 <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
 
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24 lg:pt-16 lg:pb-32">
                     <div className="text-center">
                         {/* Version badge */}
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-sm font-medium mb-8">
@@ -207,6 +207,19 @@ void main() async {
                                     alt="GitHub Stars"
                                     className="h-7"
                                 />
+                            </a>
+                        </div>
+
+                        {/* Author */}
+                        <div className="mt-8 text-gray-500 text-sm">
+                            Created by{' '}
+                            <a
+                                href="https://github.com/krishna-9099"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary-400 hover:text-primary-300 font-medium transition-colors"
+                            >
+                                Krishan
                             </a>
                         </div>
                     </div>

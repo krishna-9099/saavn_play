@@ -67,27 +67,23 @@ class FooterDetails {
 
   factory FooterDetails.fromJson(Map<String, dynamic> json) {
     return FooterDetails(
-      playlists:
-          (json['playlist'] as List<dynamic>?)
+      playlists: (json['playlist'] as List<dynamic>?)
               ?.map(
                 (e) => FooterPlaylistItem.fromJson(e as Map<String, dynamic>),
               )
               .toList() ??
           [],
-      artists:
-          (json['artist'] as List<dynamic>?)
+      artists: (json['artist'] as List<dynamic>?)
               ?.map((e) => FooterArtistItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      albums:
-          (json['album'] as List<dynamic>?)
+      albums: (json['album'] as List<dynamic>?)
               ?.map(
                 (e) => FooterPlaylistItem.fromJson(e as Map<String, dynamic>),
               )
               .toList() ??
           [],
-      actors:
-          (json['actor'] as List<dynamic>?)
+      actors: (json['actor'] as List<dynamic>?)
               ?.map((e) => FooterArtistItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
@@ -138,18 +134,15 @@ class BrowseHoverDetails {
   factory BrowseHoverDetails.fromJson(Map<String, dynamic> json) {
     final megaMenu = json['mega_menu'] as Map<String, dynamic>? ?? {};
     return BrowseHoverDetails(
-      topArtists:
-          (megaMenu['top_artists'] as List<dynamic>?)
+      topArtists: (megaMenu['top_artists'] as List<dynamic>?)
               ?.map((e) => MegaMenuItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      topPlaylists:
-          (megaMenu['top_playlists'] as List<dynamic>?)
+      topPlaylists: (megaMenu['top_playlists'] as List<dynamic>?)
               ?.map((e) => MegaMenuItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      newReleases:
-          (megaMenu['new_releases'] as List<dynamic>?)
+      newReleases: (megaMenu['new_releases'] as List<dynamic>?)
               ?.map((e) => MegaMenuItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
@@ -356,13 +349,11 @@ class ShowResponse {
       showDetails: json['show_details'] != null
           ? ShowDetails.fromJson(json['show_details'] as Map<String, dynamic>)
           : null,
-      seasons:
-          (json['seasons'] as List<dynamic>?)
+      seasons: (json['seasons'] as List<dynamic>?)
               ?.map((e) => Season.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      episodes:
-          (json['episodes'] as List<dynamic>?)
+      episodes: (json['episodes'] as List<dynamic>?)
               ?.map((e) => Episode.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],

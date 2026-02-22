@@ -26,19 +26,19 @@ class Album {
   String? name;
   String year;
 
-  @JsonKey(name: "release_date")
+  @JsonKey(name: 'release_date')
   String? releaseDate;
 
-  @JsonKey(name: "primary_artists")
+  @JsonKey(name: 'primary_artists')
   String? primaryArtists;
 
-  @JsonKey(name: "primary_artists_id")
+  @JsonKey(name: 'primary_artists_id')
   String? primaryArtistsId;
 
-  @JsonKey(name: "albumid")
+  @JsonKey(name: 'albumid')
   String? albumId;
 
-  @JsonKey(name: "perma_url")
+  @JsonKey(name: 'perma_url')
   String permaUrl;
   String image;
   List<SongRequest>? songs;
@@ -66,25 +66,25 @@ class AlbumRequest extends Album {
   String title;
   String? subtitle;
 
-  @JsonKey(name: "header_desc")
+  @JsonKey(name: 'header_desc')
   String? headerDesc;
   String? type;
   String? language;
 
-  @JsonKey(name: "play_count")
+  @JsonKey(name: 'play_count')
   String? playCount;
 
-  @JsonKey(name: "explicit_content")
+  @JsonKey(name: 'explicit_content')
   String? explicitContent;
 
-  @JsonKey(name: "list_count")
+  @JsonKey(name: 'list_count')
   String? listCount;
 
-  @JsonKey(name: "list_type")
+  @JsonKey(name: 'list_type')
   String? listType;
   String? list;
 
-  @JsonKey(name: "more_info")
+  @JsonKey(name: 'more_info')
   MoreInfo? moreInfo;
 
   AlbumRequest({
@@ -141,27 +141,27 @@ class AlbumResponse {
   String year;
   String? type;
 
-  @JsonKey(name: "play_count")
+  @JsonKey(name: 'play_count')
   String? playCount;
   String? language;
 
-  @JsonKey(name: "explicit_content")
+  @JsonKey(name: 'explicit_content')
   String? explicitContent;
 
-  @JsonKey(name: "primary_artists_id")
+  @JsonKey(name: 'primary_artists_id')
   String? primaryArtistsId;
 
-  @JsonKey(name: "primary_artists")
+  @JsonKey(name: 'primary_artists')
   List<AlbumArtistResponse> primaryArtists;
   List<AlbumArtistResponse> artists;
 
-  @JsonKey(name: "featured_artists")
+  @JsonKey(name: 'featured_artists')
   List<AlbumArtistResponse> featuredArtists;
 
-  @JsonKey(name: "song_count")
+  @JsonKey(name: 'song_count')
   String songCount;
 
-  @JsonKey(name: "release_date")
+  @JsonKey(name: 'release_date')
   String? releaseDate;
 
   List<DownloadLink>? image;
@@ -270,10 +270,10 @@ class AlbumArtistResponse {
 
 @JsonSerializable()
 class ArtistMap {
-  @JsonKey(name: "primary_artists")
+  @JsonKey(name: 'primary_artists')
   List<Artist>? primaryArtists;
 
-  @JsonKey(name: "featured_artists")
+  @JsonKey(name: 'featured_artists')
   List<Artist>? featuredArtists;
 
   List<Artist>? artists;
@@ -289,9 +289,9 @@ class ArtistMap {
   });
 
   factory ArtistMap.fromJson(Map<String, dynamic> json) => [
-        "primary_artists",
-        "featured_artists",
-        "artists"
+        'primary_artists',
+        'featured_artists',
+        'artists'
       ].every((key) => json[key] == null)
           ? ArtistMap(map: json)
           : _$ArtistMapFromJson(json);
@@ -305,10 +305,10 @@ class MoreInfo {
   String text;
   String? music;
 
-  @JsonKey(name: "song_count")
+  @JsonKey(name: 'song_count')
   String songCount;
 
-  @JsonKey(name: "artist_map")
+  @JsonKey(name: 'artist_map')
   ArtistMap? artistMap;
 
   MoreInfo({

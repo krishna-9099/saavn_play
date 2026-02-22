@@ -1,13 +1,12 @@
 import 'package:saavn_play/saavn_play.dart';
-import 'package:saavn_play/src/saavn_play.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('PodcastEndpoint', () {
-    late saavn_playClient client;
+    late SaavnPlayClient client;
 
     setUp(() {
-      client = saavn_playClient();
+      client = SaavnPlayClient();
     });
 
     test('getTopShows returns valid podcast shows response', () async {

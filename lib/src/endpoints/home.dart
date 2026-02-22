@@ -295,8 +295,7 @@ class HomeLaunchData {
 
     for (final entry in json.entries) {
       if (entry.key.startsWith('promo:vx:data:')) {
-        final items =
-            (entry.value as List<dynamic>?)
+        final items = (entry.value as List<dynamic>?)
                 ?.map(
                   (e) => HomeSectionItem.fromJson(e as Map<String, dynamic>),
                 )
@@ -365,9 +364,8 @@ class HomeLaunchData {
       result['new_albums'] = newAlbums!.map((e) => e.toJson()).toList();
     }
     if (browseDiscover != null) {
-      result['browse_discover'] = browseDiscover!
-          .map((e) => e.toJson())
-          .toList();
+      result['browse_discover'] =
+          browseDiscover!.map((e) => e.toJson()).toList();
     }
     if (globalConfig != null) {
       result['global_config'] = globalConfig!.toJson();

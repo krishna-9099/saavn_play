@@ -40,7 +40,7 @@ class ArtistSearchResponse {
 class ArtistSongResponse {
   int total;
 
-  @JsonKey(name: "last_page")
+  @JsonKey(name: 'last_page')
   bool lastPage;
   List<SongResponse> results;
 
@@ -57,7 +57,7 @@ class ArtistSongResponse {
 class ArtistAlbumResponse {
   int total;
 
-  @JsonKey(name: "last_page")
+  @JsonKey(name: 'last_page')
   bool lastPage;
   List<AlbumResponse> results;
 
@@ -79,17 +79,17 @@ class Artist {
   String? image;
   String? role;
 
-  @JsonKey(name: "perma_url")
+  @JsonKey(name: 'perma_url')
   String? permaUrl;
   String type;
 
-  @JsonKey(name: "mini_obj")
+  @JsonKey(name: 'mini_obj')
   bool? miniObj;
 
-  @JsonKey(name: "is_radio_present")
+  @JsonKey(name: 'is_radio_present')
   bool? isRadioPresent;
 
-  @JsonKey(name: "is_followed")
+  @JsonKey(name: 'is_followed')
   bool? isFollowed;
 
   Artist({
@@ -116,7 +116,7 @@ class ArtistSongRequest {
   List<SongRequest> songs;
   int total;
 
-  @JsonKey(name: "last_page")
+  @JsonKey(name: 'last_page')
   bool lastPage;
 
   ArtistSongRequest(
@@ -133,7 +133,7 @@ class ArtistAlbumRequest {
   List<AlbumRequest> albums;
   int total;
 
-  @JsonKey(name: "last_page")
+  @JsonKey(name: 'last_page')
   bool lastPage;
 
   ArtistAlbumRequest(
@@ -172,10 +172,10 @@ class ArtistRequest extends Artist {
   String? artistId;
   String? subtitle;
 
-  @JsonKey(name: "follower_count")
+  @JsonKey(name: 'follower_count')
   String? followerCount;
 
-  @JsonKey(name: "is_verified")
+  @JsonKey(name: 'is_verified')
   bool? isVerified;
 
   String? dominantLanguage;
@@ -203,7 +203,7 @@ class ArtistRequest extends Artist {
 
   List<String>? availableLanguages;
 
-  @JsonKey(name: "fan_count")
+  @JsonKey(name: 'fan_count')
   String? fanCount;
 
   ArtistRequest({
@@ -251,13 +251,13 @@ class ArtistResponse {
   String? role;
   List<DownloadLink>? image;
 
-  @JsonKey(name: "follower_count")
+  @JsonKey(name: 'follower_count')
   String? followerCount;
 
-  @JsonKey(name: "fan_count")
+  @JsonKey(name: 'fan_count')
   String? fanCount;
 
-  @JsonKey(name: "is_verified")
+  @JsonKey(name: 'is_verified')
   bool? isVerified;
 
   String? dominantLanguage;
@@ -271,7 +271,7 @@ class ArtistResponse {
 
   List<String>? availableLanguages;
 
-  @JsonKey(name: "is_radio_present")
+  @JsonKey(name: 'is_radio_present')
   bool? isRadioPresent;
 
   ArtistResponse({
