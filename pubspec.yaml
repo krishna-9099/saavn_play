@@ -21,7 +21,7 @@ dependencies:
   dio: ^5.4.0
   json_annotation: ^4.9.0
   dart_des: ^1.0.2
-  pointycastle: ^3.7.0
+  pointycastle: ^4.0.0
 
 dev_dependencies:
   lints: ^4.0.0
