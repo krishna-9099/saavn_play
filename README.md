@@ -1,5 +1,9 @@
 # saavn_play
 
+<div align="center">
+  <img src="logo.svg" alt="saavn_play logo" width="240" height="48">
+</div>
+
 [![Pub Version](https://img.shields.io/pub/v/saavn_play.svg?label=pub&color=blue)](https://pub.dev/packages/saavn_play)
 [![Dart SDK](https://img.shields.io/badge/Dart-%5E3.0.0-0175C2.svg?logo=dart)](https://dart.dev)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/krishna-9099/saavn_play/blob/main/LICENSE)
@@ -9,7 +13,6 @@
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/krishna-9099/saavn_play.svg?logo=github)](https://github.com/krishna-9099/saavn_play/commits/main)
 [![Pub Likes](https://img.shields.io/pub/likes/saavn_play?logo=dart)](https://pub.dev/packages/saavn_play)
 [![Pub Points](https://img.shields.io/pub/points/saavn_play?logo=dart)](https://pub.dev/packages/saavn_play/score)
-[![Code Size](https://img.shields.io/github/languages/code-size/krishna-9099/saavn_play.svg?logo=github)](https://github.com/krishna-9099/saavn_play)
 
 A comprehensive Dart package for interacting with the JioSaavn API. This unofficial client provides easy access to search for songs, albums, playlists, artists, podcasts, radio stations, and more.
 
