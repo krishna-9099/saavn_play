@@ -402,43 +402,6 @@ void main() async {
                     </div>
                 </div>
             </section>
-
-            {/* Disclaimer Section */}
-            <section className="py-12 border-t border-white/5">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="p-6 rounded-2xl border border-yellow-500/20 bg-yellow-500/5">
-                        <div className="flex items-start gap-4">
-                            <div className="p-2 rounded-lg bg-yellow-500/20 flex-shrink-0">
-                                <svg
-                                    className="w-6 h-6 text-yellow-500"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                                    />
-                                </svg>
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-semibold text-yellow-500 mb-2">
-                                    Educational Purpose Disclaimer
-                                </h3>
-                                <p className="text-gray-400 text-sm leading-relaxed">
-                                    This package is intended for <strong className="text-yellow-500/80">educational and research purposes only</strong>.
-                                    It is not affiliated with, endorsed by, or connected to JioSaavn or any of its subsidiaries.
-                                    Users are responsible for ensuring their use of this package complies with applicable
-                                    terms of service and copyright laws. The maintainers are not responsible for any misuse
-                                    of this software.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
     );
 };
