@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 48" width="240" height="48">
+  <defs>
+    <linearGradient id="playGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1aa0ff"/>
+      <stop offset="50%" style="stop-color:#a855f7"/>
+      <stop offset="100%" style="stop-color:#f472b6"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle for icon -->
+  <circle cx="24" cy="24" r="22" fill="#1a1a2e"/>
+  
+  <!-- Play button triangle -->
+  <polygon points="14,8 14,40 38,24" fill="url(#playGradient)"/>
+  
+  <!-- Sound wave bars inside play button -->
+  <rect x="18" y="18" width="2.5" height="12" rx="1.25" fill="white" opacity="0.9"/>
+  <rect x="22" y="14" width="2.5" height="20" rx="1.25" fill="white" opacity="0.9"/>
+  <rect x="26" y="20" width="2.5" height="8" rx="1.25" fill="white" opacity="0.9"/>
+  
+  <!-- Text: saavn_play -->
+  <text x="56" y="32" font-family="Inter, system-ui, sans-serif" font-size="24" font-weight="700">
+    <tspan fill="#1aa0ff">saavn</tspan><tspan fill="#f472b6">_play</tspan>
+  </text>
+</svg>

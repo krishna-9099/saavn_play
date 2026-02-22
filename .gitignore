@@ -14,15 +14,11 @@ plans/
 #tools 
 tool/
 
-# doc
-doc/
 
-# docs-site/
-docs-site/
 
-# .md files (except README.md)
-*.md
-!README.md
+
+
+
 
 # github files
 .github/
