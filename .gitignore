@@ -15,14 +15,6 @@ plans/
 tool/
 
 
-
-
-
-
-
-# github files
-.github/
-
 # IDEs and editors
 .idea/
 .vscode/
