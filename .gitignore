@@ -5,6 +5,28 @@
 pubspec.lock
 build/
 
+# Generated Dart files (json_serializable, etc.)
+*.g.dart
+
+#plans 
+plans/
+
+#tools 
+tool/
+
+# doc
+doc/
+
+# docs-site/
+docs-site/
+
+# .md files (except README.md)
+*.md
+!README.md
+
+# github files
+.github/
+
 # IDEs and editors
 .idea/
 .vscode/
@@ -12,6 +34,14 @@ build/
 
 # macOS
 .DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
 
 # Coverage and temporary files
 coverage/
@@ -25,3 +55,15 @@ tool/
 
 # Test fixtures with sensitive data
 test/fixtures/*.json
+
+# Log files
+*.log
+logs/
+
+# Node.js (for docs-site/)
+node_modules/
+dist/
+.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
