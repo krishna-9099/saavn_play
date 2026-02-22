@@ -47,7 +47,7 @@ Add the following to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  saavn_play: ^0.1.1
+  saavn_play: ^1.0.0
 ```
 
 Then run:

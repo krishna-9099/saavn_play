@@ -1,0 +1,19 @@
+# Documentation website (not needed on pub.dev)
+docs-site/
+
+# Development files
+plans/
+tool/
+test/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

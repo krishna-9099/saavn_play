@@ -2,7 +2,7 @@ import CodeBlock from '../components/ui/CodeBlock';
 
 const Installation = () => {
   const pubspecCode = `dependencies:
-  saavn_play: ^0.1.0`;
+  saavn_play: ^1.0.0`;
 
   const installCode = `dart pub get`;
 

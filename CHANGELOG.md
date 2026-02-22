@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.1.1] - 2026-02-22
+## [1.0.0] - 2026-02-23
 
 ### Added
 - Comprehensive README documentation with API reference
@@ -18,10 +18,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Strongly-typed models for all API responses
 - Download URL generation with multiple quality options
 - Image URL generation with multiple sizes
+- Full API documentation with dartdoc comments
+- Example file with usage demonstrations
 
 ### Changed
 - Improved documentation and code examples
 - Updated dependencies to latest versions
+- Fixed all lint issues for perfect static analysis score
+- Renamed classes to follow Dart naming conventions (SaavnPlayClient, SaavnPlayResponse)
 
 ## [0.1.0] - Initial Release
 
