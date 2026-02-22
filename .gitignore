@@ -1,0 +1,27 @@
+# Dart / Flutter
+.dart_tool/
+.packages
+/.pub/
+pubspec.lock
+build/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.iml
+
+# macOS
+.DS_Store
+
+# Coverage and temporary files
+coverage/
+test/coverage/
+
+# Optional: ignore local env files
+.env
+
+# Tool scripts (not part of the package)
+tool/
+
+# Test fixtures with sensitive data
+test/fixtures/*.json
