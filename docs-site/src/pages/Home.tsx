@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { VisitorCounter } from '../components/VisitorCounter';
 import CodeBlock from '../components/ui/CodeBlock';
 
 const Home = () => {
@@ -240,6 +241,24 @@ void main() async {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Visitor Counter */}
+            <section className="bg-white/[0.015] border-b border-white/5">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div className="grid gap-8 lg:grid-cols-3 lg:items-center">
+                        <div className="lg:col-span-2">
+                            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Live visitor count</h2>
+                            <p className="text-gray-400 max-w-2xl">
+                                This counter increments on each page load and is powered by CounterAPI using the official
+                                counter.js client.
+                            </p>
+                        </div>
+                        <div className="max-w-md lg:ml-auto">
+                            <VisitorCounter />
+                        </div>
                     </div>
                 </div>
             </section>

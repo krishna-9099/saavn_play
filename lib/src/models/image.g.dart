@@ -12,4 +12,7 @@ DownloadLink _$DownloadLinkFromJson(Map<String, dynamic> json) => DownloadLink(
     );
 
 Map<String, dynamic> _$DownloadLinkToJson(DownloadLink instance) =>
-    <String, dynamic>{'quality': instance.quality, 'link': instance.link};
+    <String, dynamic>{
+      'quality': instance.quality,
+      'link': instance.link,
+    };

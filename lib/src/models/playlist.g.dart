@@ -7,8 +7,7 @@ part of 'playlist.dart';
 // **************************************************************************
 
 PlaylistSearchRequest _$PlaylistSearchRequestFromJson(
-  Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     PlaylistSearchRequest(
       total: (json['total'] as num).toInt(),
       start: (json['start'] as num).toInt(),
@@ -18,8 +17,7 @@ PlaylistSearchRequest _$PlaylistSearchRequestFromJson(
     );
 
 Map<String, dynamic> _$PlaylistSearchRequestToJson(
-  PlaylistSearchRequest instance,
-) =>
+        PlaylistSearchRequest instance) =>
     <String, dynamic>{
       'total': instance.total,
       'start': instance.start,
@@ -101,8 +99,7 @@ Map<String, dynamic> _$PlaylistRequestToJson(PlaylistRequest instance) =>
     };
 
 PlaylistSearchResponse _$PlaylistSearchResponseFromJson(
-  Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     PlaylistSearchResponse(
       total: (json['total'] as num).toInt(),
       start: (json['start'] as num).toInt(),
@@ -112,8 +109,7 @@ PlaylistSearchResponse _$PlaylistSearchResponseFromJson(
     );
 
 Map<String, dynamic> _$PlaylistSearchResponseToJson(
-  PlaylistSearchResponse instance,
-) =>
+        PlaylistSearchResponse instance) =>
     <String, dynamic>{
       'total': instance.total,
       'start': instance.start,

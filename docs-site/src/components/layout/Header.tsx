@@ -6,9 +6,10 @@ import SearchModal from '../ui/SearchModal';
 interface HeaderProps {
   onMenuClick: () => void;
   isSidebarOpen: boolean;
+  hideSidebars?: boolean;
 }
 
-const Header = ({ onMenuClick, isSidebarOpen }: HeaderProps) => {
+const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProps) => {
   const location = useLocation();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -107,6 +108,27 @@ const Header = ({ onMenuClick, isSidebarOpen }: HeaderProps) => {
               </Link>
             ))}
           </nav>
+
+          {/* Mobile Navigation Menu - Only show on pages without sidebars (homepage) */}
+          {hideSidebars && isSidebarOpen && (
+            <div className="md:hidden fixed left-0 right-0 top-[64px] bg-background-darker border-b border-border shadow-xl z-50">
+              <nav className="max-w-md mx-auto px-4 py-4 flex flex-col gap-1">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    onClick={onMenuClick}
+                    className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive(link.path)
+                      ? 'text-white bg-primary-500/10'
+                      : 'text-gray-400 hover:text-white hover:bg-background-hover'
+                      }`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          )}
 
           {/* Right section - Search and links */}
           <div className="flex items-center gap-3">

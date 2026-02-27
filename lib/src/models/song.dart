@@ -313,6 +313,7 @@ class SongRequest {
   factory SongRequest.fromJson(Map<String, dynamic> json) {
     final artistMapJson = json['artistMap'] ?? json['artist_map'];
     final rightsJson = json['rights'];
+    final moreInfo = json['more_info'] ?? {};
 
     return SongRequest(
       id: _stringOrEmpty(json['id']),
@@ -340,12 +341,12 @@ class SongRequest {
       explicitContent: _intOrZero(json['explicit_content']),
       hasLyrics: _stringOrEmpty(json['has_lyrics']),
       lyricsSnippet: _stringOrEmpty(json['lyrics_snippet']),
-      encryptedMediaUrl: _stringOrEmpty(json['encrypted_media_url']),
-      encryptedMediaPath: _toString(json['encrypted_media_path']),
-      mediaPreviewUrl: _stringOrNull(json['media_preview_url']),
+      encryptedMediaUrl: _stringOrEmpty(moreInfo['encrypted_media_url'] ?? json['encrypted_media_url']),
+      encryptedMediaPath: _toString(moreInfo['encrypted_media_path'] ?? json['encrypted_media_path']),
+      mediaPreviewUrl: _stringOrNull(moreInfo['media_preview_url'] ?? json['media_preview_url']),
       permaUrl: _stringOrEmpty(json['perma_url']),
-      albumUrl: _stringOrEmpty(json['album_url']),
-      duration: _stringOrEmpty(json['duration']),
+      albumUrl: _stringOrEmpty(moreInfo['album_url'] ?? json['album_url']),
+      duration: _stringOrEmpty(moreInfo['duration'] ?? json['duration']),
       artistMap: artistMapJson is Map<String, dynamic>
           ? ArtistMap.fromJson(artistMapJson)
           : ArtistMap(),
@@ -357,14 +358,14 @@ class SongRequest {
               cacheable: false,
               deleteCachedObject: false,
             ),
-      webp: json['webp'] == null ? null : _boolOrFalse(json['webp']),
-      cacheState: _stringOrNull(json['cache_state']),
-      starred: _stringOrEmpty(json['starred']),
-      releaseDate: json['release_date'],
-      vcode: _stringOrNull(json['vcode']),
-      vlink: _stringOrNull(json['vlink']),
-      trillerAvailable: _boolOrFalse(json['triller_available']),
-      labelUrl: _stringOrEmpty(json['label_url']),
+      webp: moreInfo['webp'] == null ? null : _boolOrFalse(moreInfo['webp'] ?? json['webp']),
+      cacheState: _stringOrNull(moreInfo['cache_state'] ?? json['cache_state']),
+      starred: _stringOrEmpty(moreInfo['starred'] ?? json['starred']),
+      releaseDate: moreInfo['release_date'] ?? json['release_date'],
+      vcode: _stringOrNull(moreInfo['vcode'] ?? json['vcode']),
+      vlink: _stringOrNull(moreInfo['vlink'] ?? json['vlink']),
+      trillerAvailable: _boolOrFalse(moreInfo['triller_available'] ?? json['triller_available']),
+      labelUrl: _stringOrEmpty(moreInfo['label_url'] ?? json['label_url']),
     );
   }
 

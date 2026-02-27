@@ -111,8 +111,7 @@ AlbumSearchResponse _$AlbumSearchResponseFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$AlbumSearchResponseToJson(
-  AlbumSearchResponse instance,
-) =>
+        AlbumSearchResponse instance) =>
     <String, dynamic>{
       'total': instance.total,
       'start': instance.start,
@@ -155,9 +154,9 @@ Map<String, dynamic> _$AlbumResponseToJson(AlbumResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'year': instance.year,
       'subtitle': instance.subtitle,
       'header_desc': instance.headerDesc,
+      'year': instance.year,
       'type': instance.type,
       'play_count': instance.playCount,
       'language': instance.language,
@@ -186,8 +185,7 @@ AlbumArtistResponse _$AlbumArtistResponseFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$AlbumArtistResponseToJson(
-  AlbumArtistResponse instance,
-) =>
+        AlbumArtistResponse instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

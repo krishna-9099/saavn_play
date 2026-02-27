@@ -6,52 +6,57 @@ part of 'search.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-AllSearchResponse _$AllSearchResponseFromJson(
-  Map<String, dynamic> json,
-) =>
+AllSearchResponse _$AllSearchResponseFromJson(Map<String, dynamic> json) =>
     AllSearchResponse(
       albums: SearchResponse<List<SearchAlbumResponse>>.fromJson(
-        json['albums'] as Map<String, dynamic>,
-        (value) => (value as List<dynamic>)
-            .map((e) => SearchAlbumResponse.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      ),
+          json['albums'] as Map<String, dynamic>,
+          (value) => (value as List<dynamic>)
+              .map((e) =>
+                  SearchAlbumResponse.fromJson(e as Map<String, dynamic>))
+              .toList()),
       songs: SearchResponse<List<SearchSongResponse>>.fromJson(
-        json['songs'] as Map<String, dynamic>,
-        (value) => (value as List<dynamic>)
-            .map((e) => SearchSongResponse.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      ),
+          json['songs'] as Map<String, dynamic>,
+          (value) => (value as List<dynamic>)
+              .map(
+                  (e) => SearchSongResponse.fromJson(e as Map<String, dynamic>))
+              .toList()),
       artists: SearchResponse<List<SearchArtistResponse>>.fromJson(
-        json['artists'] as Map<String, dynamic>,
-        (value) => (value as List<dynamic>)
-            .map(
-                (e) => SearchArtistResponse.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      ),
+          json['artists'] as Map<String, dynamic>,
+          (value) => (value as List<dynamic>)
+              .map((e) =>
+                  SearchArtistResponse.fromJson(e as Map<String, dynamic>))
+              .toList()),
       playlists: SearchResponse<List<SearchPlaylistResponse>>.fromJson(
-        json['playlists'] as Map<String, dynamic>,
-        (value) => (value as List<dynamic>)
-            .map((e) =>
-                SearchPlaylistResponse.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      ),
+          json['playlists'] as Map<String, dynamic>,
+          (value) => (value as List<dynamic>)
+              .map((e) =>
+                  SearchPlaylistResponse.fromJson(e as Map<String, dynamic>))
+              .toList()),
       topQuery: SearchResponse<List<SearchTopQueryResponse>>.fromJson(
-        json['topQuery'] as Map<String, dynamic>,
-        (value) => (value as List<dynamic>)
-            .map((e) =>
-                SearchTopQueryResponse.fromJson(e as Map<String, dynamic>))
-            .toList(),
-      ),
+          json['topQuery'] as Map<String, dynamic>,
+          (value) => (value as List<dynamic>)
+              .map((e) =>
+                  SearchTopQueryResponse.fromJson(e as Map<String, dynamic>))
+              .toList()),
     );
 
 Map<String, dynamic> _$AllSearchResponseToJson(AllSearchResponse instance) =>
     <String, dynamic>{
-      'albums': instance.albums.toJson((value) => value),
-      'songs': instance.songs.toJson((value) => value),
-      'artists': instance.artists.toJson((value) => value),
-      'playlists': instance.playlists.toJson((value) => value),
-      'topQuery': instance.topQuery.toJson((value) => value),
+      'albums': instance.albums.toJson(
+        (value) => value,
+      ),
+      'songs': instance.songs.toJson(
+        (value) => value,
+      ),
+      'artists': instance.artists.toJson(
+        (value) => value,
+      ),
+      'playlists': instance.playlists.toJson(
+        (value) => value,
+      ),
+      'topQuery': instance.topQuery.toJson(
+        (value) => value,
+      ),
     };
 
 SearchResponse<T> _$SearchResponseFromJson<T>(
@@ -136,8 +141,7 @@ Map<String, dynamic> _$SearchSongResponseToJson(SearchSongResponse instance) =>
     };
 
 SearchArtistResponse _$SearchArtistResponseFromJson(
-  Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     SearchArtistResponse(
       id: json['id'] as String,
       title: json['title'] as String,
@@ -161,8 +165,7 @@ Map<String, dynamic> _$SearchArtistResponseToJson(
     };
 
 SearchPlaylistResponse _$SearchPlaylistResponseFromJson(
-  Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     SearchPlaylistResponse(
       id: json['id'] as String,
       title: json['title'] as String,
@@ -188,8 +191,7 @@ Map<String, dynamic> _$SearchPlaylistResponseToJson(
     };
 
 SearchTopQueryResponse _$SearchTopQueryResponseFromJson(
-  Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     SearchTopQueryResponse(
       id: json['id'] as String,
       title: json['title'] as String,

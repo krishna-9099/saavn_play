@@ -22,49 +22,64 @@ Map<String, dynamic> _$SongSearchRequestToJson(SongSearchRequest instance) =>
       'results': instance.results,
     };
 
-SongRequest _$SongRequestFromJson(Map<String, dynamic> json) => SongRequest(
-      id: json['id'] as String,
-      type: json['type'] as String,
-      song: json['song'] as String,
-      album: json['album'] as String,
-      year: json['year'] as String,
-      music: json['music'] as String,
-      musicId: json['music_id'] as String?,
-      primaryArtists: json['primary_artists'] as String,
-      primaryArtistsId: json['primary_artists_id'] as String,
-      featuredArtists: json['featured_artists'] as String,
-      featuredArtistsId: json['featured_artists_id'] as String,
-      singers: json['singers'] as String,
-      starring: json['starring'] as String?,
-      image: json['image'] as String,
-      label: json['label'] as String,
-      albumId: json['albumid'] as String,
-      language: json['language'] as String,
-      origin: json['origin'] as String,
-      playCount: SongRequest._toString(json['play_count']),
-      copyrightText: json['copyright_text'] as String,
-      kbps320: json['320kbps'] as String,
-      isDolbyContent: json['is_dolby_content'] as bool,
-      explicitContent: (json['explicit_content'] as num).toInt(),
-      hasLyrics: json['has_lyrics'] as String,
-      lyricsSnippet: json['lyrics_snippet'] as String,
-      encryptedMediaUrl: json['encrypted_media_url'] as String,
-      encryptedMediaPath: SongRequest._toString(json['encrypted_media_path']),
-      mediaPreviewUrl: json['media_preview_url'] as String?,
-      permaUrl: json['perma_url'] as String,
-      albumUrl: json['album_url'] as String,
-      duration: json['duration'] as String,
-      artistMap: ArtistMap.fromJson(json['artistMap'] as Map<String, dynamic>),
-      rights: Rights.fromJson(json['rights'] as Map<String, dynamic>),
-      webp: json['webp'] as bool?,
-      cacheState: json['cache_state'] as String?,
-      starred: json['starred'] as String,
-      releaseDate: json['release_date'],
-      vcode: json['vcode'] as String?,
-      vlink: json['vlink'] as String?,
-      trillerAvailable: json['triller_available'] as bool,
-      labelUrl: json['label_url'] as String,
-    );
+SongRequest _$SongRequestFromJson(Map<String, dynamic> json) {
+  final artistMapJson = json['artistMap'] ?? json['artist_map'];
+  final rightsJson = json['rights'];
+  final moreInfo = json['more_info'] ?? {};
+
+  return SongRequest(
+    id: json['id'] as String,
+    type: json['type'] as String,
+    song: json['song'] as String,
+    album: json['album'] as String,
+    year: json['year'] as String,
+    music: json['music'] as String,
+    musicId: json['music_id'] as String?,
+    primaryArtists: json['primary_artists'] as String,
+    primaryArtistsId: json['primary_artists_id'] as String,
+    featuredArtists: json['featured_artists'] as String,
+    featuredArtistsId: json['featured_artists_id'] as String,
+    singers: json['singers'] as String,
+    starring: json['starring'] as String?,
+    image: json['image'] as String,
+    label: json['label'] as String,
+    albumId: json['albumid'] as String,
+    language: json['language'] as String,
+    origin: json['origin'] as String,
+    playCount: SongRequest._toString(json['play_count']),
+    copyrightText: json['copyright_text'] as String,
+    kbps320: json['320kbps'] as String,
+    isDolbyContent: json['is_dolby_content'] as bool,
+    explicitContent: (json['explicit_content'] as num).toInt(),
+    hasLyrics: json['has_lyrics'] as String,
+    lyricsSnippet: json['lyrics_snippet'] as String,
+    encryptedMediaUrl: (moreInfo['encrypted_media_url'] ?? json['encrypted_media_url']) as String,
+    encryptedMediaPath: SongRequest._toString(moreInfo['encrypted_media_path'] ?? json['encrypted_media_path']),
+    mediaPreviewUrl: (moreInfo['media_preview_url'] ?? json['media_preview_url']) as String?,
+    permaUrl: json['perma_url'] as String,
+    albumUrl: (moreInfo['album_url'] ?? json['album_url']) as String,
+    duration: (moreInfo['duration'] ?? json['duration']) as String,
+    artistMap: artistMapJson is Map<String, dynamic>
+        ? ArtistMap.fromJson(artistMapJson)
+        : ArtistMap(),
+    rights: rightsJson is Map<String, dynamic>
+        ? Rights.fromJson(rightsJson)
+        : Rights(
+            code: 0,
+            reason: '',
+            cacheable: false,
+            deleteCachedObject: false,
+          ),
+    webp: moreInfo['webp'] == null ? null : (moreInfo['webp'] ?? json['webp']) as bool?,
+    cacheState: (moreInfo['cache_state'] ?? json['cache_state']) as String?,
+    starred: (moreInfo['starred'] ?? json['starred']) as String,
+    releaseDate: moreInfo['release_date'] ?? json['release_date'],
+    vcode: (moreInfo['vcode'] ?? json['vcode']) as String?,
+    vlink: (moreInfo['vlink'] ?? json['vlink']) as String?,
+    trillerAvailable: (moreInfo['triller_available'] ?? json['triller_available']) as bool,
+    labelUrl: (moreInfo['label_url'] ?? json['label_url']) as String,
+  );
+}
 
 Map<String, dynamic> _$SongRequestToJson(SongRequest instance) =>
     <String, dynamic>{
@@ -115,9 +130,8 @@ Rights _$RightsFromJson(Map<String, dynamic> json) => Rights(
       code: Rights._fromIntOrString(json['code']),
       reason: json['reason'] as String,
       cacheable: SongRequest._fromBoolOrString(json['cacheable']),
-      deleteCachedObject: SongRequest._fromBoolOrString(
-        json['delete_cached_object'],
-      ),
+      deleteCachedObject:
+          SongRequest._fromBoolOrString(json['delete_cached_object']),
     );
 
 Map<String, dynamic> _$RightsToJson(Rights instance) => <String, dynamic>{

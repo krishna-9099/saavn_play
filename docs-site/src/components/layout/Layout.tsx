@@ -33,12 +33,13 @@ const Layout = ({ children, hideSidebars = false }: LayoutProps) => {
       <Header
         onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
         isSidebarOpen={isSidebarOpen}
+        hideSidebars={hideSidebars}
       />
 
       {/* Main content area with sidebars */}
       <div className="flex-1 flex">
         {/* Mobile overlay */}
-        {isMobile && isSidebarOpen && !hideSidebars && (
+        {isMobile && isSidebarOpen && (
           <div
             className="fixed inset-0 bg-black/50 z-20 lg:hidden"
             onClick={() => setIsSidebarOpen(false)}

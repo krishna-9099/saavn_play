@@ -16,8 +16,7 @@ ArtistSearchRequest _$ArtistSearchRequestFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$ArtistSearchRequestToJson(
-  ArtistSearchRequest instance,
-) =>
+        ArtistSearchRequest instance) =>
     <String, dynamic>{
       'total': instance.total,
       'start': instance.start,
@@ -25,8 +24,7 @@ Map<String, dynamic> _$ArtistSearchRequestToJson(
     };
 
 ArtistSearchResponse _$ArtistSearchResponseFromJson(
-  Map<String, dynamic> json,
-) =>
+        Map<String, dynamic> json) =>
     ArtistSearchResponse(
       total: (json['total'] as num).toInt(),
       start: (json['start'] as num).toInt(),
@@ -36,8 +34,7 @@ ArtistSearchResponse _$ArtistSearchResponseFromJson(
     );
 
 Map<String, dynamic> _$ArtistSearchResponseToJson(
-  ArtistSearchResponse instance,
-) =>
+        ArtistSearchResponse instance) =>
     <String, dynamic>{
       'total': instance.total,
       'start': instance.start,
@@ -70,8 +67,7 @@ ArtistAlbumResponse _$ArtistAlbumResponseFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$ArtistAlbumResponseToJson(
-  ArtistAlbumResponse instance,
-) =>
+        ArtistAlbumResponse instance) =>
     <String, dynamic>{
       'total': instance.total,
       'last_page': instance.lastPage,
