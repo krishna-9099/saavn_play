@@ -123,6 +123,8 @@ AlbumResponse _$AlbumResponseFromJson(Map<String, dynamic> json) =>
     AlbumResponse(
       id: json['id'] as String,
       name: json['name'] as String,
+      subtitle: json['subtitle'] as String?,
+      headerDesc: json['header_desc'] as String?,
       year: json['year'] as String,
       type: json['type'] as String?,
       playCount: json['play_count'] as String?,
@@ -154,6 +156,8 @@ Map<String, dynamic> _$AlbumResponseToJson(AlbumResponse instance) =>
       'id': instance.id,
       'name': instance.name,
       'year': instance.year,
+      'subtitle': instance.subtitle,
+      'header_desc': instance.headerDesc,
       'type': instance.type,
       'play_count': instance.playCount,
       'language': instance.language,

@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-02-27
+
+### Added
+- Home/launch data endpoint with dynamic section handling and error-tolerant variants
+- Album `detailsByToken` helper for fetching albums via webapi token
+
+### Changed
+- Normalized album responses (image extraction, flexible song lists, primary artist and duration fallbacks)
+- Hardened search and song model JSON parsing to handle missing or loosely-typed fields safely
+- Exported home endpoint from the main library entrypoint
+
 ## [1.0.1] - 2026-02-23
 
 ### Fixed

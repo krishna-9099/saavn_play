@@ -135,6 +135,23 @@ class SongRequest {
     return bool.parse(value as String);
   }
 
+  static String _stringOrEmpty(Object? value) => value?.toString() ?? '';
+
+  static String? _stringOrNull(Object? value) => value?.toString();
+
+  static int _intOrZero(Object? value) {
+    if (value is int) return value;
+    return int.tryParse(value?.toString() ?? '') ?? 0;
+  }
+
+  static bool _boolOrFalse(Object? value) {
+    if (value is bool) return value;
+    final normalized = value?.toString().trim().toLowerCase();
+    if (normalized == '1') return true;
+    if (normalized == '0') return false;
+    return normalized == 'true';
+  }
+
   static String? _toString(Object? obj) => obj?.toString();
 
   /// Encrypted path to media file.
@@ -293,8 +310,63 @@ class SongRequest {
   }
 
   /// Creates a SongRequest from a JSON map.
-  factory SongRequest.fromJson(Map<String, dynamic> json) =>
-      _$SongRequestFromJson(json);
+  factory SongRequest.fromJson(Map<String, dynamic> json) {
+    final artistMapJson = json['artistMap'] ?? json['artist_map'];
+    final rightsJson = json['rights'];
+
+    return SongRequest(
+      id: _stringOrEmpty(json['id']),
+      type: _stringOrEmpty(json['type']),
+      song: _stringOrEmpty(json['song']),
+      album: _stringOrEmpty(json['album']),
+      year: _stringOrEmpty(json['year']),
+      music: _stringOrEmpty(json['music']),
+      musicId: _stringOrNull(json['music_id']),
+      primaryArtists: _stringOrEmpty(json['primary_artists']),
+      primaryArtistsId: _stringOrEmpty(json['primary_artists_id']),
+      featuredArtists: _stringOrEmpty(json['featured_artists']),
+      featuredArtistsId: _stringOrEmpty(json['featured_artists_id']),
+      singers: _stringOrEmpty(json['singers']),
+      starring: _stringOrNull(json['starring']),
+      image: _stringOrEmpty(json['image']),
+      label: _stringOrEmpty(json['label']),
+      albumId: _stringOrEmpty(json['albumid']),
+      language: _stringOrEmpty(json['language']),
+      origin: _stringOrEmpty(json['origin']),
+      playCount: _toString(json['play_count']),
+      copyrightText: _stringOrEmpty(json['copyright_text']),
+      kbps320: _stringOrEmpty(json['320kbps']),
+      isDolbyContent: _boolOrFalse(json['is_dolby_content']),
+      explicitContent: _intOrZero(json['explicit_content']),
+      hasLyrics: _stringOrEmpty(json['has_lyrics']),
+      lyricsSnippet: _stringOrEmpty(json['lyrics_snippet']),
+      encryptedMediaUrl: _stringOrEmpty(json['encrypted_media_url']),
+      encryptedMediaPath: _toString(json['encrypted_media_path']),
+      mediaPreviewUrl: _stringOrNull(json['media_preview_url']),
+      permaUrl: _stringOrEmpty(json['perma_url']),
+      albumUrl: _stringOrEmpty(json['album_url']),
+      duration: _stringOrEmpty(json['duration']),
+      artistMap: artistMapJson is Map<String, dynamic>
+          ? ArtistMap.fromJson(artistMapJson)
+          : ArtistMap(),
+      rights: rightsJson is Map<String, dynamic>
+          ? Rights.fromJson(rightsJson)
+          : Rights(
+              code: 0,
+              reason: '',
+              cacheable: false,
+              deleteCachedObject: false,
+            ),
+      webp: json['webp'] == null ? null : _boolOrFalse(json['webp']),
+      cacheState: _stringOrNull(json['cache_state']),
+      starred: _stringOrEmpty(json['starred']),
+      releaseDate: json['release_date'],
+      vcode: _stringOrNull(json['vcode']),
+      vlink: _stringOrNull(json['vlink']),
+      trillerAvailable: _boolOrFalse(json['triller_available']),
+      labelUrl: _stringOrEmpty(json['label_url']),
+    );
+  }
 
   /// Converts this instance to a JSON map.
   Map<String, dynamic> toJson() => _$SongRequestToJson(this);

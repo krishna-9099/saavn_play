@@ -6,6 +6,19 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'album.g.dart';
 
+String _stringOrEmpty(Object? value) => value?.toString() ?? '';
+String? _stringOrNull(Object? value) => value?.toString();
+
+List<SongRequest>? _songsFromJson(Object? value) {
+  if (value is List) {
+    return value
+        .whereType<Map<String, dynamic>>()
+        .map(SongRequest.fromJson)
+        .toList();
+  }
+  return null;
+}
+
 /// Response model for album search requests.
 ///
 /// Contains pagination information and a list of album results.
@@ -81,7 +94,19 @@ class Album {
   });
 
   /// Creates an Album from a JSON map.
-  factory Album.fromJson(Map<String, dynamic> json) => _$AlbumFromJson(json);
+  factory Album.fromJson(Map<String, dynamic> json) {
+    return Album(
+      name: _stringOrNull(json['name']),
+      year: _stringOrEmpty(json['year']),
+      releaseDate: _stringOrNull(json['release_date']),
+      primaryArtists: _stringOrNull(json['primary_artists']),
+      primaryArtistsId: _stringOrNull(json['primary_artists_id']),
+      albumId: _stringOrNull(json['albumid']),
+      permaUrl: _stringOrEmpty(json['perma_url']),
+      image: _stringOrEmpty(json['image']),
+      songs: _songsFromJson(json['songs']),
+    );
+  }
 
   /// Converts this instance to a JSON map.
   Map<String, dynamic> toJson() => _$AlbumToJson(this);
@@ -161,8 +186,34 @@ class AlbumRequest extends Album {
   });
 
   /// Creates an AlbumRequest from a JSON map.
-  factory AlbumRequest.fromJson(Map<String, dynamic> json) =>
-      _$AlbumRequestFromJson(json);
+  factory AlbumRequest.fromJson(Map<String, dynamic> json) {
+    final titleValue = json['title'] ?? json['name'];
+    return AlbumRequest(
+      id: _stringOrNull(json['id']),
+      subtitle: _stringOrNull(json['subtitle']),
+      moreInfo: json['more_info'] == null
+          ? null
+          : MoreInfo.fromJson(json['more_info'] as Map<String, dynamic>),
+      title: _stringOrEmpty(titleValue),
+      headerDesc: _stringOrNull(json['header_desc']),
+      type: _stringOrNull(json['type']),
+      language: _stringOrNull(json['language']),
+      playCount: _stringOrNull(json['play_count']),
+      explicitContent: _stringOrNull(json['explicit_content']),
+      listCount: _stringOrNull(json['list_count']),
+      listType: _stringOrNull(json['list_type']),
+      list: _stringOrNull(json['list']),
+      name: _stringOrNull(json['name']),
+      year: _stringOrEmpty(json['year']),
+      releaseDate: _stringOrNull(json['release_date']),
+      primaryArtists: _stringOrNull(json['primary_artists']),
+      primaryArtistsId: _stringOrNull(json['primary_artists_id']),
+      albumId: _stringOrNull(json['albumid']),
+      permaUrl: _stringOrEmpty(json['perma_url']),
+      image: _stringOrEmpty(json['image']),
+      songs: _songsFromJson(json['songs']),
+    );
+  }
 
   @override
   Map<String, dynamic> toJson() => _$AlbumRequestToJson(this);
@@ -204,6 +255,13 @@ class AlbumResponse {
 
   /// Name/title of the album.
   String name;
+
+  /// Subtitle or secondary title for the album.
+  String? subtitle;
+
+  /// Header description text for the album.
+  @JsonKey(name: 'header_desc')
+  String? headerDesc;
 
   /// Release year of the album.
   String year;
@@ -257,6 +315,8 @@ class AlbumResponse {
   AlbumResponse({
     required this.id,
     required this.name,
+    this.subtitle,
+    this.headerDesc,
     required this.year,
     this.type,
     this.playCount,
@@ -276,8 +336,10 @@ class AlbumResponse {
   /// Creates an AlbumResponse from an AlbumRequest.
   factory AlbumResponse.fromAlbumRequest(AlbumRequest album) {
     return AlbumResponse(
-      id: (album.albumId ?? album.id) as String,
+      id: album.albumId ?? album.id ?? '',
       name: album.title,
+      subtitle: album.subtitle,
+      headerDesc: album.headerDesc,
       year: album.year,
       type: album.type,
       releaseDate: album.releaseDate,
@@ -446,8 +508,17 @@ class MoreInfo {
   });
 
   /// Creates a MoreInfo from a JSON map.
-  factory MoreInfo.fromJson(Map<String, dynamic> json) =>
-      _$MoreInfoFromJson(json);
+  factory MoreInfo.fromJson(Map<String, dynamic> json) {
+    return MoreInfo(
+      query: _stringOrEmpty(json['query']),
+      text: _stringOrEmpty(json['text']),
+      music: _stringOrNull(json['music']),
+      songCount: _stringOrEmpty(json['song_count']),
+      artistMap: json['artist_map'] == null
+          ? null
+          : ArtistMap.fromJson(json['artist_map'] as Map<String, dynamic>),
+    );
+  }
 
   /// Converts this instance to a JSON map.
   Map<String, dynamic> toJson() => _$MoreInfoToJson(this);

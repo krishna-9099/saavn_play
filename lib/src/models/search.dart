@@ -4,6 +4,25 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'search.g.dart';
 
+String _stringOrEmpty(Object? value) => value?.toString() ?? '';
+
+String? _stringOrNull(Object? value) => value?.toString();
+
+int _intOrZero(Object? value) {
+  if (value is int) return value;
+  return int.tryParse(value?.toString() ?? '') ?? 0;
+}
+
+Map<String, dynamic> _mapOrEmpty(Object? value) {
+  if (value is Map<String, dynamic>) return value;
+  return <String, dynamic>{};
+}
+
+List<dynamic> _listOrEmpty(Object? value) {
+  if (value is List) return value;
+  return const <dynamic>[];
+}
+
 /// Combined search response containing results for all content types.
 ///
 /// Includes albums, songs, artists, playlists, and top query results.
@@ -41,61 +60,63 @@ class AllSearchResponse {
   factory AllSearchResponse.fromCustomJson(
     Map<String, dynamic> allSearchResults,
   ) {
+    final topQueryMap = _mapOrEmpty(allSearchResults['topquery']);
+    final songsMap = _mapOrEmpty(allSearchResults['songs']);
+    final albumsMap = _mapOrEmpty(allSearchResults['albums']);
+    final artistsMap = _mapOrEmpty(allSearchResults['artists']);
+    final playlistsMap = _mapOrEmpty(allSearchResults['playlists']);
+
     return AllSearchResponse(
       topQuery: SearchResponse(
-        results: allSearchResults['topquery']?['data']
-            .map((item) {
-              return SearchTopQueryResponse.fromJson({
-                ...item,
-                ...?item?['more_info'],
-              });
-            })
+        results: _listOrEmpty(topQueryMap['data'])
+            .map((item) => _mapOrEmpty(item))
+            .map((item) => SearchTopQueryResponse.fromJson({
+                  ...item,
+                  ..._mapOrEmpty(item['more_info']),
+                }))
             .toList()
             .cast<SearchTopQueryResponse>(),
-        position: allSearchResults['topquery']?['position'],
+        position: _intOrZero(topQueryMap['position']),
       ),
       songs: SearchResponse(
-        results: allSearchResults['songs']?['data']
-            .map((item) {
-              return SearchSongResponse.fromJson({
-                ...item,
-                ...?item['more_info'],
-              });
-            })
+        results: _listOrEmpty(songsMap['data'])
+            .map((item) => _mapOrEmpty(item))
+            .map((item) => SearchSongResponse.fromJson({
+                  ...item,
+                  ..._mapOrEmpty(item['more_info']),
+                }))
             .toList()
             .cast<SearchSongResponse>(),
-        position: allSearchResults['songs']['position'],
+        position: _intOrZero(songsMap['position']),
       ),
       albums: SearchResponse(
-        results: allSearchResults['albums']?['data']
-            .map(
-              (item) => SearchAlbumResponse.fromJson({
-                ...item,
-                ...?item['more_info'],
-              }),
-            )
+        results: _listOrEmpty(albumsMap['data'])
+            .map((item) => _mapOrEmpty(item))
+            .map((item) => SearchAlbumResponse.fromJson({
+                  ...item,
+                  ..._mapOrEmpty(item['more_info']),
+                }))
             .toList()
             .cast<SearchAlbumResponse>(),
-        position: allSearchResults['albums']?['position'],
+        position: _intOrZero(albumsMap['position']),
       ),
       artists: SearchResponse(
-        results: allSearchResults['artists']?['data']
-            .map((item) => SearchArtistResponse.fromJson(item))
+        results: _listOrEmpty(artistsMap['data'])
+            .map((item) => SearchArtistResponse.fromJson(_mapOrEmpty(item)))
             .toList()
             .cast<SearchArtistResponse>(),
-        position: allSearchResults['artists']?['position'],
+        position: _intOrZero(artistsMap['position']),
       ),
       playlists: SearchResponse(
-        results: allSearchResults['playlists']?['data']
-            .map(
-              (item) => SearchPlaylistResponse.fromJson({
-                ...item,
-                ...?item['more_info'],
-              }),
-            )
+        results: _listOrEmpty(playlistsMap['data'])
+            .map((item) => _mapOrEmpty(item))
+            .map((item) => SearchPlaylistResponse.fromJson({
+                  ...item,
+                  ..._mapOrEmpty(item['more_info']),
+                }))
             .toList()
             .cast<SearchPlaylistResponse>(),
-        position: allSearchResults['playlists']?['position'],
+        position: _intOrZero(playlistsMap['position']),
       ),
     );
   }
@@ -197,8 +218,21 @@ class SearchAlbumResponse {
   });
 
   /// Creates a SearchAlbumResponse from a JSON map.
-  factory SearchAlbumResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchAlbumResponseFromJson(json);
+  factory SearchAlbumResponse.fromJson(Map<String, dynamic> json) {
+    return SearchAlbumResponse(
+      id: _stringOrEmpty(json['id']),
+      title: _stringOrEmpty(json['title']),
+      image: createImageLinks(_stringOrNull(json['image'])),
+      artist: _stringOrNull(json['artist']),
+      url: _stringOrEmpty(json['url']),
+      type: _stringOrEmpty(json['type']),
+      description: _stringOrEmpty(json['description']),
+      position: _intOrZero(json['position']),
+      year: _stringOrEmpty(json['year']),
+      language: _stringOrEmpty(json['language']),
+      songIds: _stringOrNull(json['song_ids']),
+    );
+  }
 
   /// Converts this instance to a JSON map.
   Map<String, dynamic> toJson() => _$SearchAlbumResponseToJson(this);
@@ -273,8 +307,22 @@ class SearchSongResponse {
   });
 
   /// Creates a SearchSongResponse from a JSON map.
-  factory SearchSongResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchSongResponseFromJson(json);
+  factory SearchSongResponse.fromJson(Map<String, dynamic> json) {
+    return SearchSongResponse(
+      id: _stringOrEmpty(json['id']),
+      title: _stringOrEmpty(json['title']),
+      image: createImageLinks(_stringOrNull(json['image'])),
+      album: _stringOrEmpty(json['album']),
+      url: _stringOrEmpty(json['url']),
+      type: _stringOrEmpty(json['type']),
+      description: _stringOrEmpty(json['description']),
+      position: _intOrZero(json['position']),
+      primaryArtists: _stringOrEmpty(json['primary_artists']),
+      singers: _stringOrEmpty(json['singers']),
+      language: _stringOrEmpty(json['language']),
+      link: _stringOrNull(json['link']),
+    );
+  }
 
   /// Converts this instance to a JSON map.
   Map<String, dynamic> toJson() => _$SearchSongResponseToJson(this);
@@ -324,8 +372,17 @@ class SearchArtistResponse {
   });
 
   /// Creates a SearchArtistResponse from a JSON map.
-  factory SearchArtistResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchArtistResponseFromJson(json);
+  factory SearchArtistResponse.fromJson(Map<String, dynamic> json) {
+    return SearchArtistResponse(
+      id: _stringOrEmpty(json['id']),
+      title: _stringOrEmpty(json['title']),
+      image: createImageLinks(_stringOrNull(json['image'])),
+      url: _stringOrEmpty(json['url']),
+      type: _stringOrEmpty(json['type']),
+      description: _stringOrEmpty(json['description']),
+      position: _intOrZero(json['position']),
+    );
+  }
 
   /// Converts this instance to a JSON map.
   Map<String, dynamic> toJson() => _$SearchArtistResponseToJson(this);
@@ -380,8 +437,18 @@ class SearchPlaylistResponse {
   });
 
   /// Creates a SearchPlaylistResponse from a JSON map.
-  factory SearchPlaylistResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchPlaylistResponseFromJson(json);
+  factory SearchPlaylistResponse.fromJson(Map<String, dynamic> json) {
+    return SearchPlaylistResponse(
+      id: _stringOrEmpty(json['id']),
+      title: _stringOrEmpty(json['title']),
+      image: createImageLinks(_stringOrNull(json['image'])),
+      url: _stringOrEmpty(json['url']),
+      language: _stringOrEmpty(json['language']),
+      type: _stringOrEmpty(json['type']),
+      description: _stringOrEmpty(json['description']),
+      position: _intOrZero(json['position']),
+    );
+  }
 
   /// Converts this instance to a JSON map.
   Map<String, dynamic> toJson() => _$SearchPlaylistResponseToJson(this);
@@ -456,8 +523,22 @@ class SearchTopQueryResponse {
   });
 
   /// Creates a SearchTopQueryResponse from a JSON map.
-  factory SearchTopQueryResponse.fromJson(Map<String, dynamic> json) =>
-      _$SearchTopQueryResponseFromJson(json);
+  factory SearchTopQueryResponse.fromJson(Map<String, dynamic> json) {
+    return SearchTopQueryResponse(
+      id: _stringOrEmpty(json['id']),
+      title: _stringOrEmpty(json['title']),
+      image: createImageLinks(_stringOrNull(json['image'])),
+      album: _stringOrNull(json['album']),
+      url: _stringOrEmpty(json['url']),
+      type: _stringOrEmpty(json['type']),
+      description: _stringOrEmpty(json['description']),
+      position: _intOrZero(json['position']),
+      primaryArtists: _stringOrNull(json['primary_artists']),
+      singers: _stringOrNull(json['singers']),
+      language: _stringOrNull(json['language']),
+      link: _stringOrNull(json['link']),
+    );
+  }
 
   /// Converts this instance to a JSON map.
   Map<String, dynamic> toJson() => _$SearchTopQueryResponseToJson(this);

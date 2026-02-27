@@ -274,6 +274,7 @@ class HomeLaunchData {
     this.artistRecos,
     this.promoSections,
     this.modules,
+    this.unknownSections = const {},
   });
 
   final List<HomeSectionItem>? history;
@@ -287,13 +288,16 @@ class HomeLaunchData {
   final List<HomeSectionItem>? artistRecos;
   final Map<String, List<HomeSectionItem>>? promoSections;
   final Map<String, ModuleConfig>? modules;
+  final Map<String, dynamic>? unknownSections;
 
   factory HomeLaunchData.fromJson(Map<String, dynamic> json) {
-    // Parse promo sections (keys like 'promo:vx:data:31', etc.)
+    // Parse known sections
     final promoSections = <String, List<HomeSectionItem>>{};
     final moduleConfigs = <String, ModuleConfig>{};
+    final unknownSections = <String, dynamic>{};
 
     for (final entry in json.entries) {
+      // Handle promo sections
       if (entry.key.startsWith('promo:vx:data:')) {
         final items = (entry.value as List<dynamic>?)
                 ?.map(
@@ -303,48 +307,102 @@ class HomeLaunchData {
             [];
         promoSections[entry.key] = items;
       }
-    }
-
-    // Parse modules
-    final modulesJson = json['modules'] as Map<String, dynamic>?;
-    if (modulesJson != null) {
-      for (final entry in modulesJson.entries) {
-        moduleConfigs[entry.key] = ModuleConfig.fromJson(
-          entry.value as Map<String, dynamic>,
-        );
+      // Handle modules
+      else if (entry.key == 'modules') {
+        final modulesJson = entry.value as Map<String, dynamic>?;
+        if (modulesJson != null) {
+          for (final moduleEntry in modulesJson.entries) {
+            moduleConfigs[moduleEntry.key] = ModuleConfig.fromJson(
+              moduleEntry.value as Map<String, dynamic>,
+            );
+          }
+        }
+      }
+      // Handle known sections
+      else if (entry.key == 'history') {
+        final items = (entry.value as List<dynamic>?)
+            ?.map((e) => HomeSectionItem.fromJson(e as Map<String, dynamic>))
+            .toList();
+        if (items != null) {
+          unknownSections[entry.key] = items;
+        }
+      } else if (entry.key == 'new_trending') {
+        final items = (entry.value as List<dynamic>?)
+            ?.map((e) => HomeSectionItem.fromJson(e as Map<String, dynamic>))
+            .toList();
+        if (items != null) {
+          unknownSections[entry.key] = items;
+        }
+      } else if (entry.key == 'top_playlists') {
+        final items = (entry.value as List<dynamic>?)
+            ?.map((e) => HomeSectionItem.fromJson(e as Map<String, dynamic>))
+            .toList();
+        if (items != null) {
+          unknownSections[entry.key] = items;
+        }
+      } else if (entry.key == 'new_albums') {
+        final items = (entry.value as List<dynamic>?)
+            ?.map((e) => HomeSectionItem.fromJson(e as Map<String, dynamic>))
+            .toList();
+        if (items != null) {
+          unknownSections[entry.key] = items;
+        }
+      } else if (entry.key == 'browse_discover') {
+        final items = (entry.value as List<dynamic>?)
+            ?.map((e) => HomeSectionItem.fromJson(e as Map<String, dynamic>))
+            .toList();
+        if (items != null) {
+          unknownSections[entry.key] = items;
+        }
+      } else if (entry.key == 'global_config') {
+        final config = entry.value != null
+            ? GlobalConfig.fromJson(entry.value as Map<String, dynamic>)
+            : null;
+        if (config != null) {
+          unknownSections[entry.key] = config;
+        }
+      } else if (entry.key == 'charts') {
+        final items = (entry.value as List<dynamic>?)
+            ?.map((e) => ChartItem.fromJson(e as Map<String, dynamic>))
+            .toList();
+        if (items != null) {
+          unknownSections[entry.key] = items;
+        }
+      } else if (entry.key == 'radio') {
+        final items = (entry.value as List<dynamic>?)
+            ?.map((e) => HomeRadioStation.fromJson(e as Map<String, dynamic>))
+            .toList();
+        if (items != null) {
+          unknownSections[entry.key] = items;
+        }
+      } else if (entry.key == 'artist_recos') {
+        final items = (entry.value as List<dynamic>?)
+            ?.map((e) => HomeSectionItem.fromJson(e as Map<String, dynamic>))
+            .toList();
+        if (items != null) {
+          unknownSections[entry.key] = items;
+        }
+      }
+      // Handle unknown sections
+      else {
+        unknownSections[entry.key] = entry.value;
       }
     }
 
     return HomeLaunchData(
-      history: (json['history'] as List<dynamic>?)
-          ?.map((e) => HomeSectionItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      newTrending: (json['new_trending'] as List<dynamic>?)
-          ?.map((e) => HomeSectionItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      topPlaylists: (json['top_playlists'] as List<dynamic>?)
-          ?.map((e) => HomeSectionItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      newAlbums: (json['new_albums'] as List<dynamic>?)
-          ?.map((e) => HomeSectionItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      browseDiscover: (json['browse_discover'] as List<dynamic>?)
-          ?.map((e) => HomeSectionItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      globalConfig: json['global_config'] != null
-          ? GlobalConfig.fromJson(json['global_config'] as Map<String, dynamic>)
-          : null,
-      charts: (json['charts'] as List<dynamic>?)
-          ?.map((e) => ChartItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      radio: (json['radio'] as List<dynamic>?)
-          ?.map((e) => HomeRadioStation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      artistRecos: (json['artist_recos'] as List<dynamic>?)
-          ?.map((e) => HomeSectionItem.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      history: unknownSections['history'] as List<HomeSectionItem>?,
+      newTrending: unknownSections['new_trending'] as List<HomeSectionItem>?,
+      topPlaylists: unknownSections['top_playlists'] as List<HomeSectionItem>?,
+      newAlbums: unknownSections['new_albums'] as List<HomeSectionItem>?,
+      browseDiscover:
+          unknownSections['browse_discover'] as List<HomeSectionItem>?,
+      globalConfig: unknownSections['global_config'] as GlobalConfig?,
+      charts: unknownSections['charts'] as List<ChartItem>?,
+      radio: unknownSections['radio'] as List<HomeRadioStation>?,
+      artistRecos: unknownSections['artist_recos'] as List<HomeSectionItem>?,
       promoSections: promoSections.isEmpty ? null : promoSections,
       modules: moduleConfigs.isEmpty ? null : moduleConfigs,
+      unknownSections: unknownSections.isEmpty ? null : unknownSections,
     );
   }
 
@@ -389,6 +447,11 @@ class HomeLaunchData {
         (key, value) => MapEntry(key, value.toJson()),
       );
     }
+    if (unknownSections != null) {
+      for (final entry in unknownSections!.entries) {
+        result[entry.key] = entry.value;
+      }
+    }
 
     return result;
   }
@@ -407,5 +470,46 @@ class HomeEndpoint extends BaseClient {
     );
 
     return HomeLaunchData.fromJson(response);
+  }
+
+  /// Get home/launch data with dynamic section positioning
+  ///
+  /// This method handles unknown sections and positions them dynamically
+  /// based on the API response structure.
+  Future<HomeLaunchData> getLaunchDataWithDynamicSections() async {
+    final response = await request(
+      call: endpoints.home.launchData,
+      isAPIv4: true,
+      queryParameters: {'ctx': 'web6dot0'},
+    );
+
+    // Create a new HomeLaunchData instance with dynamic section handling
+    return HomeLaunchData.fromJson(response);
+  }
+
+  /// Get home/launch data with error handling for unknown sections
+  ///
+  /// This method includes error handling for unknown section types
+  /// and provides fallback mechanisms.
+  Future<HomeLaunchData> getLaunchDataWithErrorHandling() async {
+    try {
+      final response = await request(
+        call: endpoints.home.launchData,
+        isAPIv4: true,
+        queryParameters: {'ctx': 'web6dot0'},
+      );
+
+      return HomeLaunchData.fromJson(response);
+    } catch (e) {
+      // Log the error
+      print('Error fetching home data: $e');
+
+      // Return empty data with error information
+      return HomeLaunchData(
+        unknownSections: {
+          'error': 'Failed to fetch home data: $e',
+        },
+      );
+    }
   }
 }

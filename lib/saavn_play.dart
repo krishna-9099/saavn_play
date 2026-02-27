@@ -58,3 +58,4 @@ export 'src/endpoints/podcast.dart';
 export 'src/endpoints/radio.dart';
 export 'src/endpoints/webapi.dart';
 export 'src/endpoints/featured_playlist.dart';
+export 'src/endpoints/home.dart';
