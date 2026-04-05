@@ -1,13 +1,10 @@
 import 'package:saavn_play/src/client.dart';
 import 'package:saavn_play/src/collection/endpoints.dart';
-import 'package:saavn_play/src/models/album.dart';
-import 'package:saavn_play/src/models/artist.dart';
-import 'package:saavn_play/src/models/song.dart';
 
 class ArtistEndpoint extends BaseClient {
   ArtistEndpoint([super.options]);
 
-  Future<ArtistResponse> detailsById(String id) async {
+  Future<Map<String, dynamic>> detailsById(String id) async {
     final response = await request(
       call: endpoints.artists.id,
       isAPIv4: true,
@@ -16,12 +13,10 @@ class ArtistEndpoint extends BaseClient {
       },
     );
 
-    final artistDetails =
-        ArtistResponse.fromArtistRequest(ArtistRequest.fromJson(response));
-    return artistDetails;
+    return response;
   }
 
-  Future<ArtistSongResponse> artistSongs(
+  Future<Map<String, dynamic>> artistSongs(
     String artistId, {
     String? category,
     String? sort,
@@ -38,17 +33,10 @@ class ArtistEndpoint extends BaseClient {
       },
     );
 
-    final artist = ArtistSongRequest.fromJson(response['topSongs']);
-
-    return ArtistSongResponse(
-      lastPage: artist.lastPage,
-      results:
-          artist.songs.map((e) => SongResponse.fromSongRequest(e)).toList(),
-      total: artist.total,
-    );
+    return response;
   }
 
-  Future<ArtistAlbumResponse> artistAlbums(
+  Future<Map<String, dynamic>> artistAlbums(
     String artistId, {
     int page = 0,
     String? category,
@@ -65,13 +53,6 @@ class ArtistEndpoint extends BaseClient {
           if (sort != null) 'sort_order': sort,
         });
 
-    final album = ArtistAlbumRequest.fromJson(response['topAlbums']);
-
-    return ArtistAlbumResponse(
-      lastPage: album.lastPage,
-      results:
-          album.albums.map((e) => AlbumResponse.fromAlbumRequest(e)).toList(),
-      total: album.total,
-    );
+    return response;
   }
 }

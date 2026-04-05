@@ -1,6 +1,5 @@
 import 'package:test/test.dart';
 import 'package:saavn_play/src/endpoints/album.dart';
-import 'package:saavn_play/src/models/album.dart';
 
 void main(List<String> args) {
   final album = AlbumEndpoint();
@@ -9,7 +8,8 @@ void main(List<String> args) {
     test('Get Album Details by Id', () async {
       final res = await album.detailsById('68566149');
 
-      expect(res, isA<AlbumResponse>());
+      expect(res, isA<Map<String, dynamic>>());
+      expect(res['id'], isNotEmpty);
     });
 
     // test('Get Album Details by webapi token', () async {

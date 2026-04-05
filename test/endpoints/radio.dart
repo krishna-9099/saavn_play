@@ -1,16 +1,16 @@
-import 'package:saavn_play/saavn_play.dart';
+import 'package:saavn_play/src/endpoints/radio.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('RadioEndpoint', () {
-    late SaavnPlayClient client;
+    late RadioEndpoint radioEndpoint;
 
-    setUpAll(() {
-      client = SaavnPlayClient();
+    setUp(() {
+      radioEndpoint = RadioEndpoint();
     });
 
     test('getFeaturedStations returns a list of radio stations', () async {
-      final response = await client.radio.getFeaturedStations();
+      final response = await radioEndpoint.getFeaturedStations();
 
       expect(response, isNotNull);
       expect(response.featuredStations, isA<List<RadioStation>>());
@@ -25,7 +25,7 @@ void main() {
     test(
       'createFeaturedStation creates a station and returns station ID',
       () async {
-        final response = await client.radio.createFeaturedStation(
+        final response = await radioEndpoint.createFeaturedStation(
           name: 'Hit Factory',
           language: 'english',
         );
@@ -38,19 +38,19 @@ void main() {
 
     test('getStationSongs returns songs from a station', () async {
       // First create a station
-      final station = await client.radio.createFeaturedStation(
+      final station = await radioEndpoint.createFeaturedStation(
         name: 'Hit Factory',
         language: 'english',
       );
 
       // Then get songs from the station
-      final response = await client.radio.getStationSongs(
+      final response = await radioEndpoint.getStationSongs(
         stationId: station.stationId,
         count: 3,
       );
 
       expect(response, isNotNull);
-      expect(response.songs, isA<List<SongResponse>>());
+      expect(response.songs, isA<List<RadioSong>>());
       expect(response.songs.length, greaterThan(0));
       expect(response.songs.length, lessThanOrEqualTo(3));
 
@@ -61,14 +61,14 @@ void main() {
     });
 
     test('getFeaturedStationSongs convenience method works', () async {
-      final response = await client.radio.getFeaturedStationSongs(
+      final response = await radioEndpoint.getFeaturedStationSongs(
         name: 'Chill',
         language: 'english',
         count: 5,
       );
 
       expect(response, isNotNull);
-      expect(response.songs, isA<List<SongResponse>>());
+      expect(response.songs, isA<List<RadioSong>>());
       expect(response.songs.length, greaterThan(0));
 
       for (final song in response.songs) {

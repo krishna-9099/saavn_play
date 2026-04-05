@@ -1,21 +1,16 @@
 import 'package:saavn_play/src/client.dart';
 import 'package:saavn_play/src/collection/endpoints.dart';
-import 'package:saavn_play/src/models/album.dart';
 
 class AlbumEndpoint extends BaseClient {
   AlbumEndpoint([super.options]);
 
-  Future<AlbumResponse> detailsById(String id) async {
+  Future<Map<String, dynamic>> detailsById(String id) async {
     // api v4 does not contain media_preview_url
     final response = await request(call: endpoints.albums.id, queryParameters: {
       'albumid': id,
     });
 
-    final normalized = _normalizeAlbumResponse(response);
-    final albumResults =
-        AlbumResponse.fromAlbumRequest(AlbumRequest.fromJson(normalized));
-
-    return albumResults;
+    return _normalizeAlbumResponse(response);
   }
 
   /// Fetches album details using the generic `webapi.get` endpoint.
@@ -32,7 +27,7 @@ class AlbumEndpoint extends BaseClient {
   /// album page URL). An optional [includeMetaTags] flag defaults to false.
   ///
   /// The returned structure is normalized just like [detailsById].
-  Future<AlbumResponse> detailsByToken(
+  Future<Map<String, dynamic>> detailsByToken(
     String token, {
     bool includeMetaTags = false,
   }) async {
@@ -46,8 +41,7 @@ class AlbumEndpoint extends BaseClient {
       },
     );
 
-    final normalized = _normalizeAlbumResponse(response);
-    return AlbumResponse.fromAlbumRequest(AlbumRequest.fromJson(normalized));
+    return _normalizeAlbumResponse(response);
   }
 
   Map<String, dynamic> _normalizeAlbumResponse(Map<String, dynamic> response) {

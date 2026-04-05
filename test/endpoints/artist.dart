@@ -1,5 +1,4 @@
 import 'package:saavn_play/src/endpoints/artist.dart';
-import 'package:saavn_play/src/models/artist.dart';
 import 'package:test/test.dart';
 
 void main(List<String> args) {
@@ -9,19 +8,22 @@ void main(List<String> args) {
     test('Get Artist Details by ID', () async {
       final res = await artist.detailsById(artistId);
 
-      expect(res, isA<ArtistResponse>());
+      expect(res, isA<Map<String, dynamic>>());
+      expect(res['id'], isNotEmpty);
     });
 
     test('Get Artist songs', () async {
       final res = await artist.artistSongs(artistId, page: 0);
 
-      expect(res, isA<ArtistSongResponse>());
+      expect(res, isA<Map<String, dynamic>>());
+      expect(res['songs'], isA<List>());
     });
 
     test('Get Artist albums', () async {
       final res = await artist.artistAlbums(artistId, page: 0);
 
-      expect(res, isA<ArtistAlbumResponse>());
+      expect(res, isA<Map<String, dynamic>>());
+      expect(res['albums'], isA<List>());
     });
   });
 }

@@ -1,17 +1,35 @@
-import 'package:saavn_play/src/models/playlist.dart';
+import 'package:saavn_play/src/models/playlist_item.dart';
 import 'package:test/test.dart';
 
-/// Comprehensive unit test suite for Playlist model validation.
+/// Comprehensive unit test suite for PlaylistItem model validation.
 /// Tests validate data structure, property constraints, and content accuracy.
 void main() {
-  group('Playlist Model Tests', () {
-    // Test playlist data
+  group('PlaylistItem Model Tests', () {
+    // Test playlist data based on actual API response structure
     final playlistJson = {
-      'id': '1111580647',
-      'title': 'Best of 2022',
-      'subtitle': '20 Songs',
-      'header_desc': '',
+      'id': '802336660',
+      'title': 'Arijit Singh - Sad Songs - Hindi',
+      'subtitle': '25 Songs',
       'type': 'playlist',
+      'image': 'https://c.saavncdn.com/editorial/ArijitSinghSadSongsHindi_20240226083401_150x150.jpg',
+      'perma_url': 'https://www.jiosaavn.com/featured/arijit-singh-sad-songs-hindi/8RkefqkCO1huOxiEGmm6lQ__',
+      'explicit_content': '0',
+      'mini_obj': true,
+      'numsongs': null,
+      'more_info': {
+        'uid': 'phulki_user',
+        'firstname': 'Saavn',
+        'artist_name': ['Arijit Singh'],
+        'entity_type': 'playlist',
+        'entity_sub_type': '',
+        'video_available': false,
+        'is_dolby_content': null,
+        'sub_types': null,
+        'images': null,
+        'lastname': 'Editor',
+        'song_count': '25',
+        'language': 'hindi'
+      }
     };
 
     group('Data Structure Validation', () {
@@ -19,16 +37,15 @@ void main() {
         expect(playlistJson, containsPair('id', isA<String>()));
         expect(playlistJson, containsPair('title', isA<String>()));
         expect(playlistJson, containsPair('subtitle', isA<String>()));
-        expect(playlistJson, containsPair('header_desc', isA<String>()));
         expect(playlistJson, containsPair('type', isA<String>()));
-      });
-
-      test('should have exactly 5 properties', () {
-        expect(playlistJson.length, equals(5));
+        expect(playlistJson, containsPair('image', isA<String>()));
+        expect(playlistJson, containsPair('perma_url', isA<String>()));
+        expect(playlistJson, containsPair('explicit_content', isA<String>()));
+        expect(playlistJson, containsPair('mini_obj', isA<bool>()));
       });
 
       test('should contain expected keys', () {
-        final expectedKeys = ['id', 'title', 'subtitle', 'header_desc', 'type'];
+        final expectedKeys = ['id', 'title', 'subtitle', 'type', 'image', 'perma_url', 'explicit_content', 'mini_obj', 'numsongs', 'more_info'];
         expect(playlistJson.keys, containsAll(expectedKeys));
       });
 
@@ -37,6 +54,10 @@ void main() {
         expect(playlistJson['title'], isNotNull);
         expect(playlistJson['subtitle'], isNotNull);
         expect(playlistJson['type'], isNotNull);
+        expect(playlistJson['image'], isNotNull);
+        expect(playlistJson['perma_url'], isNotNull);
+        expect(playlistJson['explicit_content'], isNotNull);
+        expect(playlistJson['mini_obj'], isNotNull);
       });
     });
 
@@ -47,7 +68,7 @@ void main() {
       });
 
       test('should match expected value', () {
-        expect(playlistJson['id'], equals('1111580647'));
+        expect(playlistJson['id'], equals('802336660'));
       });
 
       test('should contain only numeric characters', () {
@@ -72,13 +93,13 @@ void main() {
       });
 
       test('should match expected value', () {
-        expect(playlistJson['title'], equals('Best of 2022'));
+        expect(playlistJson['title'], equals('Arijit Singh - Sad Songs - Hindi'));
       });
 
-      test('should have valid length (between 1 and 100 characters)', () {
+      test('should have valid length (between 1 and 200 characters)', () {
         final title = playlistJson['title'] as String;
         expect(title.length, greaterThanOrEqualTo(1));
-        expect(title.length, lessThanOrEqualTo(100));
+        expect(title.length, lessThanOrEqualTo(200));
       });
 
       test('should not start or end with whitespace', () {
@@ -115,7 +136,7 @@ void main() {
       });
 
       test('should match expected value', () {
-        expect(playlistJson['subtitle'], equals('20 Songs'));
+        expect(playlistJson['subtitle'], equals('25 Songs'));
       });
 
       test('should contain numeric song count', () {
@@ -130,7 +151,7 @@ void main() {
 
         final songCount = int.parse(numberMatch!.group(1)!);
         expect(songCount, greaterThan(0));
-        expect(songCount, equals(20));
+        expect(songCount, equals(25));
       });
 
       test('should follow format "X Songs"', () {
@@ -148,199 +169,151 @@ void main() {
       });
     });
 
-    group('Header Description Validation', () {
-      test('should be a string', () {
-        expect(playlistJson['header_desc'], isA<String>());
+    group('Image and URL Validation', () {
+      test('should have valid image URL', () {
+        final image = playlistJson['image'] as String;
+        expect(image, contains('https://'));
+        expect(image, contains('.jpg'));
       });
 
-      test('should be empty as specified', () {
-        expect(playlistJson['header_desc'], equals(''));
+      test('should have valid permanent URL', () {
+        final permaUrl = playlistJson['perma_url'] as String;
+        expect(permaUrl, contains('https://'));
+        expect(permaUrl, contains('jiosaavn.com'));
+      });
+
+      test('should have non-empty image and URL', () {
+        final image = playlistJson['image'] as String;
+        final permaUrl = playlistJson['perma_url'] as String;
+        expect(image, isNotEmpty);
+        expect(permaUrl, isNotEmpty);
       });
     });
 
-    group('Playlist Model Integration', () {
-      test('should create Playlist from JSON with mapped fields', () {
-        // Map test data to Playlist model field names
-        final mappedJson = {
-          'listid': playlistJson['id'],
-          'listname': playlistJson['title'],
-          'type': playlistJson['type'],
-          'artists': <dynamic>[],
-          'perma_url': null,
-          'follower_count': null,
-          'uid': null,
-          'last_updated': null,
-          'username': null,
-          'firstname': null,
-          'lastname': null,
-          'is_followed': null,
-          'isFY': null,
-          'image': null,
-          'share': null,
-          'songs': null,
-          'list_count': null,
-          'fan_count': null,
-          'H2': null,
-          'is_dolby_playlist': null,
-          'subheading': null,
-          'sub_types': <dynamic>[],
-          'images': <dynamic>[],
-          'video_available': null,
-          'video_count': null,
-        };
-
-        final playlist = Playlist.fromJson(mappedJson);
-
-        expect(playlist.listid, equals('1111580647'));
-        expect(playlist.listname, equals('Best of 2022'));
-        expect(playlist.type, equals('playlist'));
+    group('Explicit Content and Mini Object Validation', () {
+      test('should have valid explicit content value', () {
+        final explicitContent = playlistJson['explicit_content'] as String;
+        expect(explicitContent, isNotEmpty);
+        expect(['0', '1', '2'], contains(explicitContent));
       });
 
-      test('should serialize Playlist to JSON', () {
-        final mappedJson = {
-          'listid': playlistJson['id'],
-          'listname': playlistJson['title'],
-          'type': playlistJson['type'],
-          'artists': <dynamic>[],
-          'perma_url': null,
-          'follower_count': null,
-          'uid': null,
-          'last_updated': null,
-          'username': null,
-          'firstname': null,
-          'lastname': null,
-          'is_followed': null,
-          'isFY': null,
-          'image': null,
-          'share': null,
-          'songs': null,
-          'list_count': null,
-          'fan_count': null,
-          'H2': null,
-          'is_dolby_playlist': null,
-          'subheading': null,
-          'sub_types': <dynamic>[],
-          'images': <dynamic>[],
-          'video_available': null,
-          'video_count': null,
-        };
+      test('should have valid mini_obj boolean value', () {
+        final miniObj = playlistJson['mini_obj'] as bool;
+        expect(miniObj, isA<bool>());
+      });
 
-        final playlist = Playlist.fromJson(mappedJson);
+      test('should have numsongs as nullable', () {
+        final numsongs = playlistJson['numsongs'];
+        expect(numsongs, isNull);
+      });
+    });
+
+    group('More Info Validation', () {
+      test('should have more_info as map', () {
+        final moreInfo = playlistJson['more_info'];
+        expect(moreInfo, isA<Map>());
+        expect((moreInfo as Map).keys, contains('uid'));
+        expect((moreInfo).keys, contains('firstname'));
+        expect((moreInfo).keys, contains('artist_name'));
+      });
+
+      test('should have valid artist_name array', () {
+        final moreInfo = playlistJson['more_info'] as Map;
+        final artistName = moreInfo['artist_name'];
+        expect(artistName, isA<List>());
+        expect((artistName as List).length, greaterThan(0));
+        expect(artistName.first, equals('Arijit Singh'));
+      });
+
+      test('should have valid song_count', () {
+        final moreInfo = playlistJson['more_info'] as Map;
+        final songCount = moreInfo['song_count'];
+        expect(songCount, equals('25'));
+      });
+    });
+
+    group('PlaylistItem Model Integration', () {
+      test('should create PlaylistItem from JSON', () {
+        final playlist = PlaylistItem.fromJson(playlistJson);
+
+        expect(playlist.id, equals('802336660'));
+        expect(playlist.title, equals('Arijit Singh - Sad Songs - Hindi'));
+        expect(playlist.subtitle, equals('25 Songs'));
+        expect(playlist.type, equals('playlist'));
+        expect(playlist.image, equals('https://c.saavncdn.com/editorial/ArijitSinghSadSongsHindi_20240226083401_150x150.jpg'));
+        expect(playlist.permaUrl, equals('https://www.jiosaavn.com/featured/arijit-singh-sad-songs-hindi/8RkefqkCO1huOxiEGmm6lQ__'));
+        expect(playlist.explicitContent, equals('0'));
+        expect(playlist.miniObj, isTrue);
+        expect(playlist.numsongs, isNull);
+        expect(playlist.moreInfo, isA<Map>());
+      });
+
+      test('should serialize PlaylistItem to JSON', () {
+        final playlist = PlaylistItem.fromJson(playlistJson);
         final json = playlist.toJson();
 
-        expect(json['listid'], equals('1111580647'));
-        expect(json['listname'], equals('Best of 2022'));
+        expect(json['id'], equals('802336660'));
+        expect(json['title'], equals('Arijit Singh - Sad Songs - Hindi'));
+        expect(json['subtitle'], equals('25 Songs'));
         expect(json['type'], equals('playlist'));
+        expect(json['image'], equals('https://c.saavncdn.com/editorial/ArijitSinghSadSongsHindi_20240226083401_150x150.jpg'));
+        expect(json['perma_url'], equals('https://www.jiosaavn.com/featured/arijit-singh-sad-songs-hindi/8RkefqkCO1huOxiEGmm6lQ__'));
+        expect(json['explicit_content'], equals('0'));
+        expect(json['mini_obj'], isTrue);
       });
     });
 
     group('Edge Cases and Error Handling', () {
       test('should handle empty id gracefully', () {
         final emptyIdJson = {
-          'listid': '',
-          'listname': 'Test Playlist',
+          'id': '',
+          'title': 'Test Playlist',
+          'subtitle': '10 Songs',
           'type': 'playlist',
-          'artists': <dynamic>[],
-          'perma_url': null,
-          'follower_count': null,
-          'uid': null,
-          'last_updated': null,
-          'username': null,
-          'firstname': null,
-          'lastname': null,
-          'is_followed': null,
-          'isFY': null,
-          'image': null,
-          'share': null,
-          'songs': null,
-          'list_count': null,
-          'fan_count': null,
-          'H2': null,
-          'is_dolby_playlist': null,
-          'subheading': null,
-          'sub_types': <dynamic>[],
-          'images': <dynamic>[],
-          'video_available': null,
-          'video_count': null,
+          'image': 'https://example.com/image.jpg',
+          'perma_url': 'https://example.com/playlist',
+          'explicit_content': '0',
+          'mini_obj': true,
+          'numsongs': null,
+          'more_info': <String, dynamic>{}
         };
 
-        final playlist = Playlist.fromJson(emptyIdJson);
-        expect(playlist.listid, isEmpty);
+        final playlist = PlaylistItem.fromJson(emptyIdJson);
+        expect(playlist.id, isEmpty);
       });
 
       test('should handle null optional fields', () {
         final minimalJson = {
-          'listid': '123',
-          'listname': 'Test',
+          'id': '123',
+          'title': 'Test',
+          'subtitle': '5 Songs',
           'type': 'playlist',
-          'artists': <dynamic>[],
-          'perma_url': null,
-          'follower_count': null,
-          'uid': null,
-          'last_updated': null,
-          'username': null,
-          'firstname': null,
-          'lastname': null,
-          'is_followed': null,
-          'isFY': null,
-          'image': null,
-          'share': null,
-          'songs': null,
-          'list_count': null,
-          'fan_count': null,
-          'H2': null,
-          'is_dolby_playlist': null,
-          'subheading': null,
-          'sub_types': <dynamic>[],
-          'images': <dynamic>[],
-          'video_available': null,
-          'video_count': null,
+          'image': 'https://example.com/image.jpg',
+          'perma_url': 'https://example.com/playlist',
+          'explicit_content': '0',
+          'mini_obj': true,
+          'numsongs': null,
+          'more_info': null
         };
 
-        final playlist = Playlist.fromJson(minimalJson);
-        expect(playlist.listid, isNotNull);
-        expect(playlist.listname, isNotNull);
+        final playlist = PlaylistItem.fromJson(minimalJson);
+        expect(playlist.id, isNotNull);
+        expect(playlist.title, isNotNull);
         expect(playlist.type, isNotNull);
+        expect(playlist.moreInfo, isNull);
       });
     });
 
     group('Data Integrity Tests', () {
       test('should maintain data consistency after serialization cycle', () {
-        final mappedJson = {
-          'listid': playlistJson['id'],
-          'listname': playlistJson['title'],
-          'type': playlistJson['type'],
-          'artists': <dynamic>[],
-          'perma_url': null,
-          'follower_count': null,
-          'uid': null,
-          'last_updated': null,
-          'username': null,
-          'firstname': null,
-          'lastname': null,
-          'is_followed': null,
-          'isFY': null,
-          'image': null,
-          'share': null,
-          'songs': null,
-          'list_count': null,
-          'fan_count': null,
-          'H2': null,
-          'is_dolby_playlist': null,
-          'subheading': null,
-          'sub_types': <dynamic>[],
-          'images': <dynamic>[],
-          'video_available': null,
-          'video_count': null,
-        };
-
-        final original = Playlist.fromJson(mappedJson);
+        final original = PlaylistItem.fromJson(playlistJson);
         final serialized = original.toJson();
-        final deserialized = Playlist.fromJson(serialized);
+        final deserialized = PlaylistItem.fromJson(serialized);
 
-        expect(deserialized.listid, equals(original.listid));
-        expect(deserialized.listname, equals(original.listname));
+        expect(deserialized.id, equals(original.id));
+        expect(deserialized.title, equals(original.title));
         expect(deserialized.type, equals(original.type));
+        expect(deserialized.subtitle, equals(original.subtitle));
       });
 
       test('should validate immutable data constraints', () {
@@ -349,12 +322,18 @@ void main() {
         final title = playlistJson['title'] as String;
         final type = playlistJson['type'] as String;
         final subtitle = playlistJson['subtitle'] as String;
+        final image = playlistJson['image'] as String;
+        final permaUrl = playlistJson['perma_url'] as String;
 
         // All required fields should be non-empty
-        expect(id.isNotEmpty && title.isNotEmpty && type.isNotEmpty, isTrue);
+        expect(id.isNotEmpty && title.isNotEmpty && type.isNotEmpty && subtitle.isNotEmpty && image.isNotEmpty && permaUrl.isNotEmpty, isTrue);
 
         // Subtitle should describe content
         expect(subtitle.contains('Songs'), isTrue);
+
+        // URLs should be valid
+        expect(image.contains('https://'), isTrue);
+        expect(permaUrl.contains('jiosaavn.com'), isTrue);
       });
     });
   });

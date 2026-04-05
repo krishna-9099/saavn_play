@@ -54,3 +54,4 @@ yarn-error.log*
 
 # all text files
 *.txt
+*.md

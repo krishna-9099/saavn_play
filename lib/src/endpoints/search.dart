@@ -1,25 +1,20 @@
 import 'package:saavn_play/src/client.dart';
 import 'package:saavn_play/src/collection/endpoints.dart';
-import 'package:saavn_play/src/models/album.dart';
-import 'package:saavn_play/src/models/artist.dart';
-import 'package:saavn_play/src/models/playlist.dart';
-import 'package:saavn_play/src/models/search.dart';
-import 'package:saavn_play/src/models/song.dart';
 
 class SearchEndpoint extends BaseClient {
   SearchEndpoint([super.options]);
 
-  Future<AllSearchResponse> all(String query) async {
+  Future<Map<String, dynamic>> all(String query) async {
     // api v4 doest not provide positions
     final result = await request(
       call: endpoints.search.all,
       queryParameters: {'query': query},
     );
 
-    return AllSearchResponse.fromCustomJson(result);
+    return result;
   }
 
-  Future<SongSearchResponse> songs(
+  Future<Map<String, dynamic>> songs(
     String query, {
     int page = 0,
     int limit = 10,
@@ -30,16 +25,10 @@ class SearchEndpoint extends BaseClient {
       queryParameters: {'q': query, 'p': page, 'n': limit},
     );
 
-    final req = SongSearchRequest.fromJson(response);
-
-    return SongSearchResponse(
-      results: req.results.map((e) => SongResponse.fromSongRequest(e)).toList(),
-      start: req.start,
-      total: req.total,
-    );
+    return response;
   }
 
-  Future<AlbumSearchResponse> albums(
+  Future<Map<String, dynamic>> albums(
     String query, {
     int page = 0,
     int limit = 10,
@@ -50,17 +39,10 @@ class SearchEndpoint extends BaseClient {
       queryParameters: {'q': query, 'p': page, 'n': limit},
     );
 
-    final req = AlbumSearchRequest.fromJson(response);
-
-    return AlbumSearchResponse(
-      results:
-          req.results.map((e) => AlbumResponse.fromAlbumRequest(e)).toList(),
-      start: req.start,
-      total: req.total,
-    );
+    return response;
   }
 
-  Future<ArtistSearchResponse> artists(
+  Future<Map<String, dynamic>> artists(
     String query, {
     int page = 0,
     int limit = 10,
@@ -71,17 +53,10 @@ class SearchEndpoint extends BaseClient {
       queryParameters: {'q': query, 'p': page, 'n': limit},
     );
 
-    final req = ArtistSearchRequest.fromJson(response);
-
-    return ArtistSearchResponse(
-      results:
-          req.results.map((e) => ArtistResponse.fromArtistRequest(e)).toList(),
-      start: req.start,
-      total: req.total,
-    );
+    return response;
   }
 
-  Future<PlaylistSearchResponse> playlists(
+  Future<Map<String, dynamic>> playlists(
     String query, {
     int page = 0,
     int limit = 10,
@@ -91,14 +66,6 @@ class SearchEndpoint extends BaseClient {
       queryParameters: {'q': query, 'p': page, 'n': limit},
     );
 
-    final req = PlaylistSearchRequest.fromJson(response);
-
-    return PlaylistSearchResponse(
-      results: req.results
-          .map((playlist) => PlaylistResponse.fromPlaylistRequest(playlist))
-          .toList(),
-      start: req.start,
-      total: req.total,
-    );
+    return response;
   }
 }
