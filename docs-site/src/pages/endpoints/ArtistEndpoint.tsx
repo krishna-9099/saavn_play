@@ -6,17 +6,17 @@ const ArtistEndpoint = () => {
 void main() async {
   final client = SaavnPlayClient();
 
-  // Get artist details by ID
-  final artist = await client.artist.detailsById('artist_id');
+    // Get full artist page details by ID
+    final artist = await client.artists.getArtistPageDetails('artist_id');
   
   print('Artist: \${artist.name}');
-  print('Bio: \${artist.bio}');
-  print('Followers: \${artist.followerCount}');
+    print('Bio: \${artist.bio}');
+    print('Followers: \${artist.followerCount}');
   print('');
   
   // Top songs
   print('Top Songs:');
-  for (final song in artist.topSongs ?? []) {
+    for (final song in artist.topSongs) {
     print('  \${song.name}');
   }
 
@@ -38,12 +38,15 @@ void main() async {
                     Overview
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    The Artist API provides methods to retrieve artist details by ID.
+                    The Artist API provides map-based and strongly typed methods for artist details.
                 </p>
                 <div className="p-4 rounded-xl bg-background-darker border border-border">
                     <pre className="text-sm text-gray-300">
                         {`// Available artist methods
-client.artist.detailsById(id)  // Get artist details by ID`}
+client.artists.detailsById(id)               // Raw artist data map
+client.artists.getArtistPageDetails(id)      // Typed ArtistPageDetails model
+client.artists.artistSongs(id, page: 0)      // Paginated artist songs
+client.artists.artistAlbums(id, page: 0)`}
                     </pre>
                 </div>
             </section>
@@ -54,7 +57,8 @@ client.artist.detailsById(id)  // Get artist details by ID`}
                     Get Artist Details
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Retrieve detailed information about an artist including top songs and albums.
+                    Retrieve detailed artist page information including top songs, top albums,
+                    latest releases, and playlist sections.
                 </p>
                 <CodeBlock
                     code={getArtistExample}
@@ -95,8 +99,8 @@ client.artist.detailsById(id)  // Get artist details by ID`}
                     Response
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Returns an <code className="text-primary-400">Artist</code> object. See the Models
-                    documentation for detailed field information.
+                    Returns an <code className="text-primary-400">ArtistPageDetails</code> model with
+                    all artist page sections.
                 </p>
             </section>
         </div>

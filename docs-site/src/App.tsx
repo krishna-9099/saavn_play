@@ -8,9 +8,9 @@ import SearchEndpoint from './pages/endpoints/SearchEndpoint';
 import SongEndpoint from './pages/endpoints/SongEndpoint';
 import AlbumEndpoint from './pages/endpoints/AlbumEndpoint';
 import ArtistEndpoint from './pages/endpoints/ArtistEndpoint';
-import PlaylistEndpoint from './pages/endpoints/PlaylistEndpoint';
+import HomeEndpoint from './pages/endpoints/HomeEndpoint';
+import PodcastEndpoint from './pages/endpoints/PodcastEndpoint';
 import RadioEndpoint from './pages/endpoints/RadioEndpoint';
-import LyricsEndpoint from './pages/endpoints/LyricsEndpoint';
 import Models from './pages/Models';
 
 function App() {
@@ -28,9 +28,9 @@ function App() {
         <Route path="/api/song" element={<SongEndpoint />} />
         <Route path="/api/album" element={<AlbumEndpoint />} />
         <Route path="/api/artist" element={<ArtistEndpoint />} />
-        <Route path="/api/playlist" element={<PlaylistEndpoint />} />
+        <Route path="/api/home" element={<HomeEndpoint />} />
+        <Route path="/api/podcast" element={<PodcastEndpoint />} />
         <Route path="/api/radio" element={<RadioEndpoint />} />
-        <Route path="/api/lyrics" element={<LyricsEndpoint />} />
         <Route path="/models" element={<Models />} />
       </Routes>
     </Layout>

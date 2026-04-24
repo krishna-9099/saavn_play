@@ -7,22 +7,31 @@ void main() async {
   final client = SaavnPlayClient();
 
   // Search for songs
-  final songs = await client.search.songs('Malibu - Miley Cyrus');
-  for (final song in songs) {
-    print('Song: \${song.name}');
-    print('Artist: \${song.primaryArtists}');
+    final songs = await client.search.songs('Malibu - Miley Cyrus', limit: 5);
+    final songResults = songs['results'] as List<dynamic>? ?? [];
+
+    for (final item in songResults) {
+        final song = item as Map<String, dynamic>;
+        print('Song: \${song['title']}');
+        print('Artist: \${song['primary_artists']}');
   }
 
   // Search for albums
-  final albums = await client.search.albums('Bangerz');
-  for (final album in albums) {
-    print('Album: \${album.name}');
+    final albums = await client.search.albums('Bangerz', limit: 3);
+    final albumResults = albums['results'] as List<dynamic>? ?? [];
+
+    for (final item in albumResults) {
+        final album = item as Map<String, dynamic>;
+        print('Album: \${album['title']}');
   }
 
-  // Search for artists
-  final artists = await client.search.artists('Miley Cyrus');
-  for (final artist in artists) {
-    print('Artist: \${artist.name}');
+    // Search for artists
+    final artists = await client.search.artists('Miley Cyrus', limit: 3);
+    final artistResults = artists['results'] as List<dynamic>? ?? [];
+
+    for (final item in artistResults) {
+        final artist = item as Map<String, dynamic>;
+        print('Artist: \${artist['title']}');
   }
 
   client.close();
@@ -34,16 +43,17 @@ void main() async {
   final client = SaavnPlayClient();
 
   // Get song details by ID
-  final songs = await client.song.detailsById([
+    final songs = await client.songs.detailsById([
     '5WXAlMNt',
     'csaEsVWV',
   ]);
 
-  for (final song in songs) {
-    print('Song: \${song.name}');
-    print('Album: \${song.album.name}');
-    print('Duration: \${song.duration} seconds');
-    print('Play URL: \${song.playUrl}');
+    final results = songs.values.toList();
+    for (final item in results) {
+        final song = item as Map<String, dynamic>;
+        print('Song: \${song['song'] ?? song['title']}');
+        print('Artists: \${song['primary_artists']}');
+        print('Duration: \${song['duration']} seconds');
   }
 
   client.close();
@@ -55,17 +65,18 @@ void main() async {
   final client = SaavnPlayClient();
 
   // Get album details by ID
-  final album = await client.album.detailsById('1142502');
+    final album = await client.albums.detailsById('1142502');
 
-  print('Album: \${album.name}');
-  print('Artist: \${album.primaryArtists}');
-  print('Year: \${album.year}');
-  print('Song Count: \${album.songCount}');
+    print('Album: \${album['title'] ?? album['name']}');
+    print('Artist: \${album['primary_artists']}');
+    print('Year: \${album['year']}');
   print('');
 
   // List all songs in the album
-  for (final song in album.songs) {
-    print('  - \${song.name}');
+    final songs = album['songs'] as List<dynamic>? ?? [];
+    for (final item in songs) {
+        final song = item as Map<String, dynamic>;
+        print('  - \${song['song'] ?? song['title']}');
   }
 
   client.close();
@@ -76,70 +87,68 @@ void main() async {
 void main() async {
   final client = SaavnPlayClient();
 
-  // Get artist details by ID
-  final artist = await client.artist.detailsById('123456');
+    // Get complete artist page details by ID
+    final artist = await client.artists.getArtistPageDetails('123456');
 
-  print('Artist: \${artist.name}');
-  print('Bio: \${artist.bio}');
-  print('Followers: \${artist.followerCount}');
-  print('');
+    print('Artist: \${artist.name}');
+    print('Verified: \${artist.isVerified}');
+    print('Top songs: \${artist.topSongs.length}');
+    print('Top albums: \${artist.topAlbums.length}');
 
-  // Top songs
-  print('Top Songs:');
-  for (final song in artist.topSongs) {
-    print('  - \${song.name}');
-  }
+  client.close();
+}`;
 
-  // Albums
-  print('\\nAlbums:');
-  for (final album in artist.albums) {
-    print('  - \${album.name}');
+    const homeExample = `import 'package:saavn_play/saavn_play.dart';
+
+void main() async {
+  final client = SaavnPlayClient();
+
+    final home = await client.home.getLaunchData();
+
+    print('Charts: \${home.charts?.length ?? 0}');
+    print('Top playlists: \${home.topPlaylists?.length ?? 0}');
+    print('Radio modules: \${home.radio?.length ?? 0}');
+
+  client.close();
+}`;
+
+    const podcastExample = `import 'package:saavn_play/saavn_play.dart';
+
+void main() async {
+  final client = SaavnPlayClient();
+
+    // Get top podcast shows
+    final podcasts = await client.podcasts.getTopShows(n: 5, page: 1);
+
+    for (final show in podcasts.shows) {
+        print('Show: \${show.title}');
+        print('Release date: \${show.releaseDate}');
+        print('---');
   }
 
   client.close();
 }`;
 
-    const playlistExample = `import 'package:saavn_play/saavn_play.dart';
+    const radioExample = `import 'package:saavn_play/saavn_play.dart';
 
 void main() async {
-  final client = SaavnPlayClient();
+    final client = SaavnPlayClient();
 
-  // Get playlist details by ID
-  final playlist = await client.playlist.detailsById('playlist_id');
+    // Get featured stations
+    final featured = await client.radio.getFeaturedStations();
+    final first = featured.featuredStations.first;
 
-  print('Playlist: \${playlist.name}');
-  print('Description: \${playlist.description}');
-  print('Song Count: \${playlist.songCount}');
-  print('');
+    // Create a station and fetch songs
+    final station = await client.radio.createFeaturedStation(
+        stationType: first.stationType,
+        query: first.query,
+        language: first.language,
+    );
 
-  // List all songs
-  for (final song in playlist.songs) {
-    print('  - \${song.name} by \${song.primaryArtists}');
-  }
+    final songs = await client.radio.getStationSongs(stationId: station.stationId);
+    print('Songs fetched: \${songs.songs.length}');
 
-  client.close();
-}`;
-
-    const lyricsExample = `import 'package:saavn_play/saavn_play.dart';
-
-void main() async {
-  final client = SaavnPlayClient();
-
-  // Get lyrics for a song
-  final lyrics = await client.lyrics.get('song_id');
-
-  print('Lyrics:');
-  print(lyrics.text);
-
-  // Check if synced lyrics are available
-  if (lyrics.synced) {
-    print('\\nSynced Lyrics Available!');
-    for (final line in lyrics.syncedLyrics) {
-      print('[\${line.timestamp}] \${line.text}');
-    }
-  }
-
-  client.close();
+    client.close();
 }`;
 
     return (
@@ -147,7 +156,7 @@ void main() async {
             <div>
                 <h1 className="text-3xl font-bold text-white mb-4">Examples</h1>
                 <p className="text-gray-400 text-lg">
-                    Practical examples showing how to use saavn_play in your applications.
+                    Practical examples for the current SaavnPlayClient endpoint surface.
                 </p>
             </div>
 
@@ -202,10 +211,10 @@ void main() async {
             {/* Artist Example */}
             <section>
                 <h2 id="artist" className="text-2xl font-bold text-white mb-4">
-                    Artist Details
+                    Artist Page Details
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Access artist profiles, top songs, and discographies.
+                    Access full artist page data including top songs and top albums.
                 </p>
                 <CodeBlock
                     code={artistExample}
@@ -215,34 +224,50 @@ void main() async {
                 />
             </section>
 
-            {/* Playlist Example */}
+            {/* Home Example */}
             <section>
-                <h2 id="playlist" className="text-2xl font-bold text-white mb-4">
-                    Playlist Details
+                <h2 id="home" className="text-2xl font-bold text-white mb-4">
+                    Home Feed
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Fetch playlist information with all songs.
+                    Fetch launch data modules like charts, playlists, and radio blocks.
                 </p>
                 <CodeBlock
-                    code={playlistExample}
+                    code={homeExample}
                     language="dart"
-                    title="playlist_example.dart"
+                    title="home_example.dart"
                     showLineNumbers
                 />
             </section>
 
-            {/* Lyrics Example */}
+            {/* Podcast Example */}
             <section>
-                <h2 id="lyrics" className="text-2xl font-bold text-white mb-4">
-                    Lyrics
+                <h2 id="podcast" className="text-2xl font-bold text-white mb-4">
+                    Podcasts
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Retrieve song lyrics including synced lyrics for karaoke-style display.
+                    Discover top podcast shows with pagination.
                 </p>
                 <CodeBlock
-                    code={lyricsExample}
+                    code={podcastExample}
                     language="dart"
-                    title="lyrics_example.dart"
+                    title="podcast_example.dart"
+                    showLineNumbers
+                />
+            </section>
+
+            {/* Radio Example */}
+            <section>
+                <h2 id="radio" className="text-2xl font-bold text-white mb-4">
+                    Radio
+                </h2>
+                <p className="text-gray-400 mb-4">
+                    Create a station from featured metadata and fetch playable songs.
+                </p>
+                <CodeBlock
+                    code={radioExample}
+                    language="dart"
+                    title="radio_example.dart"
                     showLineNumbers
                 />
             </section>

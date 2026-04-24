@@ -7,18 +7,19 @@ void main() async {
   final client = SaavnPlayClient();
 
   // Get album details by ID
-  final album = await client.album.detailsById('1142502');
+    final album = await client.albums.detailsById('1142502');
   
-  print('Album: \${album.name}');
-  print('Artist: \${album.primaryArtists}');
-  print('Year: \${album.year}');
-  print('Song Count: \${album.songCount}');
+    print('Album: \${album['title'] ?? album['name']}');
+    print('Artist: \${album['primary_artists']}');
+    print('Year: \${album['year']}');
+    print('Song Count: \${(album['songs'] as List<dynamic>? ?? []).length}');
   print('');
   
   // List all songs in the album
   print('Tracks:');
-  for (final song in album.songs ?? []) {
-    print('  \${song.name}');
+    for (final item in (album['songs'] as List<dynamic>? ?? [])) {
+        final song = item as Map<String, dynamic>;
+        print('  \${song['song'] ?? song['title']}');
   }
 
   client.close();
@@ -39,12 +40,13 @@ void main() async {
                     Overview
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    The Album API provides methods to retrieve album details by ID.
+                    The Album API provides methods to retrieve album details by ID and token.
                 </p>
                 <div className="p-4 rounded-xl bg-background-darker border border-border">
                     <pre className="text-sm text-gray-300">
                         {`// Available album methods
-client.album.detailsById(id)  // Get album details by ID`}
+client.albums.detailsById(id)      // Get album details by ID
+client.albums.detailsByToken(id)   // Get album details by web token`}
                     </pre>
                 </div>
             </section>

@@ -30,12 +30,12 @@ const LeftSidebar = ({ onNavigate }: LeftSidebarProps) => {
             children: [
                 { title: 'Overview', path: '/api-reference' },
                 { title: 'Search', path: '/api/search' },
-                { title: 'Song', path: '/api/song' },
-                { title: 'Album', path: '/api/album' },
-                { title: 'Artist', path: '/api/artist' },
-                { title: 'Playlist', path: '/api/playlist' },
+                { title: 'Songs', path: '/api/song' },
+                { title: 'Albums', path: '/api/album' },
+                { title: 'Artists', path: '/api/artist' },
+                { title: 'Home', path: '/api/home' },
+                { title: 'Podcasts', path: '/api/podcast' },
                 { title: 'Radio', path: '/api/radio' },
-                { title: 'Lyrics', path: '/api/lyrics' },
             ],
         },
         {

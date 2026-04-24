@@ -3,7 +3,7 @@ import CodeBlock from '../components/ui/CodeBlock';
 
 const Installation = () => {
   const pubspecCode = `dependencies:
-  saavn_play: ^1.0.1`;
+  saavn_play: ^1.2.0`;
 
   const installCode = `dart pub get`;
 
@@ -22,11 +22,11 @@ void main() async {
   print('Found \${searchResult.length} songs');
 
   // Get album details
-  final album = await client.album.detailsById('1142502');
+  final album = await client.albums.detailsById('1142502');
   print('Album: \${album.name}');
 
   // Get song details
-  final songs = await client.song.detailsById(['5WXAlMNt', 'csaEsVWV']);
+  final songs = await client.songs.detailsById(['5WXAlMNt', 'csaEsVWV']);
   for (final song in songs) {
     print('Song: \${song.name}');
   }

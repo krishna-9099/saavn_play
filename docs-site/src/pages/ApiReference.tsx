@@ -23,26 +23,26 @@ const ApiReference = () => {
         },
         {
             title: 'Artist API',
-            description: 'Access artist profiles, top songs, albums, biography, and related artists.',
+            description: 'Access artist profiles, top songs, albums, and full artist page sections.',
             path: '/api/artist',
             methods: ['GET'],
         },
         {
-            title: 'Playlist API',
-            description: 'Fetch playlist details with full song lists and metadata.',
-            path: '/api/playlist',
+            title: 'Home API',
+            description: 'Fetch launch/home feed modules including trending, playlists, charts, and radio.',
+            path: '/api/home',
+            methods: ['GET'],
+        },
+        {
+            title: 'Podcast API',
+            description: 'Discover top podcast shows with pagination support.',
+            path: '/api/podcast',
             methods: ['GET'],
         },
         {
             title: 'Radio API',
             description: 'Access radio stations and streaming content for music discovery.',
             path: '/api/radio',
-            methods: ['GET'],
-        },
-        {
-            title: 'Lyrics API',
-            description: 'Retrieve song lyrics with timing information for synced display.',
-            path: '/api/lyrics',
             methods: ['GET'],
         },
     ];
@@ -70,12 +70,13 @@ const ApiReference = () => {
 
 // Access endpoints through the client
 client.search    // Search operations
-client.song      // Song operations
-client.album     // Album operations
-client.artist    // Artist operations
-client.playlist  // Playlist operations
+client.songs     // Song operations
+client.albums    // Album operations
+client.artists   // Artist operations
+client.home      // Home/launch feed operations
+client.podcasts  // Podcast operations
 client.radio     // Radio operations
-client.lyrics    // Lyrics operations`}
+`}
                     </pre>
                 </div>
             </section>

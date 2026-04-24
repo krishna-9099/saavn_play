@@ -50,8 +50,8 @@ const Home = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                 </svg>
             ),
-            title: 'Playlist Access',
-            description: 'Fetch playlist details with complete song lists, metadata, and creator information.',
+            title: 'Home Feed',
+            description: 'Fetch launch data with trending modules, charts, and dynamic sections.',
             color: 'from-indigo-500 to-violet-500',
         },
         {
@@ -74,39 +74,39 @@ const Home = () => {
             icon: '🔍',
         },
         {
-            title: 'Song',
+            title: 'Songs',
             description: 'Get song details and lyrics',
             path: '/api/song',
             icon: '🎵',
         },
         {
-            title: 'Album',
+            title: 'Albums',
             description: 'Retrieve album information',
             path: '/api/album',
             icon: '💿',
         },
         {
-            title: 'Artist',
+            title: 'Artists',
             description: 'Access artist profiles',
             path: '/api/artist',
             icon: '🎤',
         },
         {
-            title: 'Playlist',
-            description: 'Fetch playlist details',
-            path: '/api/playlist',
-            icon: '📋',
+            title: 'Home',
+            description: 'Get launch feed modules',
+            path: '/api/home',
+            icon: '🏠',
         },
         {
-            title: 'Lyrics',
-            description: 'Get song lyrics',
-            path: '/api/lyrics',
-            icon: '📝',
+            title: 'Podcasts',
+            description: 'Discover top podcast shows',
+            path: '/api/podcast',
+            icon: '🎙️',
         },
     ];
 
     const stats = [
-        { label: 'API Endpoints', value: '10+' },
+        { label: 'API Endpoints', value: '7+' },
         { label: 'Data Models', value: '8+' },
         { label: 'Dart SDK', value: '^3.0.0' },
         { label: 'License', value: 'MIT' },
@@ -121,10 +121,14 @@ void main() async {
   final songs = await client.search.songs('Malibu - Miley Cyrus');
   
   // Get album details
-  final album = await client.album.detailsById('1142502');
+    final album = await client.albums.detailsById('1142502');
   
   // Fetch song details with lyrics
-  final songDetails = await client.song.detailsById(['5WXAlMNt']);
+    final songDetails = await client.songs.detailsById(['5WXAlMNt']);
+
+    // Fetch launch feed
+    final launchData = await client.home.getLaunchData();
+    print('Home sections: \${launchData.unknownSections?.keys.length ?? 0}');
 
   client.close();
 }`;
@@ -146,7 +150,7 @@ void main() async {
                         {/* Version badge */}
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-sm font-medium mb-8">
                             <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse" />
-                            v1.0.1 - Stable Release
+                            v1.2.0 - Latest Release
                         </div>
 
                         {/* Title */}

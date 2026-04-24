@@ -6,14 +6,23 @@ const RadioEndpoint = () => {
 void main() async {
   final client = SaavnPlayClient();
 
-  // Get radio stations
-  final stations = await client.radio.getStations();
+    // Get featured stations
+    final stations = await client.radio.getFeaturedStations();
   
-  for (final station in stations) {
+    for (final station in stations.featuredStations) {
     print('Station: \${station.name}');
     print('Description: \${station.description}');
     print('---');
   }
+
+    final created = await client.radio.createFeaturedStation(
+        stationType: stations.featuredStations.first.stationType,
+        query: stations.featuredStations.first.query,
+        language: stations.featuredStations.first.language,
+    );
+
+    final songs = await client.radio.getStationSongs(stationId: created.stationId);
+    print('Songs fetched: \${songs.songs.length}');
 
   client.close();
 }`;
@@ -38,8 +47,9 @@ void main() async {
                 <div className="p-4 rounded-xl bg-background-darker border border-border">
                     <pre className="text-sm text-gray-300">
                         {`// Available radio methods
-client.radio.getStations()      // Get available radio stations
-client.radio.getById(id)        // Get specific radio station`}
+client.radio.getFeaturedStations()              // Featured stations
+client.radio.createFeaturedStation(...)         // Create station session
+client.radio.getStationSongs(stationId: id)     // Fetch station songs`}
                     </pre>
                 </div>
             </section>

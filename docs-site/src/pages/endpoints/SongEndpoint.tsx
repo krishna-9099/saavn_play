@@ -7,13 +7,12 @@ void main() async {
   final client = SaavnPlayClient();
 
   // Get single song by ID
-  final songs = await client.song.detailsById(['5WXAlMNt']);
+    final songs = await client.songs.detailsById(['5WXAlMNt']);
   
-  final song = songs.first;
-  print('Song: \${song.name}');
-  print('Artist: \${song.primaryArtists}');
-  print('Album: \${song.album?.name}');
-  print('Duration: \${song.duration} seconds');
+    final song = songs['5WXAlMNt'] as Map<String, dynamic>;
+    print('Song: \${song['song'] ?? song['title']}');
+    print('Artist: \${song['primary_artists']}');
+    print('Duration: \${song['duration']} seconds');
 
   client.close();
 }`;
@@ -24,14 +23,15 @@ void main() async {
   final client = SaavnPlayClient();
 
   // Get multiple songs by ID
-  final songs = await client.song.detailsById([
+    final songs = await client.songs.detailsById([
     '5WXAlMNt',
     'csaEsVWV',
     'another_song_id',
   ]);
   
-  for (final song in songs) {
-    print('\${song.name} - \${song.primaryArtists}');
+    for (final item in songs.values) {
+        final song = item as Map<String, dynamic>;
+        print('\${song['song'] ?? song['title']} - \${song['primary_artists']}');
   }
 
   client.close();
@@ -58,7 +58,7 @@ void main() async {
                 <div className="p-4 rounded-xl bg-background-darker border border-border">
                     <pre className="text-sm text-gray-300">
                         {`// Available song methods
-client.song.detailsById(ids)  // Get song details by ID(s)`}
+client.songs.detailsById(ids)  // Get song details by ID(s)`}
                     </pre>
                 </div>
             </section>
@@ -126,8 +126,7 @@ client.song.detailsById(ids)  // Get song details by ID(s)`}
                     Response
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Returns a list of <code className="text-primary-400">Song</code> objects. See the
-                    Models documentation for detailed field information.
+                    Returns a map keyed by song ID. Each value contains song metadata fields.
                 </p>
             </section>
         </div>

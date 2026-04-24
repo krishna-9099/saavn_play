@@ -7,12 +7,13 @@ void main() async {
   final client = SaavnPlayClient();
 
   // Search for songs
-  final songs = await client.search.songs('Malibu - Miley Cyrus');
+    final songs = await client.search.songs('Malibu - Miley Cyrus', page: 0, limit: 10);
   
-  for (final song in songs) {
-    print('Song: \${song.name}');
-    print('Artist: \${song.primaryArtists}');
-    print('Album: \${song.album?.name}');
+    final results = songs['results'] as List<dynamic>? ?? [];
+    for (final item in results) {
+        final song = item as Map<String, dynamic>;
+        print('Song: \${song['title']}');
+        print('Artist: \${song['primary_artists']}');
     print('---');
   }
 
@@ -25,12 +26,14 @@ void main() async {
   final client = SaavnPlayClient();
 
   // Search for albums
-  final albums = await client.search.albums('Bangerz');
+    final albums = await client.search.albums('Bangerz', page: 0, limit: 10);
   
-  for (final album in albums) {
-    print('Album: \${album.name}');
-    print('Artist: \${album.primaryArtists}');
-    print('Year: \${album.year}');
+    final results = albums['results'] as List<dynamic>? ?? [];
+    for (final item in results) {
+        final album = item as Map<String, dynamic>;
+        print('Album: \${album['title']}');
+        print('Artist: \${album['primary_artists']}');
+        print('Year: \${album['year']}');
     print('---');
   }
 
@@ -43,11 +46,12 @@ void main() async {
   final client = SaavnPlayClient();
 
   // Search for artists
-  final artists = await client.search.artists('Miley Cyrus');
+    final artists = await client.search.artists('Miley Cyrus', page: 0, limit: 10);
   
-  for (final artist in artists) {
-    print('Artist: \${artist.name}');
-    print('Followers: \${artist.followerCount}');
+    final results = artists['results'] as List<dynamic>? ?? [];
+    for (final item in results) {
+        final artist = item as Map<String, dynamic>;
+        print('Artist: \${artist['title']}');
     print('---');
   }
 
@@ -60,11 +64,12 @@ void main() async {
   final client = SaavnPlayClient();
 
   // Search for playlists
-  final playlists = await client.search.playlists('Top Hits');
+    final playlists = await client.search.playlists('Top Hits', page: 0, limit: 10);
   
-  for (final playlist in playlists) {
-    print('Playlist: \${playlist.name}');
-    print('Songs: \${playlist.songCount}');
+    final results = playlists['results'] as List<dynamic>? ?? [];
+    for (final item in results) {
+        final playlist = item as Map<String, dynamic>;
+        print('Playlist: \${playlist['title']}');
     print('---');
   }
 
@@ -190,9 +195,9 @@ client.search.playlists(query)  // Search playlists`}
                                 <td className="py-3 px-4">Maximum number of results (optional, default: 10)</td>
                             </tr>
                             <tr className="border-b border-border">
-                                <td className="py-3 px-4"><code className="text-primary-400">offset</code></td>
+                                <td className="py-3 px-4"><code className="text-primary-400">page</code></td>
                                 <td className="py-3 px-4"><code className="text-secondary-400">int?</code></td>
-                                <td className="py-3 px-4">Offset for pagination (optional, default: 0)</td>
+                                <td className="py-3 px-4">Page index for pagination (optional, default: 0)</td>
                             </tr>
                         </tbody>
                     </table>
