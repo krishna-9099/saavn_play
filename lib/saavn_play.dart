@@ -45,10 +45,9 @@ library saavn_play;
 
 export 'src/saavn_play.dart';
 
-
 export 'src/models/image.dart';
 export 'src/models/lyrics.dart';
-
+export 'src/models/artist_page_details.dart';
 
 export 'src/endpoints/podcast.dart';
 export 'src/endpoints/radio.dart';

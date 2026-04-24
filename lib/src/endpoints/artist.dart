@@ -1,5 +1,6 @@
 import 'package:saavn_play/src/client.dart';
 import 'package:saavn_play/src/collection/endpoints.dart';
+import 'package:saavn_play/src/models/artist_page_details.dart';
 
 class ArtistEndpoint extends BaseClient {
   ArtistEndpoint([super.options]);
@@ -8,12 +9,21 @@ class ArtistEndpoint extends BaseClient {
     final response = await request(
       call: endpoints.artists.id,
       isAPIv4: true,
-      queryParameters: {
-        'artistId': id,
-      },
+      queryParameters: {'artistId': id},
     );
 
     return response;
+  }
+
+  /// Get artist page details with all sections as a typed model
+  Future<ArtistPageDetails> getArtistPageDetails(String artistId) async {
+    final response = await request(
+      call: endpoints.artists.id,
+      isAPIv4: true,
+      queryParameters: {'artistId': artistId},
+    );
+
+    return ArtistPageDetails.fromJson(response);
   }
 
   Future<Map<String, dynamic>> artistSongs(
@@ -44,14 +54,15 @@ class ArtistEndpoint extends BaseClient {
   }) async {
     // without api v4 no data is returned
     final response = await request(
-        call: endpoints.artists.albums,
-        isAPIv4: true,
-        queryParameters: {
-          'artistId': artistId,
-          'page': page,
-          if (category != null) 'category': category,
-          if (sort != null) 'sort_order': sort,
-        });
+      call: endpoints.artists.albums,
+      isAPIv4: true,
+      queryParameters: {
+        'artistId': artistId,
+        'page': page,
+        if (category != null) 'category': category,
+        if (sort != null) 'sort_order': sort,
+      },
+    );
 
     return response;
   }

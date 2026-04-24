@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-04-10
+
+### Added
+- Artist endpoint: Added `getArtistPageDetails()` method that returns full artist page data with all sections:
+  - `topSongs` (10 items) - Artist's top songs
+  - `topAlbums` (12 items) - Artist's top albums
+  - `latest_release` (4 items) - Latest album releases
+  - `featured_artist_playlist` (10 items) - Playlists where artist is featured
+  - `singles` (20 items) - Single tracks
+  - `dedicated_artist_playlist` (10 items) - Playlists dedicated to artist
+  - `bio` - Artist biography
+  - `follower_count`, `isVerified`, `dominantLanguage`, `dominantType`
+- Added `ArtistPageDetails` model class with JSON serialization for all artist page fields
+
+### Changed
+- Updated `detailsById()` in ArtistEndpoint to use API v4 for more complete data
+
 ## [1.1.0] - 2026-02-27
 
 ### Added
