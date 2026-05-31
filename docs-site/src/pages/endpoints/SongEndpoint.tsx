@@ -37,12 +37,61 @@ void main() async {
   client.close();
 }`;
 
+    const getRecommendationsExample = `import 'package:saavn_play/saavn_play.dart';
+
+void main() async {
+  final client = SaavnPlayClient();
+
+  // Get song recommendations based on a song ID
+  final recommendations = await client.songs.getRecommendations(
+    songId: '5WXAlMNt',
+    language: 'hindi',
+  );
+  
+  print('Recommended songs: \${recommendations['results']?.length ?? 0}');
+
+  client.close();
+}`;
+
+    const getTrendingExample = `import 'package:saavn_play/saavn_play.dart';
+
+void main() async {
+  final client = SaavnPlayClient();
+
+  // Get currently trending songs
+  final trending = await client.songs.getCurrentlyTrending(
+    entityType: 'song',
+    entityLanguage: 'hindi',
+  );
+  
+  print('Trending songs: \${trending['results']?.length ?? 0}');
+
+  client.close();
+}`;
+
+    const getSongsBySameArtistsExample = `import 'package:saavn_play/saavn_play.dart';
+
+void main() async {
+  final client = SaavnPlayClient();
+
+  // Get top songs by the same artists
+  final songsByArtists = await client.songs.getSongsBySameArtists(
+    artistIds: '459320,455917',
+    songId: '5WXAlMNt',
+    language: 'hindi',
+  );
+  
+  print('Songs by same artists: \${songsByArtists['results']?.length ?? 0}');
+
+  client.close();
+}`;
+
     return (
         <div className="space-y-8">
             <div>
                 <h1 className="text-3xl font-bold text-white mb-4">Song API</h1>
                 <p className="text-gray-400 text-lg">
-                    Retrieve detailed information about songs including metadata, streaming URLs, and lyrics.
+                    Retrieve detailed information about songs including metadata, streaming URLs, lyrics, and recommendations.
                 </p>
             </div>
 
@@ -52,13 +101,17 @@ void main() async {
                     Overview
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    The Song API provides methods to retrieve song details by their IDs. You can fetch
-                    single or multiple songs in one request.
+                    The Song API provides methods to retrieve song details by their IDs, get recommendations,
+                    find trending songs, and discover songs by the same artists.
                 </p>
                 <div className="p-4 rounded-xl bg-background-darker border border-border">
                     <pre className="text-sm text-gray-300">
                         {`// Available song methods
-client.songs.detailsById(ids)  // Get song details by ID(s)`}
+client.songs.detailsById(ids)                    // Get song details by ID(s)
+client.songs.getRecommendations(songId: id)      // Get song recommendations
+client.songs.getCurrentlyTrending()              // Get trending songs
+client.songs.getSongsBySameArtists(...)          // Get songs by same artists
+client.songs.getSongsBySameActors(...)           // Get songs by same actors`}
                     </pre>
                 </div>
             </section>
@@ -95,6 +148,54 @@ client.songs.detailsById(ids)  // Get song details by ID(s)`}
                 />
             </section>
 
+            {/* Get Recommendations */}
+            <section>
+                <h2 id="get-recommendations" className="text-2xl font-bold text-white mb-4">
+                    Get Song Recommendations
+                </h2>
+                <p className="text-gray-400 mb-4">
+                    Get personalized song recommendations based on a song ID.
+                </p>
+                <CodeBlock
+                    code={getRecommendationsExample}
+                    language="dart"
+                    title="get_recommendations.dart"
+                    showLineNumbers
+                />
+            </section>
+
+            {/* Get Trending Songs */}
+            <section>
+                <h2 id="get-trending" className="text-2xl font-bold text-white mb-4">
+                    Get Trending Songs
+                </h2>
+                <p className="text-gray-400 mb-4">
+                    Retrieve currently trending songs by language.
+                </p>
+                <CodeBlock
+                    code={getTrendingExample}
+                    language="dart"
+                    title="get_trending.dart"
+                    showLineNumbers
+                />
+            </section>
+
+            {/* Get Songs By Same Artists */}
+            <section>
+                <h2 id="get-songs-by-artists" className="text-2xl font-bold text-white mb-4">
+                    Get Songs By Same Artists
+                </h2>
+                <p className="text-gray-400 mb-4">
+                    Discover top songs by the same artists as a given song.
+                </p>
+                <CodeBlock
+                    code={getSongsBySameArtistsExample}
+                    language="dart"
+                    title="get_songs_by_artists.dart"
+                    showLineNumbers
+                />
+            </section>
+
             {/* Parameters */}
             <section>
                 <h2 id="parameters" className="text-2xl font-bold text-white mb-4">
@@ -115,6 +216,21 @@ client.songs.detailsById(ids)  // Get song details by ID(s)`}
                                 <td className="py-3 px-4"><code className="text-secondary-400">{'List<String>'}</code></td>
                                 <td className="py-3 px-4">List of song IDs to fetch</td>
                             </tr>
+                            <tr className="border-b border-border">
+                                <td className="py-3 px-4"><code className="text-primary-400">songId</code></td>
+                                <td className="py-3 px-4"><code className="text-secondary-400">String</code></td>
+                                <td className="py-3 px-4">Song ID for recommendations</td>
+                            </tr>
+                            <tr className="border-b border-border">
+                                <td className="py-3 px-4"><code className="text-primary-400">language</code></td>
+                                <td className="py-3 px-4"><code className="text-secondary-400">String</code></td>
+                                <td className="py-3 px-4">Language for results (default: 'hindi')</td>
+                            </tr>
+                            <tr className="border-b border-border">
+                                <td className="py-3 px-4"><code className="text-primary-400">artistIds</code></td>
+                                <td className="py-3 px-4"><code className="text-secondary-400">String</code></td>
+                                <td className="py-3 px-4">Comma-separated artist IDs</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -126,7 +242,8 @@ client.songs.detailsById(ids)  // Get song details by ID(s)`}
                     Response
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Returns a map keyed by song ID. Each value contains song metadata fields.
+                    Returns a map keyed by song ID. Each value contains song metadata fields including
+                    title, artists, duration, album info, and streaming URLs.
                 </p>
             </section>
         </div>

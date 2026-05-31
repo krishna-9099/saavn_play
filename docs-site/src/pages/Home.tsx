@@ -41,7 +41,7 @@ const Home = () => {
                 </svg>
             ),
             title: 'Artist Profiles',
-            description: 'Access artist profiles, top songs, discography, and detailed biography information.',
+            description: 'Access artist profiles with biography, social links, available languages, and detailed page data.',
             color: 'from-green-500 to-emerald-500',
         },
         {
@@ -51,7 +51,7 @@ const Home = () => {
                 </svg>
             ),
             title: 'Home Feed',
-            description: 'Fetch launch data with trending modules, charts, and dynamic sections.',
+            description: 'Fetch launch data with trending modules, charts, browse channels, and dynamic sections.',
             color: 'from-indigo-500 to-violet-500',
         },
         {
@@ -64,6 +64,26 @@ const Home = () => {
             description: 'Access radio stations and streaming content for endless music discovery.',
             color: 'from-rose-500 to-pink-500',
         },
+        {
+            icon: (
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+            ),
+            title: 'Recommendations',
+            description: 'Get personalized song and album recommendations based on listening history.',
+            color: 'from-yellow-500 to-orange-500',
+        },
+        {
+            icon: (
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-10 0a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2M9 12l2 2 4-4" />
+                </svg>
+            ),
+            title: 'Trending Content',
+            description: 'Access trending songs, albums, and charts with pagination support.',
+            color: 'from-teal-500 to-cyan-500',
+        },
     ];
 
     const endpoints = [
@@ -75,25 +95,25 @@ const Home = () => {
         },
         {
             title: 'Songs',
-            description: 'Get song details and lyrics',
+            description: 'Get song details, lyrics, and recommendations',
             path: '/api/song',
             icon: '🎵',
         },
         {
             title: 'Albums',
-            description: 'Retrieve album information',
+            description: 'Retrieve album information and recommendations',
             path: '/api/album',
             icon: '💿',
         },
         {
             title: 'Artists',
-            description: 'Access artist profiles',
+            description: 'Access artist profiles with social links',
             path: '/api/artist',
             icon: '🎤',
         },
         {
             title: 'Home',
-            description: 'Get launch feed modules',
+            description: 'Get launch feed with trending and charts',
             path: '/api/home',
             icon: '🏠',
         },
@@ -103,11 +123,29 @@ const Home = () => {
             path: '/api/podcast',
             icon: '🎙️',
         },
+        {
+            title: 'Radio',
+            description: 'Access radio stations and streaming',
+            path: '/api/radio',
+            icon: '📻',
+        },
+        {
+            title: 'Lyrics',
+            description: 'Fetch song lyrics with copyright info',
+            path: '/api/lyrics',
+            icon: '📜',
+        },
+        {
+            title: 'Playlists',
+            description: 'Get playlist details and featured lists',
+            path: '/api/playlist',
+            icon: '📋',
+        },
     ];
 
     const stats = [
-        { label: 'API Endpoints', value: '7+' },
-        { label: 'Data Models', value: '8+' },
+        { label: 'API Endpoints', value: '15+' },
+        { label: 'Data Models', value: '12+' },
         { label: 'Dart SDK', value: '^3.0.0' },
         { label: 'License', value: 'MIT' },
     ];
@@ -150,7 +188,7 @@ void main() async {
                         {/* Version badge */}
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-sm font-medium mb-8">
                             <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse" />
-                            v1.2.0 - Latest Release
+                            v1.3.0 - Latest Release
                         </div>
 
                         {/* Title */}
