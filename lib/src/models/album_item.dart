@@ -69,6 +69,9 @@ class AlbumItem {
   @JsonKey(name: 'pro_hva_campaigns')
   final List<dynamic> proHvaCampaigns;
 
+  /// Description of the album (e.g., "Released 30 May 2026").
+  final String? description;
+
   AlbumItem({
     required this.id,
     required this.title,
@@ -87,6 +90,7 @@ class AlbumItem {
     this.moreInfo,
     required this.buttonTooltipInfo,
     required this.proHvaCampaigns,
+    this.description,
   });
 
   /// Creates an AlbumItem from a JSON map.
@@ -117,7 +121,7 @@ class AlbumMoreInfo {
   final String songCount;
 
   /// Mapping of artists associated with the album.
-  @JsonKey(name: 'artist_map')
+  @JsonKey(name: 'artistMap')
   final ArtistMap? artistMap;
 
   AlbumMoreInfo({

@@ -213,7 +213,7 @@ class SongMoreInfo {
   final String copyrightText;
 
   /// Artist mapping with detailed artist information.
-  @JsonKey(name: 'artist_map')
+  @JsonKey(name: 'artistMap')
   final SongArtistMap? artistMap;
 
   /// Release date (can be null).

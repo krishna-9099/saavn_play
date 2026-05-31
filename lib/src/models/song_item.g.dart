@@ -69,9 +69,9 @@ SongMoreInfo _$SongMoreInfoFromJson(Map<String, dynamic> json) => SongMoreInfo(
   lyricsSnippet: json['lyrics_snippet'] as String,
   starred: json['starred'] as String,
   copyrightText: json['copyright_text'] as String,
-  artistMap: json['artist_map'] == null
+  artistMap: json['artistMap'] == null
       ? null
-      : SongArtistMap.fromJson(json['artist_map'] as Map<String, dynamic>),
+      : SongArtistMap.fromJson(json['artistMap'] as Map<String, dynamic>),
   releaseDate: json['releaseDate'],
   labelUrl: json['label_url'] as String,
   vcode: json['vcode'] as String?,
@@ -104,7 +104,7 @@ Map<String, dynamic> _$SongMoreInfoToJson(SongMoreInfo instance) =>
       'lyrics_snippet': instance.lyricsSnippet,
       'starred': instance.starred,
       'copyright_text': instance.copyrightText,
-      'artist_map': instance.artistMap,
+      'artistMap': instance.artistMap,
       'releaseDate': instance.releaseDate,
       'label_url': instance.labelUrl,
       'vcode': instance.vcode,

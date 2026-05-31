@@ -3,6 +3,28 @@ import 'package:json_annotation/json_annotation.dart';
 part 'artist_page_details.g.dart';
 
 @JsonSerializable()
+class ArtistUrls {
+  final String? albums;
+  final String? bio;
+  final String? comments;
+  final String? songs;
+  final String? overview;
+
+  ArtistUrls({
+    this.albums,
+    this.bio,
+    this.comments,
+    this.songs,
+    this.overview,
+  });
+
+  factory ArtistUrls.fromJson(Map<String, dynamic> json) =>
+      _$ArtistUrlsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ArtistUrlsToJson(this);
+}
+
+@JsonSerializable()
 class ArtistPageDetails {
   final String artistId;
   final String name;
@@ -39,6 +61,16 @@ class ArtistPageDetails {
   final bool? isFollowed;
   @JsonKey(name: 'fan_count')
   final String? fanCount;
+  final String? dob;
+  final String? fb;
+  final String? twitter;
+  final String? wiki;
+  final ArtistUrls? urls;
+  @JsonKey(name: 'availableLanguages')
+  final List<String>? availableLanguages;
+  @JsonKey(name: 'topEpisodes')
+  final List<dynamic>? topEpisodes;
+  final Map<String, dynamic>? modules;
 
   ArtistPageDetails({
     required this.artistId,
@@ -61,6 +93,14 @@ class ArtistPageDetails {
     this.isRadioPresent,
     this.isFollowed,
     this.fanCount,
+    this.dob,
+    this.fb,
+    this.twitter,
+    this.wiki,
+    this.urls,
+    this.availableLanguages,
+    this.topEpisodes,
+    this.modules,
   });
 
   factory ArtistPageDetails.fromJson(Map<String, dynamic> json) =>
@@ -70,6 +110,6 @@ class ArtistPageDetails {
 
   @override
   String toString() {
-    return 'ArtistPageDetails(artistId: $artistId, name: $name, topSongs: ${topSongs?.length ?? 0}, topAlbums: ${topAlbums?.length ?? 0}, latestReleases: ${latestReleases?.length ?? 0}, featuredInPlaylists: ${featuredInPlaylists?.length ?? 0})';
+    return 'ArtistPageDetails(artistId: $artistId, name: $name, dob: $dob, fb: $fb, twitter: $twitter, wiki: $wiki, topSongs: ${topSongs?.length ?? 0}, topAlbums: ${topAlbums?.length ?? 0}, latestReleases: ${latestReleases?.length ?? 0}, featuredInPlaylists: ${featuredInPlaylists?.length ?? 0})';
   }
 }

@@ -22,8 +22,14 @@ const endpoints = (
     browse: 'content.getBrowseModules',
     createStation: 'webradio.createFeaturedStation',
     getSong: 'webradio.getSong',
+    getFeaturedStations: 'webradio.getFeaturedStations',
   ),
-  home: (launchData: 'webapi.getLaunchData'),
+  home: (
+    launchData: 'webapi.getLaunchData',
+    getTrending: 'content.getTrending',
+    getCharts: 'content.getCharts',
+    getAlbums: 'content.getAlbums',
+  ),
   podcasts: (topShows: 'content.getTopShows'),
   webapi: (
     get: 'webapi.get',

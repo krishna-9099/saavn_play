@@ -44,6 +44,63 @@ class AlbumEndpoint extends BaseClient {
     return _normalizeAlbumResponse(response);
   }
 
+  /// Get album recommendations based on an album ID
+  ///
+  /// [albumId] - The album ID to get recommendations for
+  Future<Map<String, dynamic>> getRecommendations({
+    required String albumId,
+  }) async {
+    final response = await request(
+      call: 'reco.getAlbumReco',
+      isAPIv4: true,
+      queryParameters: {
+        'albumid': albumId,
+      },
+    );
+
+    return response;
+  }
+
+  /// Get currently trending albums
+  ///
+  /// [entityType] - The entity type (default: 'album')
+  /// [entityLanguage] - The language for trending albums (default: 'hindi')
+  Future<Map<String, dynamic>> getCurrentlyTrending({
+    String entityType = 'album',
+    String entityLanguage = 'hindi',
+  }) async {
+    final response = await request(
+      call: endpoints.home.getTrending,
+      isAPIv4: true,
+      queryParameters: {
+        'entity_type': entityType,
+        'entity_language': entityLanguage,
+      },
+    );
+
+    return response;
+  }
+
+  /// Get top albums from the same year
+  ///
+  /// [albumYear] - The year to get albums from
+  /// [albumLang] - The language for results (default: 'hindi')
+  Future<Map<String, dynamic>> getTopAlbumsFromSameYear({
+    required String albumYear,
+    String albumLang = 'hindi',
+  }) async {
+    final response = await request(
+      call: 'search.topAlbumsoftheYear',
+      isAPIv4: true,
+      queryParameters: {
+        'album_year': albumYear,
+        'album_lang': albumLang,
+      },
+    );
+
+    return response;
+  }
+
   Map<String, dynamic> _normalizeAlbumResponse(Map<String, dynamic> response) {
     final normalized = Map<String, dynamic>.from(response);
 

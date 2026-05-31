@@ -26,6 +26,7 @@ AlbumItem _$AlbumItemFromJson(Map<String, dynamic> json) => AlbumItem(
       : AlbumMoreInfo.fromJson(json['more_info'] as Map<String, dynamic>),
   buttonTooltipInfo: json['button_tooltip_info'] as List<dynamic>,
   proHvaCampaigns: json['pro_hva_campaigns'] as List<dynamic>,
+  description: json['description'] as String?,
 );
 
 Map<String, dynamic> _$AlbumItemToJson(AlbumItem instance) => <String, dynamic>{
@@ -46,6 +47,7 @@ Map<String, dynamic> _$AlbumItemToJson(AlbumItem instance) => <String, dynamic>{
   'more_info': instance.moreInfo,
   'button_tooltip_info': instance.buttonTooltipInfo,
   'pro_hva_campaigns': instance.proHvaCampaigns,
+  'description': instance.description,
 };
 
 AlbumMoreInfo _$AlbumMoreInfoFromJson(Map<String, dynamic> json) =>
@@ -54,9 +56,9 @@ AlbumMoreInfo _$AlbumMoreInfoFromJson(Map<String, dynamic> json) =>
       text: json['text'] as String,
       music: json['music'] as String?,
       songCount: json['song_count'] as String,
-      artistMap: json['artist_map'] == null
+      artistMap: json['artistMap'] == null
           ? null
-          : ArtistMap.fromJson(json['artist_map'] as Map<String, dynamic>),
+          : ArtistMap.fromJson(json['artistMap'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$AlbumMoreInfoToJson(AlbumMoreInfo instance) =>
@@ -65,7 +67,7 @@ Map<String, dynamic> _$AlbumMoreInfoToJson(AlbumMoreInfo instance) =>
       'text': instance.text,
       'music': instance.music,
       'song_count': instance.songCount,
-      'artist_map': instance.artistMap,
+      'artistMap': instance.artistMap,
     };
 
 ArtistMap _$ArtistMapFromJson(Map<String, dynamic> json) => ArtistMap(

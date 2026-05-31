@@ -5,7 +5,59 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.3.0] - 2026-05-31
+
+### Fixed
+- Fixed `artistMap` key name mismatch in `SongMoreInfo` and `AlbumMoreInfo` models - API sends `artistMap` (camelCase) but models expected `artist_map` (snake_case), causing artist data to always deserialize as null
+
+### Added
+- New API endpoints in `endpoints.dart`:
+  - `content.getTrending` - Paginated trending content
+  - `content.getCharts` - Paginated charts
+  - `content.getAlbums` - Paginated new albums
+  - `webradio.getFeaturedStations` - Paginated radio stations
+  - `search.actorOtherTopSongs` - Songs by same actors
+  - `reco.getreco` - Song recommendations
+  - `reco.getAlbumReco` - Album recommendations
+  - `search.topAlbumsoftheYear` - Top albums from same year
+- New model classes:
+  - `ArtistUrls` - Artist page navigation URLs (albums, bio, comments, songs, overview)
+  - `ViewMoreConfig` - Pagination configuration for modules with api, page_param, size_param, default_size
+  - `BrowseChannel` - Browse/discover channel items with mood/genre/situation/seasonality tags
+  - `GlobalConfigPlaylist` - Typed global config playlist entries with listid, image, title, count
+- New endpoint methods:
+  - `SongEndpoint.getRecommendations()` - Get song recommendations based on song ID
+  - `SongEndpoint.getCurrentlyTrending()` - Get currently trending songs
+  - `SongEndpoint.getSongsBySameArtists()` - Get top songs by same artists
+  - `SongEndpoint.getSongsBySameActors()` - Get top songs by same actors
+  - `AlbumEndpoint.getRecommendations()` - Get album recommendations based on album ID
+  - `AlbumEndpoint.getCurrentlyTrending()` - Get currently trending albums
+  - `AlbumEndpoint.getTopAlbumsFromSameYear()` - Get top albums from the same year
+
+### Changed
+- Enhanced `ArtistPageDetails` model with missing fields:
+  - `dob` - Date of birth (e.g., "25-04-1987")
+  - `fb` - Facebook profile URL
+  - `twitter` - Twitter profile URL
+  - `wiki` - Wikipedia URL
+  - `urls` - ArtistUrls object with page navigation URLs
+  - `availableLanguages` - List of languages artist has content in
+  - `topEpisodes` - Podcast episodes by the artist
+  - `modules` - Module configuration metadata for UI rendering
+- Enhanced `HomeSectionItem` model with missing fields:
+  - `secondarySubtitle` - Secondary subtitle text
+  - `miniObj` - Whether this is a mini object
+  - `listCount` - Number of items in list
+  - `listType` - Type of list
+  - `list` - List data
+- Enhanced `ModuleConfig` model with comprehensive fields:
+  - `score`, `bucket`, `scrollType` - Module metadata
+  - `simpleHeader`, `noHeader`, `hideMeta` - Display flags
+  - `featured`, `featuredText` - Featured module configuration
+  - `viewMore` - ViewMoreConfig object for pagination support
+  - `isJtModule`, `buttonTooltipInfo` - Additional metadata
+- Enhanced `GlobalConfig` to use typed `GlobalConfigPlaylist` objects instead of raw `Map<String, dynamic>`
+- Enhanced `AlbumItem` model with `description` field for latest_release items (e.g., "Released 30 May 2026")
 
 ### Changed
 - Updated documentation website content to match current public client API (`albums`, `artists`, `songs`, `home`, `podcasts`, `radio`)
