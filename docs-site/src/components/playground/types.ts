@@ -45,3 +45,25 @@ export interface ApiResponse {
     url: string;
     error?: string;
 }
+
+export interface CollectionRequest {
+    id: string;
+    name: string;
+    endpointId: string;
+    endpointName: string;
+    params: Record<string, string>;
+    url: string;
+    addedAt: number;
+}
+
+export interface Collection {
+    id: string;
+    name: string;
+    requests: CollectionRequest[];
+    createdAt: number;
+}
+
+export interface EnvironmentVariable {
+    key: string;
+    value: string;
+}

@@ -1,4 +1,5 @@
 import { EndpointParam } from './types';
+import IdAutocomplete from './IdAutocomplete';
 
 interface ParameterFormProps {
     params: EndpointParam[];
@@ -7,6 +8,13 @@ interface ParameterFormProps {
     onSubmit: () => void;
     isLoading: boolean;
 }
+
+const ID_FIELD_TYPES: Record<string, 'songs' | 'albums' | 'artists' | 'playlists' | 'auto'> = {
+    pids: 'songs',
+    albumid: 'albums',
+    artistId: 'artists',
+    lyrics_id: 'songs',
+};
 
 const ParameterForm = ({ params, values, onChange, onSubmit, isLoading }: ParameterFormProps) => {
     if (params.length === 0) {
@@ -22,6 +30,8 @@ const ParameterForm = ({ params, values, onChange, onSubmit, isLoading }: Parame
             onSubmit();
         }
     };
+
+    const inputClassName = "w-full px-3 py-2.5 rounded-lg bg-white/[0.05] border border-white/[0.08] text-gray-200 text-sm font-mono placeholder-gray-600 focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 outline-none";
 
     return (
         <div className="space-y-4">
@@ -57,7 +67,16 @@ const ParameterForm = ({ params, values, onChange, onSubmit, isLoading }: Parame
                                 onKeyDown={handleKeyDown}
                                 placeholder={param.placeholder}
                                 min="1"
-                                className="w-full px-3 py-2.5 rounded-lg bg-white/[0.05] border border-white/[0.08] text-gray-200 text-sm font-mono placeholder-gray-600 focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 outline-none"
+                                className={inputClassName}
+                            />
+                        ) : ID_FIELD_TYPES[param.name] ? (
+                            <IdAutocomplete
+                                value={values[param.name] || ''}
+                                onChange={(value) => onChange(param.name, value)}
+                                onKeyDown={handleKeyDown}
+                                placeholder={param.placeholder}
+                                idType={ID_FIELD_TYPES[param.name]}
+                                className={inputClassName}
                             />
                         ) : (
                             <input
@@ -66,7 +85,7 @@ const ParameterForm = ({ params, values, onChange, onSubmit, isLoading }: Parame
                                 onChange={(e) => onChange(param.name, e.target.value)}
                                 onKeyDown={handleKeyDown}
                                 placeholder={param.placeholder}
-                                className="w-full px-3 py-2.5 rounded-lg bg-white/[0.05] border border-white/[0.08] text-gray-200 text-sm font-mono placeholder-gray-600 focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/30 transition-all duration-200 outline-none"
+                                className={inputClassName}
                             />
                         )}
                     </div>
