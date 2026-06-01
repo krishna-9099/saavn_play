@@ -16,6 +16,7 @@ interface ResponseViewerProps {
 const ResponseViewer = ({ data, status, duration, url, error, isLoading }: ResponseViewerProps) => {
     const [copied, setCopied] = useState(false);
     const [showRaw, setShowRaw] = useState(false);
+    const [expanded, setExpanded] = useState(true);
     const codeRef = useRef<HTMLElement>(null);
 
     const jsonString = useMemo(() => {
@@ -115,6 +116,16 @@ const ResponseViewer = ({ data, status, duration, url, error, isLoading }: Respo
                 </div>
                 <div className="flex items-center gap-2">
                     <button
+                        onClick={() => setExpanded(!expanded)}
+                        className={`px-2.5 py-1 rounded text-xs font-medium transition-all ${
+                            expanded
+                                ? 'text-gray-500 hover:text-gray-300 hover:bg-white/5'
+                                : 'bg-emerald-500/20 text-emerald-400'
+                        }`}
+                    >
+                        {expanded ? 'Show Less' : 'Show Full'}
+                    </button>
+                    <button
                         onClick={() => setShowRaw(!showRaw)}
                         className={`px-2.5 py-1 rounded text-xs font-medium transition-all ${
                             showRaw
@@ -169,7 +180,20 @@ const ResponseViewer = ({ data, status, duration, url, error, isLoading }: Respo
 
             {/* JSON display */}
             <div className="flex-1 overflow-auto min-h-0">
-                {showRaw ? (
+                {!expanded ? (
+                    <div className="p-4">
+                        <pre className="text-sm font-mono leading-relaxed text-gray-300 whitespace-pre-wrap break-all max-h-[200px] overflow-hidden relative">
+                            {jsonString.substring(0, 500)}...
+                            <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
+                        </pre>
+                        <button
+                            onClick={() => setExpanded(true)}
+                            className="mt-2 text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
+                        >
+                            Click "Show Full" to see complete response
+                        </button>
+                    </div>
+                ) : showRaw ? (
                     <pre className="p-4 text-sm font-mono leading-relaxed text-gray-300 whitespace-pre-wrap break-all">
                         {jsonString}
                     </pre>
