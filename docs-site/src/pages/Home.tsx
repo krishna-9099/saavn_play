@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { VisitorCounter } from '../components/VisitorCounter';
 import CodeBlock from '../components/ui/CodeBlock';
@@ -16,21 +17,21 @@ const Home = () => {
     const { ref: endpointsRef, isVisible: endpointsVisible } = useScrollAnimation({ threshold: 0.1 });
     const { ref: ctaRef, isVisible: ctaVisible } = useScrollAnimation({ threshold: 0.2 });
 
-    const heroStats = [
+    const heroStats = useMemo(() => [
         { label: '15+ Endpoints' },
         { label: '12+ Models' },
         { label: 'Dart 3.x' },
         { label: 'MIT License' },
-    ];
+    ], []);
 
-    const statsBar = [
+    const statsBar = useMemo(() => [
         { icon: '🔍', value: 15, suffix: '+', label: 'API Endpoints' },
         { icon: '📦', value: 12, suffix: '+', label: 'Data Models' },
         { icon: '⚡', value: 100, suffix: '%', label: 'Type Safe' },
         { icon: '⭐', value: 0, suffix: '', label: 'Open Source' },
-    ];
+    ], []);
 
-    const features = [
+    const features = useMemo(() => [
         {
             icon: (
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,9 +112,9 @@ const Home = () => {
             description: 'Access trending songs, albums, and charts with pagination support.',
             color: 'from-teal-500 to-cyan-500',
         },
-    ];
+    ], []);
 
-    const endpoints = [
+    const endpoints = useMemo(() => [
         {
             title: 'Search',
             description: 'Search across all content types',
@@ -168,9 +169,9 @@ const Home = () => {
             path: '/api/playlist',
             icon: '📋',
         },
-    ];
+    ], []);
 
-    const exampleCode = `import 'package:saavn_play/saavn_play.dart';
+    const exampleCode = useMemo(() => `import 'package:saavn_play/saavn_play.dart';
 
 void main() async {
   final client = SaavnPlayClient();
@@ -189,7 +190,7 @@ void main() async {
   // → "Malibu"
 
   client.close();
-}`;
+}`, []);
 
     return (
         <div className="min-h-screen">

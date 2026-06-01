@@ -414,6 +414,34 @@
     animation: scale-check 0.3s ease-out forwards;
 }
 
+@keyframes skeleton-pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
+.animate-skeleton-pulse {
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes toast-in {
+    0% {
+        opacity: 0;
+        transform: translateX(100%) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+.animate-toast-in {
+    animation: toast-in 0.3s ease-out forwards;
+}
+
 /* Highlight.js theme overrides - GitHub Dark style */
 .hljs {
     background: transparent !important;

@@ -132,12 +132,12 @@ const ResponseViewer = ({ data, status, duration, url, error, isLoading, isMock,
         }
     };
 
-    const formatSize = (str: string) => {
+    const formatSize = useCallback((str: string) => {
         const bytes = new Blob([str]).size;
         if (bytes < 1024) return `${bytes} B`;
         if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
         return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-    };
+    }, []);
 
     if (isLoading) {
         return (

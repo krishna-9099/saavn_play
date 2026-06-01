@@ -186,6 +186,24 @@ export const searchIndex: SearchDocument[] = [
         section: 'API Reference',
         keywords: ['error', 'exception', 'try', 'catch', 'handle', 'failure', 'status'],
     },
+
+    // Additional Pages
+    {
+        id: 'changelog',
+        title: 'Changelog',
+        description: 'Version history and release notes for saavn_play. Track new features, bug fixes, and improvements.',
+        path: '/changelog',
+        section: 'Getting Started',
+        keywords: ['changelog', 'version', 'release', 'history', 'updates', 'changes', 'what\'s new'],
+    },
+    {
+        id: 'contributing',
+        title: 'Contributing',
+        description: 'Learn how to contribute to saavn_play. Development setup, code style guidelines, and pull request process.',
+        path: '/contributing',
+        section: 'Getting Started',
+        keywords: ['contributing', 'contribute', 'development', 'setup', 'pull request', 'PR', 'code style', 'guidelines'],
+    },
 ];
 
 export default searchIndex;

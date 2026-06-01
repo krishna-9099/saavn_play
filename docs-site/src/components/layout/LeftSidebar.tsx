@@ -89,6 +89,30 @@ const LeftSidebar = ({ onNavigate }: LeftSidebarProps) => {
                 </h3>
                 <ul className="space-y-1">
                     <li>
+                        <Link
+                            to="/changelog"
+                            onClick={onNavigate}
+                            className={`sidebar-item ${isActive('/changelog') ? 'active bg-green-500/10 text-green-400 border-l-2 border-green-500' : 'hover:bg-white/5'} transition-all duration-200`}
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            <span>Changelog</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/contributing"
+                            onClick={onNavigate}
+                            className={`sidebar-item ${isActive('/contributing') ? 'active bg-green-500/10 text-green-400 border-l-2 border-green-500' : 'hover:bg-white/5'} transition-all duration-200`}
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                            <span>Contributing</span>
+                        </Link>
+                    </li>
+                    <li>
                         <a
                             href="https://github.com/krishna-9099/saavn_play"
                             target="_blank"

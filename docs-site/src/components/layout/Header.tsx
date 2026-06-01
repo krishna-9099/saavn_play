@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import SearchModal from '../ui/SearchModal';
+import { useThrottle } from '../../hooks/useThrottle';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -11,7 +12,9 @@ interface HeaderProps {
 const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProps) => {
   const location = useLocation();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const throttledScrollY = useThrottle(scrollY, 100);
+  const isScrolled = throttledScrollY > 10;
 
   const navLinks = [
     { path: '/', label: 'Home' },
@@ -31,9 +34,9 @@ const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProp
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      setScrollY(window.scrollY);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 

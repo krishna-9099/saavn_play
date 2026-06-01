@@ -1,18 +1,24 @@
+import { Suspense, lazy } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Layout from './components/layout/Layout';
-import Home from './pages/Home';
-import Installation from './pages/Installation';
-import ApiReference from './pages/ApiReference';
-import Examples from './pages/Examples';
-import Playground from './pages/Playground';
-import SearchEndpoint from './pages/endpoints/SearchEndpoint';
-import SongEndpoint from './pages/endpoints/SongEndpoint';
-import AlbumEndpoint from './pages/endpoints/AlbumEndpoint';
-import ArtistEndpoint from './pages/endpoints/ArtistEndpoint';
-import HomeEndpoint from './pages/endpoints/HomeEndpoint';
-import PodcastEndpoint from './pages/endpoints/PodcastEndpoint';
-import RadioEndpoint from './pages/endpoints/RadioEndpoint';
-import Models from './pages/Models';
+import CommandPalette from './components/ui/CommandPalette';
+import LoadingFallback from './components/ui/LoadingFallback';
+
+const Home = lazy(() => import('./pages/Home'));
+const Installation = lazy(() => import('./pages/Installation'));
+const ApiReference = lazy(() => import('./pages/ApiReference'));
+const Examples = lazy(() => import('./pages/Examples'));
+const Playground = lazy(() => import('./pages/Playground'));
+const SearchEndpoint = lazy(() => import('./pages/endpoints/SearchEndpoint'));
+const SongEndpoint = lazy(() => import('./pages/endpoints/SongEndpoint'));
+const AlbumEndpoint = lazy(() => import('./pages/endpoints/AlbumEndpoint'));
+const ArtistEndpoint = lazy(() => import('./pages/endpoints/ArtistEndpoint'));
+const HomeEndpoint = lazy(() => import('./pages/endpoints/HomeEndpoint'));
+const PodcastEndpoint = lazy(() => import('./pages/endpoints/PodcastEndpoint'));
+const RadioEndpoint = lazy(() => import('./pages/endpoints/RadioEndpoint'));
+const Models = lazy(() => import('./pages/Models'));
+const Changelog = lazy(() => import('./pages/Changelog'));
+const Contributing = lazy(() => import('./pages/Contributing'));
 
 function App() {
   const location = useLocation();
@@ -20,23 +26,30 @@ function App() {
   const isPlayground = location.pathname === '/playground';
 
   return (
-    <Layout hideSidebars={isHomePage || isPlayground}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/installation" element={<Installation />} />
-        <Route path="/api-reference" element={<ApiReference />} />
-        <Route path="/examples" element={<Examples />} />
-        <Route path="/playground" element={<Playground />} />
-        <Route path="/api/search" element={<SearchEndpoint />} />
-        <Route path="/api/song" element={<SongEndpoint />} />
-        <Route path="/api/album" element={<AlbumEndpoint />} />
-        <Route path="/api/artist" element={<ArtistEndpoint />} />
-        <Route path="/api/home" element={<HomeEndpoint />} />
-        <Route path="/api/podcast" element={<PodcastEndpoint />} />
-        <Route path="/api/radio" element={<RadioEndpoint />} />
-        <Route path="/models" element={<Models />} />
-      </Routes>
-    </Layout>
+    <>
+      <CommandPalette />
+      <Layout hideSidebars={isHomePage || isPlayground}>
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/installation" element={<Installation />} />
+            <Route path="/api-reference" element={<ApiReference />} />
+            <Route path="/examples" element={<Examples />} />
+            <Route path="/playground" element={<Playground />} />
+            <Route path="/api/search" element={<SearchEndpoint />} />
+            <Route path="/api/song" element={<SongEndpoint />} />
+            <Route path="/api/album" element={<AlbumEndpoint />} />
+            <Route path="/api/artist" element={<ArtistEndpoint />} />
+            <Route path="/api/home" element={<HomeEndpoint />} />
+            <Route path="/api/podcast" element={<PodcastEndpoint />} />
+            <Route path="/api/radio" element={<RadioEndpoint />} />
+            <Route path="/models" element={<Models />} />
+            <Route path="/changelog" element={<Changelog />} />
+            <Route path="/contributing" element={<Contributing />} />
+          </Routes>
+        </Suspense>
+      </Layout>
+    </>
   );
 }
 

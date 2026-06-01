@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useDebounce } from '../../hooks/useDebounce';
 
 interface ResponseSearchProps {
     onSearch: (query: string) => void;
@@ -10,11 +11,16 @@ interface ResponseSearchProps {
 
 const ResponseSearch = ({ onSearch, onNavigate, matchCount, currentMatch, onClose }: ResponseSearchProps) => {
     const [query, setQuery] = useState('');
+    const debouncedQuery = useDebounce(query, 300);
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         inputRef.current?.focus();
     }, []);
+
+    useEffect(() => {
+        onSearch(debouncedQuery);
+    }, [debouncedQuery, onSearch]);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -31,10 +37,8 @@ const ResponseSearch = ({ onSearch, onNavigate, matchCount, currentMatch, onClos
     }, [onClose, onNavigate]);
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setQuery(value);
-        onSearch(value);
-    }, [onSearch]);
+        setQuery(e.target.value);
+    }, []);
 
     return (
         <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] border-b border-white/[0.08]">

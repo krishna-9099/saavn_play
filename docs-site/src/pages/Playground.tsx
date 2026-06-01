@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import EndpointSelector from '../components/playground/EndpointSelector';
 import ParameterForm from '../components/playground/ParameterForm';
 import ResponseViewer from '../components/playground/ResponseViewer';
@@ -81,7 +81,7 @@ const Playground = () => {
     const [isMockResponse, setIsMockResponse] = useState(false);
     const responseRef = useRef<HTMLDivElement>(null);
 
-    const endpoint = getEndpointById(selectedEndpointId);
+    const endpoint = useMemo(() => getEndpointById(selectedEndpointId), [selectedEndpointId]);
 
     // Parse URL params on mount to restore shared request
     useEffect(() => {
@@ -311,7 +311,7 @@ const Playground = () => {
     }, []);
 
     // Keyboard shortcuts
-    const shortcuts: Shortcut[] = [
+    const shortcuts: Shortcut[] = useMemo(() => [
         {
             key: 'Enter',
             ctrl: true,
@@ -348,7 +348,7 @@ const Playground = () => {
             description: 'Close modal/search',
             action: () => setShowShortcutsHelp(false),
         },
-    ];
+    ], [handleSendRequest, handleFocusSearch, handleCopyUrl, handleClearResponse]);
 
     const { lastTriggered } = useKeyboardShortcuts({ shortcuts });
 

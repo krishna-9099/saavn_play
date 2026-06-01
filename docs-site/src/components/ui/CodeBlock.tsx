@@ -55,8 +55,8 @@ const CodeBlock = ({
         }
     };
 
-    const lines = code.split('\n');
-    const lineNumberWidth = String(lines.length).length * 0.6 + 1;
+    const lines = useMemo(() => code.split('\n'), [code]);
+    const lineNumberWidth = useMemo(() => String(lines.length).length * 0.6 + 1, [lines]);
 
     return (
         <div className="relative group rounded-xl overflow-hidden bg-white/[0.05] backdrop-blur-[10px] border border-white/[0.1] shadow-xl">

@@ -3,6 +3,7 @@ import Header from './Header';
 import LeftSidebar from './LeftSidebar';
 import RightSidebar from './RightSidebar';
 import Footer from './Footer';
+import Breadcrumbs from '../ui/Breadcrumbs';
 import { spacing } from '../../theme';
 
 interface LayoutProps {
@@ -62,6 +63,7 @@ const Layout = ({ children, hideSidebars = false }: LayoutProps) => {
 
         <main className="flex-1 min-w-0 overflow-x-hidden">
           <div className={`${hideSidebars ? 'max-w-7xl' : 'max-w-4xl'} mx-auto px-4 sm:px-6 lg:px-8 py-8`}>
+            {!hideSidebars && <Breadcrumbs />}
             {children}
           </div>
         </main>
