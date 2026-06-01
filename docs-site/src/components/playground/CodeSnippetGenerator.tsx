@@ -1,16 +1,8 @@
 import { useState, useMemo } from 'react';
 import hljs from 'highlight.js/lib/core';
 import dart from 'highlight.js/lib/languages/dart';
-import javascript from 'highlight.js/lib/languages/javascript';
-import python from 'highlight.js/lib/languages/python';
-import bash from 'highlight.js/lib/languages/bash';
 
 hljs.registerLanguage('dart', dart);
-hljs.registerLanguage('javascript', javascript);
-hljs.registerLanguage('python', python);
-hljs.registerLanguage('bash', bash);
-
-type Language = 'dart' | 'javascript' | 'python' | 'curl';
 
 interface CodeSnippetGeneratorProps {
     url: string;
@@ -19,16 +11,7 @@ interface CodeSnippetGeneratorProps {
     call: string;
 }
 
-const languageConfig: Record<Language, { label: string; icon: string; language: string }> = {
-    dart: { label: 'Dart', icon: '🎯', language: 'dart' },
-    javascript: { label: 'JavaScript', icon: 'JS', language: 'javascript' },
-    python: { label: 'Python', icon: '🐍', language: 'python' },
-    curl: { label: 'cURL', icon: '$', language: 'bash' },
-};
-
 const generateDartSnippet = (_endpointName: string, call: string, params: Record<string, string>): string => {
-    const methodName = call.split('.').pop() || 'getResults';
-    
     const searchEndpoints = ['search.getResults', 'search.getAlbumResults', 'search.getArtistResults', 'search.getPlaylistResults'];
     const isSearch = searchEndpoints.includes(call);
     
@@ -58,11 +41,11 @@ void main() async {
 
 void main() async {
   final client = SaavnPlayClient();
-  final song = await client.songs.details('${pids}');
+  final song = await client.songs.detailsById(['${pids}']);
   
-  print('Title: \${song.title}');
-  print('Album: \${song.album.name}');
-  print('Duration: \${song.duration}s');
+  print('Title: \${song['title']}');
+  print('Album: \${song['more_info']['album']}');
+  print('Duration: \${song['more_info']['duration']}s');
   
   client.close();
 }`;
@@ -74,14 +57,16 @@ void main() async {
 
 void main() async {
   final client = SaavnPlayClient();
-  final album = await client.albums.details('${albumid}');
+  final album = await client.albums.detailsById('${albumid}');
   
-  print('Album: \${album.name}');
-  print('Artist: \${album.artist}');
-  print('Songs: \${album.songs.length}');
+  print('Album: \${album['title']}');
+  print('Artist: \${album['primary_artists']}');
   
-  for (final song in album.songs) {
-    print('  - \${song.title}');
+  final songs = album['songs'] as List<dynamic>? ?? [];
+  print('Songs: \${songs.length}');
+  
+  for (final song in songs) {
+    print('  - \${song['song'] ?? song['title']}');
   }
   
   client.close();
@@ -94,11 +79,12 @@ void main() async {
 
 void main() async {
   final client = SaavnPlayClient();
-  final artist = await client.artists.details('${artistId}');
+  final artist = await client.artists.getArtistPageDetails('${artistId}');
   
   print('Artist: \${artist.name}');
+  print('Followers: \${artist.followerCount}');
   print('Top Songs: \${artist.topSongs.length}');
-  print('Albums: \${artist.albums.length}');
+  print('Albums: \${artist.topAlbums.length}');
   
   client.close();
 }`;
@@ -110,9 +96,44 @@ void main() async {
 
 void main() async {
   final client = SaavnPlayClient();
-  final lyrics = await client.songs.lyrics('${lyricsId}');
+  final lyrics = await client.lyrics.get('${lyricsId}');
   
   print(lyrics.lyrics);
+  
+  client.close();
+}`;
+    }
+    
+    if (call === 'webapi.getLaunchData') {
+        return `import 'package:saavn_play/saavn_play.dart';
+
+void main() async {
+  final client = SaavnPlayClient();
+  final homeData = await client.home.getLaunchData();
+  
+  print('Trending: \${homeData.newTrending?.length ?? 0}');
+  print('Top Playlists: \${homeData.topPlaylists?.length ?? 0}');
+  print('Charts: \${homeData.charts?.length ?? 0}');
+  
+  client.close();
+}`;
+    }
+    
+    if (call === 'content.getFeaturedPlaylists') {
+        const limit = params.n || '10';
+        const page = params.p || '1';
+        return `import 'package:saavn_play/saavn_play.dart';
+
+void main() async {
+  final client = SaavnPlayClient();
+  final playlists = await client.featuredPlaylists.getFeaturedPlaylists(
+    n: ${limit},
+    p: ${page},
+  );
+  
+  for (final playlist in playlists.data) {
+    print('\${playlist.listname} - \${playlist.listid}');
+  }
   
   client.close();
 }`;
@@ -122,78 +143,30 @@ void main() async {
 
 void main() async {
   final client = SaavnPlayClient();
-  final result = await client.${methodName}(${Object.entries(params).filter(([_, v]) => v).map(([_, v]) => `'${v}'`).join(', ')});
-  
-  print(result);
+  // TODO: Add your code here
   
   client.close();
 }`;
 };
 
-const generateJavaScriptSnippet = (_url: string): string => {
-    return `const url = '${_url}';
-
-const response = await fetch(url);
-const data = await response.json();
-console.log(data);`;
-};
-
-const generatePythonSnippet = (_url: string, params: Record<string, string>): string => {
-    void _url;
-    const baseUrl = 'https://www.jiosaavn.com/api.php';
-    const allParams: Record<string, string> = {
-        '_format': 'json',
-        '_marker': '0',
-        'ctx': 'web6dot0',
-        'api_version': '4',
-        ...params,
-    };
-    
-    const paramsEntries = Object.entries(allParams)
-        .filter(([_, v]) => v !== '')
-        .map(([key, value]) => `    "${key}": "${value}"`)
-        .join(',\n');
-    
-    return `import requests
-
-url = "${baseUrl}"
-params = {
-${paramsEntries}
-}
-
-response = requests.get(url, params=params)
-data = response.json()
-print(data)`;
-};
-
-const generateCurlSnippet = (url: string): string => {
-    return `curl -X GET "${url}"`;
-};
-
 const CodeSnippetGenerator = ({ url, endpointName, params, call }: CodeSnippetGeneratorProps) => {
-    const [activeLanguage, setActiveLanguage] = useState<Language>('dart');
     const [copied, setCopied] = useState(false);
 
-    const snippets = useMemo(() => ({
-        dart: generateDartSnippet(endpointName, call, params),
-        javascript: generateJavaScriptSnippet(url),
-        python: generatePythonSnippet(url, params),
-        curl: generateCurlSnippet(url),
-    }), [url, endpointName, params, call]);
+    const snippet = useMemo(() => {
+        return generateDartSnippet(endpointName, call, params);
+    }, [url, endpointName, params, call]);
 
     const highlightedCode = useMemo(() => {
-        const snippet = snippets[activeLanguage];
-        const lang = languageConfig[activeLanguage].language;
         try {
-            return hljs.highlight(snippet, { language: lang }).value;
+            return hljs.highlight(snippet, { language: 'dart' }).value;
         } catch {
             return snippet;
         }
-    }, [snippets, activeLanguage]);
+    }, [snippet]);
 
     const handleCopy = async () => {
         try {
-            await navigator.clipboard.writeText(snippets[activeLanguage]);
+            await navigator.clipboard.writeText(snippet);
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
         } catch (err) {
@@ -203,24 +176,12 @@ const CodeSnippetGenerator = ({ url, endpointName, params, call }: CodeSnippetGe
 
     return (
         <div className="flex flex-col h-full">
-            {/* Language tabs */}
-            <div className="flex items-center gap-1 px-4 py-3 bg-white/[0.03] border-b border-white/[0.08] flex-shrink-0">
-                {(Object.keys(languageConfig) as Language[]).map((lang) => (
-                    <button
-                        key={lang}
-                        onClick={() => setActiveLanguage(lang)}
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                            activeLanguage === lang
-                                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                                : 'text-gray-500 hover:text-gray-300 hover:bg-white/5 border border-transparent'
-                        }`}
-                    >
-                        <span className="text-[10px] font-mono">{languageConfig[lang].icon}</span>
-                        {languageConfig[lang].label}
-                    </button>
-                ))}
-                
-                <div className="flex-1" />
+            {/* Header */}
+            <div className="flex items-center justify-between px-4 py-3 bg-white/[0.03] border-b border-white/[0.08] flex-shrink-0">
+                <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono text-emerald-400">Dart</span>
+                    <span className="text-xs text-gray-500">using saavn_play package</span>
+                </div>
                 
                 <button
                     onClick={handleCopy}
@@ -252,7 +213,7 @@ const CodeSnippetGenerator = ({ url, endpointName, params, call }: CodeSnippetGe
             <div className="flex-1 overflow-auto min-h-0">
                 <pre className="p-4 text-sm font-mono leading-relaxed">
                     <code
-                        className={`language-${languageConfig[activeLanguage].language}`}
+                        className="language-dart"
                         dangerouslySetInnerHTML={{ __html: highlightedCode }}
                     />
                 </pre>
