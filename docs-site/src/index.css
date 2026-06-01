@@ -38,6 +38,15 @@
     *:focus {
         @apply outline-none ring-2 ring-green-500 ring-offset-2 ring-offset-background-dark;
     }
+
+    /* Skip to content link - hidden until focused via keyboard */
+    .skip-to-content {
+        @apply absolute -top-full left-4 z-[100] px-4 py-2 bg-green-500 text-white font-medium rounded-b-lg transition-all duration-200;
+    }
+
+    .skip-to-content:focus {
+        @apply top-0;
+    }
 }
 
 /* Custom component styles */
