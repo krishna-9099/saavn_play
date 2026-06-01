@@ -1,4 +1,5 @@
 import CodeBlock from '../../components/ui/CodeBlock';
+import GlassCard from '../../components/ui/GlassCard';
 
 const PlaylistEndpoint = () => {
     const getPlaylistExample = `import 'package:saavn_play/saavn_play.dart';
@@ -7,18 +8,11 @@ void main() async {
   final client = SaavnPlayClient();
 
   // Get playlist details by ID
-  final playlist = await client.playlist.detailsById('playlist_id');
-  
+  final playlist = await client.playlists.detailsById('playlist_id');
+
   print('Playlist: \${playlist.name}');
-  print('Description: \${playlist.description}');
-  print('Song Count: \${playlist.songCount}');
-  print('');
-  
-  // List all songs
-  print('Songs:');
-  for (final song in playlist.songs ?? []) {
-    print('  \${song.name} - \${song.primaryArtists}');
-  }
+  print('Songs: \${playlist.songs.length}');
+  print('Followers: \${playlist.followerCount}');
 
   client.close();
 }`;
@@ -26,32 +20,34 @@ void main() async {
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-white mb-4">Playlist API</h1>
+                <h1 className="text-3xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">Playlist</span> API
+                </h1>
                 <p className="text-gray-400 text-lg">
-                    Retrieve playlist information including all songs and metadata.
+                    Retrieve playlist details with songs and metadata.
                 </p>
             </div>
 
             {/* Overview */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="overview" className="text-2xl font-bold text-white mb-4">
-                    Overview
+                    <span className="text-emerald-500">Overview</span>
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    The Playlist API provides methods to retrieve playlist details by ID.
+                    The Playlist API provides methods to retrieve playlist details and songs.
                 </p>
-                <div className="p-4 rounded-xl bg-background-darker border border-border">
-                    <pre className="text-sm text-gray-300">
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+                    <pre className="text-sm text-gray-300 font-mono">
                         {`// Available playlist methods
-client.playlist.detailsById(id)  // Get playlist details by ID`}
+client.playlists.detailsById(id)  // Get playlist details by ID`}
                     </pre>
                 </div>
-            </section>
+            </GlassCard>
 
             {/* Get Playlist Details */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="get-details" className="text-2xl font-bold text-white mb-4">
-                    Get Playlist Details
+                    <span className="text-emerald-500">Get</span> Playlist Details
                 </h2>
                 <p className="text-gray-400 mb-4">
                     Retrieve detailed information about a playlist including all songs.
@@ -62,43 +58,43 @@ client.playlist.detailsById(id)  // Get playlist details by ID`}
                     title="get_playlist.dart"
                     showLineNumbers
                 />
-            </section>
+            </GlassCard>
 
             {/* Parameters */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="parameters" className="text-2xl font-bold text-white mb-4">
-                    Parameters
+                    <span className="text-emerald-500">Parameters</span>
                 </h2>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="border-b border-border">
-                                <th className="py-3 px-4 text-gray-300 font-semibold">Parameter</th>
-                                <th className="py-3 px-4 text-gray-300 font-semibold">Type</th>
-                                <th className="py-3 px-4 text-gray-300 font-semibold">Description</th>
+                            <tr className="border-b border-white/10">
+                                <th className="py-3 px-4 text-emerald-400 font-semibold">Parameter</th>
+                                <th className="py-3 px-4 text-emerald-400 font-semibold">Type</th>
+                                <th className="py-3 px-4 text-emerald-400 font-semibold">Description</th>
                             </tr>
                         </thead>
                         <tbody className="text-gray-400">
-                            <tr className="border-b border-border">
-                                <td className="py-3 px-4"><code className="text-primary-400">id</code></td>
-                                <td className="py-3 px-4"><code className="text-secondary-400">String</code></td>
+                            <tr className="border-b border-white/[0.05] hover:bg-white/[0.02] transition-colors">
+                                <td className="py-3 px-4"><code className="text-emerald-400 font-mono text-sm">id</code></td>
+                                <td className="py-3 px-4"><code className="text-cyan-400 font-mono text-sm">String</code></td>
                                 <td className="py-3 px-4">The playlist ID</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </section>
+            </GlassCard>
 
             {/* Response */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="response" className="text-2xl font-bold text-white mb-4">
-                    Response
+                    <span className="text-emerald-500">Response</span>
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Returns a <code className="text-primary-400">Playlist</code> object with all songs included.
+                    Returns a <code className="text-emerald-400 font-mono text-sm">Playlist</code> object with songs, metadata, and creator information.
                     See the Models documentation for detailed field information.
                 </p>
-            </section>
+            </GlassCard>
         </div>
     );
 };

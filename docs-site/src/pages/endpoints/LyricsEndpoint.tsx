@@ -1,4 +1,5 @@
 import CodeBlock from '../../components/ui/CodeBlock';
+import GlassCard from '../../components/ui/GlassCard';
 
 const LyricsEndpoint = () => {
     const getLyricsExample = `import 'package:saavn_play/saavn_play.dart';
@@ -7,18 +8,11 @@ void main() async {
   final client = SaavnPlayClient();
 
   // Get lyrics for a song
-  final lyrics = await client.lyrics.get('song_id');
-  
-  print('Lyrics:');
-  print(lyrics.text);
+  final lyrics = await client.songs.getLyrics(songId: '5WXAlMNt');
 
-  // Check if synced lyrics are available
-  if (lyrics.synced) {
-    print('\\nSynced Lyrics:');
-    for (final line in lyrics.syncedLyrics ?? []) {
-      print('[\${line.timestamp}] \${line.text}');
-    }
-  }
+  print('Lyrics ID: \${lyrics.id}');
+  print('Synced: \${lyrics.synced}');
+  print('Lyrics: \${lyrics.text}');
 
   client.close();
 }`;
@@ -26,36 +20,37 @@ void main() async {
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-white mb-4">Lyrics API</h1>
+                <h1 className="text-3xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">Lyrics</span> API
+                </h1>
                 <p className="text-gray-400 text-lg">
-                    Retrieve song lyrics including synced lyrics for karaoke-style display.
+                    Retrieve song lyrics with optional sync information.
                 </p>
             </div>
 
             {/* Overview */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="overview" className="text-2xl font-bold text-white mb-4">
-                    Overview
+                    <span className="text-emerald-500">Overview</span>
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    The Lyrics API provides methods to retrieve lyrics for songs, including
-                    time-synced lyrics when available.
+                    The Lyrics API is accessed through the Song API and provides lyrics data for songs.
                 </p>
-                <div className="p-4 rounded-xl bg-background-darker border border-border">
-                    <pre className="text-sm text-gray-300">
-                        {`// Available lyrics methods
-client.lyrics.get(songId)  // Get lyrics for a song`}
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+                    <pre className="text-sm text-gray-300 font-mono">
+                        {`// Lyrics method
+client.songs.getLyrics(songId: id)  // Get song lyrics`}
                     </pre>
                 </div>
-            </section>
+            </GlassCard>
 
             {/* Get Lyrics */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="get-lyrics" className="text-2xl font-bold text-white mb-4">
-                    Get Lyrics
+                    <span className="text-emerald-500">Get</span> Lyrics
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Retrieve lyrics for a specific song by ID.
+                    Retrieve lyrics for a specific song. Returns both plain text and synced lyrics (if available).
                 </p>
                 <CodeBlock
                     code={getLyricsExample}
@@ -63,47 +58,43 @@ client.lyrics.get(songId)  // Get lyrics for a song`}
                     title="get_lyrics.dart"
                     showLineNumbers
                 />
-            </section>
+            </GlassCard>
 
             {/* Parameters */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="parameters" className="text-2xl font-bold text-white mb-4">
-                    Parameters
+                    <span className="text-emerald-500">Parameters</span>
                 </h2>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="border-b border-border">
-                                <th className="py-3 px-4 text-gray-300 font-semibold">Parameter</th>
-                                <th className="py-3 px-4 text-gray-300 font-semibold">Type</th>
-                                <th className="py-3 px-4 text-gray-300 font-semibold">Description</th>
+                            <tr className="border-b border-white/10">
+                                <th className="py-3 px-4 text-emerald-400 font-semibold">Parameter</th>
+                                <th className="py-3 px-4 text-emerald-400 font-semibold">Type</th>
+                                <th className="py-3 px-4 text-emerald-400 font-semibold">Description</th>
                             </tr>
                         </thead>
                         <tbody className="text-gray-400">
-                            <tr className="border-b border-border">
-                                <td className="py-3 px-4"><code className="text-primary-400">songId</code></td>
-                                <td className="py-3 px-4"><code className="text-secondary-400">String</code></td>
+                            <tr className="border-b border-white/[0.05] hover:bg-white/[0.02] transition-colors">
+                                <td className="py-3 px-4"><code className="text-emerald-400 font-mono text-sm">songId</code></td>
+                                <td className="py-3 px-4"><code className="text-cyan-400 font-mono text-sm">String</code></td>
                                 <td className="py-3 px-4">The song ID to get lyrics for</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </section>
+            </GlassCard>
 
             {/* Response */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="response" className="text-2xl font-bold text-white mb-4">
-                    Response
+                    <span className="text-emerald-500">Response</span>
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Returns a <code className="text-primary-400">Lyrics</code> object containing:
+                    Returns a <code className="text-emerald-400 font-mono text-sm">Lyrics</code> object containing the lyrics text,
+                    sync status, and optional synced lyrics with timestamps.
                 </p>
-                <ul className="list-disc list-inside text-gray-400 space-y-2">
-                    <li><code className="text-secondary-400">text</code> - Plain text lyrics</li>
-                    <li><code className="text-secondary-400">synced</code> - Whether synced lyrics are available</li>
-                    <li><code className="text-secondary-400">syncedLyrics</code> - List of synced lines with timestamps</li>
-                </ul>
-            </section>
+            </GlassCard>
         </div>
     );
 };

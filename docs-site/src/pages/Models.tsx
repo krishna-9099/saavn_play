@@ -1,6 +1,14 @@
+import { useState } from 'react';
 import CodeBlock from '../components/ui/CodeBlock';
+import GlassCard from '../components/ui/GlassCard';
 
 const Models = () => {
+    const [expandedModel, setExpandedModel] = useState<string | null>('song');
+
+    const toggleModel = (id: string) => {
+        setExpandedModel(expandedModel === id ? null : id);
+    };
+
     const songModelExample = `class Song {
   final String id;
   final String name;
@@ -65,118 +73,123 @@ const Models = () => {
   final List<Playlist> playlists;
 }`;
 
+    const models = [
+        {
+            id: 'song',
+            title: 'Song',
+            description: 'Represents a song with all its metadata including audio URLs, album info, and artist details.',
+            code: songModelExample,
+        },
+        {
+            id: 'album',
+            title: 'Album',
+            description: 'Represents an album with track listing, artist information, and cover art.',
+            code: albumModelExample,
+        },
+        {
+            id: 'artist',
+            title: 'Artist',
+            description: 'Represents an artist with biography, top songs, albums, and similar artists.',
+            code: artistModelExample,
+        },
+        {
+            id: 'playlist',
+            title: 'Playlist',
+            description: 'Represents a playlist with songs, metadata, and creator information.',
+            code: playlistModelExample,
+        },
+        {
+            id: 'search-result',
+            title: 'SearchResult',
+            description: 'Container for search results containing songs, albums, artists, and playlists.',
+            code: searchResultExample,
+        },
+    ];
+
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-white mb-4">Data Models</h1>
+                <h1 className="text-3xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">Data</span> Models
+                </h1>
                 <p className="text-gray-400 text-lg">
                     All API responses are strongly typed using Dart models. Here's a reference of the available models.
                 </p>
             </div>
 
-            {/* Song Model */}
-            <section>
-                <h2 id="song" className="text-2xl font-bold text-white mb-4">
-                    Song
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Represents a song with all its metadata including audio URLs, album info, and artist details.
-                </p>
-                <CodeBlock
-                    code={songModelExample}
-                    language="dart"
-                    title="song.dart"
-                />
-            </section>
-
-            {/* Album Model */}
-            <section>
-                <h2 id="album" className="text-2xl font-bold text-white mb-4">
-                    Album
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Represents an album with track listing, artist information, and cover art.
-                </p>
-                <CodeBlock
-                    code={albumModelExample}
-                    language="dart"
-                    title="album.dart"
-                />
-            </section>
-
-            {/* Artist Model */}
-            <section>
-                <h2 id="artist" className="text-2xl font-bold text-white mb-4">
-                    Artist
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Represents an artist with biography, top songs, albums, and similar artists.
-                </p>
-                <CodeBlock
-                    code={artistModelExample}
-                    language="dart"
-                    title="artist.dart"
-                />
-            </section>
-
-            {/* Playlist Model */}
-            <section>
-                <h2 id="playlist" className="text-2xl font-bold text-white mb-4">
-                    Playlist
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Represents a playlist with songs, metadata, and creator information.
-                </p>
-                <CodeBlock
-                    code={playlistModelExample}
-                    language="dart"
-                    title="playlist.dart"
-                />
-            </section>
-
-            {/* Search Result Model */}
-            <section>
-                <h2 id="search-result" className="text-2xl font-bold text-white mb-4">
-                    SearchResult
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Container for search results containing songs, albums, artists, and playlists.
-                </p>
-                <CodeBlock
-                    code={searchResultExample}
-                    language="dart"
-                    title="search.dart"
-                />
-            </section>
+            {/* Model Accordions */}
+            <div className="space-y-4">
+                {models.map((model) => (
+                    <GlassCard key={model.id} className="overflow-hidden" hover={false}>
+                        <button
+                            onClick={() => toggleModel(model.id)}
+                            className="w-full px-6 py-4 flex items-center justify-between text-left transition-colors hover:bg-white/[0.02]"
+                        >
+                            <div>
+                                <h2 className="text-xl font-bold text-white">
+                                    <span className="text-emerald-500">{model.title}</span>
+                                </h2>
+                                <p className="text-gray-400 text-sm mt-1">{model.description}</p>
+                            </div>
+                            <svg
+                                className={`w-5 h-5 text-emerald-400 transition-transform duration-300 ${
+                                    expandedModel === model.id ? 'rotate-180' : ''
+                                }`}
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        {expandedModel === model.id && (
+                            <div className="px-6 pb-4 animate-fade-in">
+                                <CodeBlock
+                                    code={model.code}
+                                    language="dart"
+                                    title={`${model.id}.dart`}
+                                />
+                            </div>
+                        )}
+                    </GlassCard>
+                ))}
+            </div>
 
             {/* Common Models */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="common" className="text-2xl font-bold text-white mb-4">
-                    Common Models
+                    <span className="text-emerald-500">Common</span> Models
                 </h2>
 
-                <h3 className="text-lg font-semibold text-white mb-2">Image</h3>
-                <p className="text-gray-400 mb-2">
-                    Represents an image with different quality levels.
-                </p>
-                <div className="p-4 rounded-xl bg-background-darker border border-border mb-4">
-                    <pre className="text-sm text-gray-300">
-                        {`class Image {
+                <div className="space-y-6">
+                    <div>
+                        <h3 className="text-lg font-semibold text-white mb-2">
+                            <span className="text-emerald-400">Image</span>
+                        </h3>
+                        <p className="text-gray-400 mb-3">
+                            Represents an image with different quality levels.
+                        </p>
+                        <CodeBlock
+                            code={`class Image {
   final String url;
   final String? quality; // 'low', 'medium', 'high'
   final int? width;
   final int? height;
 }`}
-                    </pre>
-                </div>
+                            language="dart"
+                            title="image.dart"
+                        />
+                    </div>
 
-                <h3 className="text-lg font-semibold text-white mb-2">Lyrics</h3>
-                <p className="text-gray-400 mb-2">
-                    Represents song lyrics with optional sync information.
-                </p>
-                <div className="p-4 rounded-xl bg-background-darker border border-border">
-                    <pre className="text-sm text-gray-300">
-                        {`class Lyrics {
+                    <div>
+                        <h3 className="text-lg font-semibold text-white mb-2">
+                            <span className="text-emerald-400">Lyrics</span>
+                        </h3>
+                        <p className="text-gray-400 mb-3">
+                            Represents song lyrics with optional sync information.
+                        </p>
+                        <CodeBlock
+                            code={`class Lyrics {
   final String id;
   final String text;
   final bool synced;
@@ -187,9 +200,12 @@ class SyncedLine {
   final Duration timestamp;
   final String text;
 }`}
-                    </pre>
+                            language="dart"
+                            title="lyrics.dart"
+                        />
+                    </div>
                 </div>
-            </section>
+            </GlassCard>
         </div>
     );
 };

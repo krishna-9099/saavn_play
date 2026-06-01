@@ -29,30 +29,27 @@ const Layout = ({ children, hideSidebars = false }: LayoutProps) => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background-dark">
-      {/* Header */}
       <Header
         onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)}
         isSidebarOpen={isSidebarOpen}
         hideSidebars={hideSidebars}
       />
 
-      {/* Main content area with sidebars */}
       <div className="flex-1 flex">
-        {/* Mobile overlay */}
         {isMobile && isSidebarOpen && (
           <div
-            className="fixed inset-0 bg-black/50 z-20 lg:hidden"
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-20 lg:hidden transition-opacity duration-300"
             onClick={() => setIsSidebarOpen(false)}
           />
         )}
 
-        {/* Left Sidebar - Global TOC */}
         {!hideSidebars && (
           <aside
             className={`
               fixed lg:sticky top-[64px] left-0 z-30 lg:z-10
               h-[calc(100vh-64px)] overflow-y-auto
-              bg-background-darker lg:bg-transparent
+              bg-background-darker/60 backdrop-blur-xl lg:bg-transparent lg:backdrop-blur-none
+              border-r border-white/5 lg:border-r-0
               transform transition-transform duration-300 ease-in-out
               lg:transform-none
               ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
@@ -63,14 +60,12 @@ const Layout = ({ children, hideSidebars = false }: LayoutProps) => {
           </aside>
         )}
 
-        {/* Main Content */}
         <main className="flex-1 min-w-0 overflow-x-hidden">
           <div className={`${hideSidebars ? 'max-w-7xl' : 'max-w-4xl'} mx-auto px-4 sm:px-6 lg:px-8 py-8`}>
             {children}
           </div>
         </main>
 
-        {/* Right Sidebar - Page TOC */}
         {!hideSidebars && (
           <aside
             className="hidden xl:block sticky top-[64px] h-[calc(100vh-64px)] overflow-y-auto"
@@ -81,7 +76,6 @@ const Layout = ({ children, hideSidebars = false }: LayoutProps) => {
         )}
       </div>
 
-      {/* Footer */}
       <Footer />
     </div>
   );

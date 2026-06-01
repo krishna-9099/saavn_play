@@ -15,7 +15,6 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const navigate = useNavigate();
 
-    // Initialize Fuse.js
     const fuse = useRef<Fuse<SearchDocument>>(
         new Fuse(searchIndex, {
             keys: [
@@ -31,7 +30,6 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
         })
     ).current;
 
-    // Focus input when modal opens
     useEffect(() => {
         if (isOpen) {
             setTimeout(() => {
@@ -43,7 +41,6 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
         }
     }, [isOpen]);
 
-    // Handle search
     useEffect(() => {
         if (query.trim() === '') {
             setResults([]);
@@ -55,7 +52,6 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
         setSelectedIndex(0);
     }, [query, fuse]);
 
-    // Handle keyboard navigation
     const handleKeyDown = useCallback(
         (e: React.KeyboardEvent) => {
             switch (e.key) {
@@ -83,13 +79,11 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
         [results, selectedIndex, navigate, onClose]
     );
 
-    // Handle result click
     const handleResultClick = (path: string) => {
         navigate(path);
         onClose();
     };
 
-    // Get section icon
     const getSectionIcon = (section: string) => {
         switch (section) {
             case 'Getting Started':
@@ -121,7 +115,6 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
         }
     };
 
-    // Get section color
     const getSectionColor = (section: string) => {
         switch (section) {
             case 'Getting Started':
@@ -129,7 +122,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
             case 'API Reference':
                 return 'text-primary-400';
             case 'Examples':
-                return 'text-green-400';
+                return 'text-emerald-400';
             case 'Models':
                 return 'text-purple-400';
             default:
@@ -141,17 +134,14 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
 
     return (
         <div className="fixed inset-0 z-50 overflow-y-auto">
-            {/* Backdrop */}
             <div
                 className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
                 onClick={onClose}
             />
 
-            {/* Modal */}
             <div className="relative min-h-screen flex items-start justify-center pt-[15vh] px-4">
-                <div className="relative w-full max-w-2xl bg-[#1a1a2e] rounded-2xl shadow-2xl border border-white/10 overflow-hidden">
-                    {/* Search Input */}
-                    <div className="flex items-center gap-3 px-4 py-4 border-b border-white/10">
+                <div className="relative w-full max-w-2xl bg-white/[0.05] backdrop-blur-[10px] rounded-2xl shadow-2xl border border-white/[0.1] overflow-hidden">
+                    <div className="flex items-center gap-3 px-4 py-4 border-b border-white/[0.08]">
                         <svg
                             className="w-5 h-5 text-gray-400 flex-shrink-0"
                             fill="none"
@@ -174,12 +164,11 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                             placeholder="Search documentation..."
                             className="flex-1 bg-transparent text-white text-lg placeholder-gray-500 outline-none"
                         />
-                        <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-gray-400 bg-white/5 rounded border border-white/10">
+                        <kbd className="hidden sm:inline-flex items-center gap-1 px-2 py-1 text-xs font-medium text-gray-400 bg-white/[0.05] rounded border border-white/[0.1]">
                             ESC
                         </kbd>
                     </div>
 
-                    {/* Results */}
                     <div className="max-h-[60vh] overflow-y-auto">
                         {query.trim() === '' ? (
                             <div className="px-4 py-12 text-center">
@@ -201,12 +190,12 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                                 </p>
                                 <div className="flex items-center justify-center gap-4 mt-4">
                                     <div className="flex items-center gap-2 text-xs text-gray-600">
-                                        <kbd className="px-1.5 py-0.5 bg-white/5 rounded border border-white/10">↑</kbd>
-                                        <kbd className="px-1.5 py-0.5 bg-white/5 rounded border border-white/10">↓</kbd>
+                                        <kbd className="px-1.5 py-0.5 bg-white/[0.05] rounded border border-white/[0.1]">↑</kbd>
+                                        <kbd className="px-1.5 py-0.5 bg-white/[0.05] rounded border border-white/[0.1]">↓</kbd>
                                         <span>to navigate</span>
                                     </div>
                                     <div className="flex items-center gap-2 text-xs text-gray-600">
-                                        <kbd className="px-1.5 py-0.5 bg-white/5 rounded border border-white/10">Enter</kbd>
+                                        <kbd className="px-1.5 py-0.5 bg-white/[0.05] rounded border border-white/[0.1]">Enter</kbd>
                                         <span>to select</span>
                                     </div>
                                 </div>
@@ -236,10 +225,11 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                                     <li key={result.id}>
                                         <button
                                             onClick={() => handleResultClick(result.path)}
-                                            className={`w-full flex items-start gap-3 px-4 py-3 text-left transition-colors ${index === selectedIndex
-                                                    ? 'bg-primary-500/10 border-l-2 border-primary-500'
-                                                    : 'hover:bg-white/5 border-l-2 border-transparent'
-                                                }`}
+                                            className={`w-full flex items-start gap-3 px-4 py-3 text-left transition-all duration-200 ${
+                                                index === selectedIndex
+                                                    ? 'bg-emerald-500/10 border-l-2 border-emerald-500'
+                                                    : 'hover:bg-white/[0.05] border-l-2 border-transparent'
+                                            }`}
                                         >
                                             <div className={`mt-0.5 ${getSectionColor(result.section)}`}>
                                                 {getSectionIcon(result.section)}
@@ -249,7 +239,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                                                     <span className="text-white font-medium truncate">
                                                         {result.title}
                                                     </span>
-                                                    <span className={`text-xs px-1.5 py-0.5 rounded ${getSectionColor(result.section)} bg-white/5`}>
+                                                    <span className={`text-xs px-1.5 py-0.5 rounded ${getSectionColor(result.section)} bg-white/[0.05]`}>
                                                         {result.section}
                                                     </span>
                                                 </div>
@@ -277,17 +267,16 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                         )}
                     </div>
 
-                    {/* Footer */}
                     {results.length > 0 && (
-                        <div className="flex items-center justify-between px-4 py-2 border-t border-white/10 bg-white/[0.02]">
+                        <div className="flex items-center justify-between px-4 py-2 border-t border-white/[0.08] bg-white/[0.02]">
                             <div className="flex items-center gap-4 text-xs text-gray-500">
                                 <div className="flex items-center gap-1">
-                                    <kbd className="px-1.5 py-0.5 bg-white/5 rounded border border-white/10">↑</kbd>
-                                    <kbd className="px-1.5 py-0.5 bg-white/5 rounded border border-white/10">↓</kbd>
+                                    <kbd className="px-1.5 py-0.5 bg-white/[0.05] rounded border border-white/[0.1]">↑</kbd>
+                                    <kbd className="px-1.5 py-0.5 bg-white/[0.05] rounded border border-white/[0.1]">↓</kbd>
                                     <span className="ml-1">to navigate</span>
                                 </div>
                                 <div className="flex items-center gap-1">
-                                    <kbd className="px-1.5 py-0.5 bg-white/5 rounded border border-white/10">Enter</kbd>
+                                    <kbd className="px-1.5 py-0.5 bg-white/[0.05] rounded border border-white/[0.1]">Enter</kbd>
                                     <span className="ml-1">to select</span>
                                 </div>
                             </div>

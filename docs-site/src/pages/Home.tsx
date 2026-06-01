@@ -1,8 +1,35 @@
 import { Link } from 'react-router-dom';
 import { VisitorCounter } from '../components/VisitorCounter';
 import CodeBlock from '../components/ui/CodeBlock';
+import GradientMesh from '../components/ui/GradientMesh';
+import ParticleBackground from '../components/ui/ParticleBackground';
+import GlassCard from '../components/ui/GlassCard';
+import AnimatedCounter from '../components/ui/AnimatedCounter';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const Home = () => {
+    const { ref: heroRef, isVisible: heroVisible } = useScrollAnimation({ threshold: 0.1 });
+    const { ref: statsBarRef, isVisible: statsBarVisible } = useScrollAnimation({ threshold: 0.2 });
+    const { ref: visitorRef, isVisible: visitorVisible } = useScrollAnimation({ threshold: 0.2 });
+    const { ref: quickStartRef, isVisible: quickStartVisible } = useScrollAnimation({ threshold: 0.2 });
+    const { ref: featuresRef, isVisible: featuresVisible } = useScrollAnimation({ threshold: 0.1 });
+    const { ref: endpointsRef, isVisible: endpointsVisible } = useScrollAnimation({ threshold: 0.1 });
+    const { ref: ctaRef, isVisible: ctaVisible } = useScrollAnimation({ threshold: 0.2 });
+
+    const heroStats = [
+        { label: '15+ Endpoints' },
+        { label: '12+ Models' },
+        { label: 'Dart 3.x' },
+        { label: 'MIT License' },
+    ];
+
+    const statsBar = [
+        { icon: '🔍', value: 15, suffix: '+', label: 'API Endpoints' },
+        { icon: '📦', value: 12, suffix: '+', label: 'Data Models' },
+        { icon: '⚡', value: 100, suffix: '%', label: 'Type Safe' },
+        { icon: '⭐', value: 0, suffix: '', label: 'Open Source' },
+    ];
+
     const features = [
         {
             icon: (
@@ -143,143 +170,198 @@ const Home = () => {
         },
     ];
 
-    const stats = [
-        { label: 'API Endpoints', value: '15+' },
-        { label: 'Data Models', value: '12+' },
-        { label: 'Dart SDK', value: '^3.0.0' },
-        { label: 'License', value: 'MIT' },
-    ];
-
     const exampleCode = `import 'package:saavn_play/saavn_play.dart';
 
 void main() async {
   final client = SaavnPlayClient();
 
   // Search for songs
-  final songs = await client.search.songs('Malibu - Miley Cyrus');
-  
-  // Get album details
-    final album = await client.albums.detailsById('1142502');
-  
-  // Fetch song details with lyrics
-    final songDetails = await client.songs.detailsById(['5WXAlMNt']);
+  final results = await client.search.songs(
+    'Malibu - Miley Cyrus',
+  );
 
-    // Fetch launch feed
-    final launchData = await client.home.getLaunchData();
-    print('Home sections: \${launchData.unknownSections?.keys.length ?? 0}');
+  // Get details for the first result
+  final song = await client.songs.detailsById(
+    [results.data.first.id],
+  );
+
+  print(song.data.first.name);
+  // → "Malibu"
 
   client.close();
 }`;
 
     return (
         <div className="min-h-screen">
-            {/* Hero Section */}
-            <section className="relative overflow-hidden">
-                {/* Background gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-900/20 via-background-dark to-background-dark" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary-900/30 via-transparent to-transparent" />
+            {/* Hero Section - Split Layout */}
+            <section ref={heroRef} className="relative overflow-hidden min-h-screen flex items-center">
+                <GradientMesh />
+                <ParticleBackground />
 
-                {/* Animated background elements */}
-                <div className="absolute top-20 left-10 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl animate-pulse" />
-                <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
+                {/* Decorative green glow behind code card */}
+                <div
+                    className="absolute top-1/2 right-[15%] -translate-y-1/2 w-[500px] h-[500px] rounded-full opacity-20 blur-[120px] pointer-events-none"
+                    style={{ background: 'radial-gradient(circle, #10b981, transparent 70%)', zIndex: 1 }}
+                />
 
-                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24 lg:pt-16 lg:pb-32">
-                    <div className="text-center">
-                        {/* Version badge */}
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-sm font-medium mb-8">
-                            <span className="w-2 h-2 rounded-full bg-primary-500 animate-pulse" />
-                            v1.3.0 - Latest Release
+                <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-28 lg:pt-24 lg:pb-36 w-full" style={{ zIndex: 2 }}>
+                    <div className="grid lg:grid-cols-[1.5fr_1fr] gap-12 lg:gap-16 items-center">
+                        {/* Left Side - Content */}
+                        <div className={`transition-all duration-700 ease-out ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                            {/* Version badge */}
+                            <GlassCard hover={false} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6">
+                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                                <span className="text-emerald-400 text-xs font-semibold tracking-wide">v1.3.0</span>
+                            </GlassCard>
+
+                            {/* Title */}
+                            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-4 leading-tight">
+                                <span className="bg-gradient-to-r from-emerald-400 via-emerald-300 to-green-400 bg-clip-text text-transparent">
+                                    saavn_play
+                                </span>
+                            </h1>
+
+                            {/* Tagline */}
+                            <p className="text-xl md:text-2xl text-white font-medium mb-3">
+                                The Modern Dart SDK for JioSaavn API
+                            </p>
+
+                            {/* Subtitle */}
+                            <p className="text-base md:text-lg text-gray-400 max-w-lg mb-8 leading-relaxed">
+                                A powerful, type-safe package for interacting with JioSaavn. Search music, retrieve songs, albums, playlists, and more with ease.
+                            </p>
+
+                            {/* Mini Stats Row */}
+                            <div className="flex flex-wrap gap-3 mb-8">
+                                {heroStats.map((stat, index) => (
+                                    <GlassCard
+                                        key={index}
+                                        hover={false}
+                                        className="inline-flex items-center px-4 py-2 rounded-full"
+                                        style={{ animationDelay: `${index * 100}ms` }}
+                                    >
+                                        <span className="text-sm text-gray-300 font-medium">{stat.label}</span>
+                                    </GlassCard>
+                                ))}
+                            </div>
+
+                            {/* CTA Buttons */}
+                            <div className="flex flex-col sm:flex-row items-start gap-4 mb-8">
+                                <Link
+                                    to="/installation"
+                                    className="group relative inline-flex items-center px-7 py-3.5 text-base font-semibold text-white rounded-xl bg-emerald-600/20 backdrop-blur-md border border-emerald-500/30 hover:bg-emerald-500/30 hover:border-emerald-400/50 hover:shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-0.5 active:scale-95 transition-all duration-200"
+                                >
+                                    Get Started
+                                    <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                    </svg>
+                                </Link>
+                                <a
+                                    href="https://github.com/krishna-9099/saavn_play"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center px-7 py-3.5 text-base font-semibold text-gray-300 bg-white/[0.06] backdrop-blur-md border border-white/[0.1] rounded-xl hover:bg-white/[0.12] hover:border-white/[0.18] active:scale-95 transition-all duration-200"
+                                >
+                                    <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+                                    </svg>
+                                    GitHub
+                                </a>
+                            </div>
+
+                            {/* Badges */}
+                            <div className="flex flex-wrap items-center gap-3">
+                                <a href="https://pub.dev/packages/saavn_play" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                                    <img
+                                        src="https://img.shields.io/pub/v/saavn_play.svg"
+                                        alt="Pub Version"
+                                        className="h-6"
+                                    />
+                                </a>
+                                <a href="https://github.com/krishna-9099/saavn_play" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                                    <img
+                                        src="https://img.shields.io/github/stars/krishna-9099/saavn_play.svg?style=social"
+                                        alt="GitHub Stars"
+                                        className="h-6"
+                                    />
+                                </a>
+                                <a href="https://github.com/krishna-9099/saavn_play/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+                                    <img
+                                        src="https://img.shields.io/badge/license-MIT-blue.svg"
+                                        alt="License"
+                                        className="h-6"
+                                    />
+                                </a>
+                            </div>
                         </div>
 
-                        {/* Title */}
-                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
-                            <span className="bg-gradient-to-r from-primary-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                                saavn_play
-                            </span>
-                        </h1>
+                        {/* Right Side - Floating Code Preview */}
+                        <div className={`hidden lg:block transition-all duration-700 delay-200 ease-out ${heroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+                            <div className="relative animate-[float_6s_ease-in-out_infinite]">
+                                {/* Try it live badge */}
+                                <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+                                    <GlassCard hover={false} className="px-3 py-1 rounded-full">
+                                        <span className="text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                            Try it live
+                                        </span>
+                                    </GlassCard>
+                                </div>
 
-                        {/* Subtitle */}
-                        <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">
-                            A powerful and intuitive Dart package for interacting with the JioSaavn API.
-                            Search music, retrieve song details, albums, playlists, and more.
-                        </p>
-
-                        {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-                            <Link
-                                to="/installation"
-                                className="group relative inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-primary-500 to-purple-600 rounded-xl shadow-lg shadow-primary-500/25 hover:shadow-xl hover:shadow-primary-500/40 transition-all duration-300 hover:-translate-y-0.5"
-                            >
-                                Get Started
-                                <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                </svg>
-                            </Link>
-                            <a
-                                href="https://github.com/krishna-9099/saavn_play"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center px-8 py-4 text-lg font-semibold text-gray-300 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-white/20 transition-all duration-300"
-                            >
-                                <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                                    <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
-                                </svg>
-                                View on GitHub
-                            </a>
-                        </div>
-
-                        {/* Badges */}
-                        <div className="flex flex-wrap items-center justify-center gap-3">
-                            <a href="https://pub.dev/packages/saavn_play" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-                                <img
-                                    src="https://img.shields.io/pub/v/saavn_play.svg"
-                                    alt="Pub Version"
-                                    className="h-7"
-                                />
-                            </a>
-                            <a href="https://github.com/krishna-9099/saavn_play/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-                                <img
-                                    src="https://img.shields.io/badge/license-MIT-blue.svg"
-                                    alt="License"
-                                    className="h-7"
-                                />
-                            </a>
-                            <a href="https://github.com/krishna-9099/saavn_play" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-                                <img
-                                    src="https://img.shields.io/github/stars/krishna-9099/saavn_play.svg?style=social"
-                                    alt="GitHub Stars"
-                                    className="h-7"
-                                />
-                            </a>
-                        </div>
-
-                        {/* Author */}
-                        <div className="mt-8 text-gray-500 text-sm">
-                            Created by{' '}
-                            <a
-                                href="https://github.com/krishna-9099"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-primary-400 hover:text-primary-300 font-medium transition-colors"
-                            >
-                                Krishan
-                            </a>
+                                {/* Code card with glass + glow */}
+                                <div className="relative rounded-2xl overflow-hidden border border-emerald-500/20 shadow-2xl shadow-emerald-500/10">
+                                    <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] to-white/[0.02] backdrop-blur-xl" />
+                                    <div className="relative">
+                                        <CodeBlock
+                                            code={exampleCode}
+                                            language="dart"
+                                            title="example.dart"
+                                            showLineNumbers
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+                    {/* Scroll indicator */}
+                    <div className={`flex flex-col items-center gap-2 text-gray-500 mt-16 transition-all duration-700 delay-500 ease-out ${heroVisible ? 'opacity-100' : 'opacity-0'}`}>
+                        <span className="text-xs uppercase tracking-widest">Scroll</span>
+                        <svg className="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                    </div>
                 </div>
+
+                {/* Float animation keyframes */}
+                <style>{`
+                    @keyframes float {
+                        0%, 100% { transform: translateY(0px); }
+                        50% { transform: translateY(-12px); }
+                    }
+                `}</style>
             </section>
 
-            {/* Stats Section */}
-            <section className="border-y border-white/5 bg-white/[0.02]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                        {stats.map((stat, index) => (
-                            <div key={index} className="text-center">
-                                <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-400 to-purple-400 bg-clip-text text-transparent mb-2">
-                                    {stat.value}
-                                </div>
-                                <div className="text-gray-500 text-sm uppercase tracking-wider">
-                                    {stat.label}
+            {/* Stats Bar */}
+            <section ref={statsBarRef} className={`relative border-y border-white/5 bg-white/[0.02] backdrop-blur-sm transition-all duration-600 ease-out ${statsBarVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                        {statsBar.map((stat, index) => (
+                            <div
+                                key={index}
+                                className="flex items-center gap-4 justify-center"
+                                style={{ transitionDelay: `${index * 100}ms` }}
+                            >
+                                <span className="text-2xl">{stat.icon}</span>
+                                <div>
+                                    <div className="text-2xl md:text-3xl font-bold text-white">
+                                        <AnimatedCounter
+                                            target={stat.value}
+                                            suffix={stat.suffix}
+                                            duration={2000}
+                                        />
+                                    </div>
+                                    <div className="text-xs text-gray-500 uppercase tracking-wider">{stat.label}</div>
                                 </div>
                             </div>
                         ))}
@@ -288,7 +370,7 @@ void main() async {
             </section>
 
             {/* Visitor Counter */}
-            <section className="bg-white/[0.015] border-b border-white/5">
+            <section ref={visitorRef} className={`bg-white/[0.015] border-b border-white/5 transition-all duration-600 ease-out ${visitorVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                     <div className="grid gap-8 lg:grid-cols-3 lg:items-center">
                         <div className="lg:col-span-2">
@@ -306,7 +388,7 @@ void main() async {
             </section>
 
             {/* Quick Start Section */}
-            <section className="py-20 lg:py-28">
+            <section ref={quickStartRef} className={`py-20 lg:py-28 transition-all duration-600 ease-out ${quickStartVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
                         <div>
@@ -349,7 +431,7 @@ void main() async {
             </section>
 
             {/* Features Grid */}
-            <section className="py-20 lg:py-28 bg-white/[0.02]">
+            <section ref={featuresRef} className={`py-20 lg:py-28 bg-white/[0.02] transition-all duration-600 ease-out ${featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -364,9 +446,15 @@ void main() async {
                         {features.map((feature, index) => (
                             <div
                                 key={index}
-                                className="group relative p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-white/10 hover:bg-white/[0.05] transition-all duration-300"
+                                className="group relative p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-white/10 hover:bg-white/[0.05] transition-all duration-300 hover:scale-[1.03] hover:shadow-lg hover:shadow-emerald-500/10"
+                                style={{ 
+                                    transitionDelay: featuresVisible ? `${index * 100}ms` : '0ms',
+                                    animationDelay: `${index * 100}ms`,
+                                    transform: featuresVisible ? 'translateY(0)' : 'translateY(20px)',
+                                    opacity: featuresVisible ? 1 : 0,
+                                }}
                             >
-                                <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${feature.color} text-white mb-4`}>
+                                <div className={`inline-flex p-3 rounded-xl bg-gradient-to-br ${feature.color} text-white mb-4 group-hover:rotate-6 transition-transform duration-300`}>
                                     {feature.icon}
                                 </div>
                                 <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-primary-400 transition-colors">
@@ -382,7 +470,7 @@ void main() async {
             </section>
 
             {/* API Endpoints Section */}
-            <section className="py-20 lg:py-28">
+            <section ref={endpointsRef} className={`py-20 lg:py-28 transition-all duration-600 ease-out ${endpointsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -398,9 +486,14 @@ void main() async {
                             <Link
                                 key={index}
                                 to={endpoint.path}
-                                className="group flex items-start gap-4 p-5 rounded-xl bg-white/[0.03] border border-white/5 hover:border-primary-500/30 hover:bg-primary-500/5 transition-all duration-300"
+                                className="group flex items-start gap-4 p-5 rounded-xl bg-white/[0.03] border border-white/5 hover:border-primary-500/30 hover:bg-primary-500/5 hover:scale-[1.03] hover:shadow-lg hover:shadow-emerald-500/10 active:scale-[0.98] transition-all duration-300"
+                                style={{
+                                    transitionDelay: endpointsVisible ? `${index * 100}ms` : '0ms',
+                                    transform: endpointsVisible ? 'translateY(0)' : 'translateY(20px)',
+                                    opacity: endpointsVisible ? 1 : 0,
+                                }}
                             >
-                                <span className="text-2xl">{endpoint.icon}</span>
+                                <span className="text-2xl group-hover:rotate-12 transition-transform duration-300">{endpoint.icon}</span>
                                 <div className="flex-1 min-w-0">
                                     <h3 className="text-lg font-semibold text-white group-hover:text-primary-400 transition-colors mb-1">
                                         {endpoint.title}
@@ -431,7 +524,7 @@ void main() async {
             </section>
 
             {/* CTA Section */}
-            <section className="py-20 lg:py-28">
+            <section ref={ctaRef} className={`py-20 lg:py-28 transition-all duration-600 ease-out ${ctaVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-primary-900/50 to-purple-900/50 border border-white/10 p-12 text-center">
                         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-500/20 via-transparent to-transparent" />
@@ -445,13 +538,13 @@ void main() async {
                             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                                 <Link
                                     to="/installation"
-                                    className="inline-flex items-center px-6 py-3 text-white bg-white/10 border border-white/20 rounded-lg hover:bg-white/20 transition-all"
+                                    className="inline-flex items-center px-6 py-3 text-white bg-white/10 border border-white/20 rounded-lg hover:bg-white/20 active:scale-95 transition-all duration-200"
                                 >
                                     Installation Guide
                                 </Link>
                                 <Link
                                     to="/examples"
-                                    className="inline-flex items-center px-6 py-3 text-primary-400 hover:text-primary-300 font-medium transition-colors"
+                                    className="inline-flex items-center px-6 py-3 text-primary-400 hover:text-primary-300 font-medium active:scale-95 transition-all duration-200"
                                 >
                                     View Examples
                                     <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

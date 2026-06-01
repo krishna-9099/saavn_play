@@ -1,4 +1,5 @@
 import CodeBlock from '../../components/ui/CodeBlock';
+import GlassCard from '../../components/ui/GlassCard';
 
 const SearchEndpoint = () => {
     const searchSongsExample = `import 'package:saavn_play/saavn_play.dart';
@@ -79,23 +80,25 @@ void main() async {
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-white mb-4">Search API</h1>
+                <h1 className="text-3xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">Search</span> API
+                </h1>
                 <p className="text-gray-400 text-lg">
                     Search for songs, albums, artists, and playlists across the JioSaavn catalog.
                 </p>
             </div>
 
             {/* Overview */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="overview" className="text-2xl font-bold text-white mb-4">
-                    Overview
+                    <span className="text-emerald-500">Overview</span>
                 </h2>
                 <p className="text-gray-400 mb-4">
                     The Search API provides methods to search across different content types. All search methods
                     return a list of results matching the query.
                 </p>
-                <div className="p-4 rounded-xl bg-background-darker border border-border">
-                    <pre className="text-sm text-gray-300">
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+                    <pre className="text-sm text-gray-300 font-mono">
                         {`// Available search methods
 client.search.songs(query)      // Search songs
 client.search.albums(query)     // Search albums
@@ -103,12 +106,12 @@ client.search.artists(query)    // Search artists
 client.search.playlists(query)  // Search playlists`}
                     </pre>
                 </div>
-            </section>
+            </GlassCard>
 
             {/* Search Songs */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="songs" className="text-2xl font-bold text-white mb-4">
-                    Search Songs
+                    <span className="text-emerald-500">Search</span> Songs
                 </h2>
                 <p className="text-gray-400 mb-4">
                     Search for songs by title, artist, or a combination.
@@ -119,12 +122,12 @@ client.search.playlists(query)  // Search playlists`}
                     title="search_songs.dart"
                     showLineNumbers
                 />
-            </section>
+            </GlassCard>
 
             {/* Search Albums */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="albums" className="text-2xl font-bold text-white mb-4">
-                    Search Albums
+                    <span className="text-emerald-500">Search</span> Albums
                 </h2>
                 <p className="text-gray-400 mb-4">
                     Search for albums by name or artist.
@@ -135,12 +138,12 @@ client.search.playlists(query)  // Search playlists`}
                     title="search_albums.dart"
                     showLineNumbers
                 />
-            </section>
+            </GlassCard>
 
             {/* Search Artists */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="artists" className="text-2xl font-bold text-white mb-4">
-                    Search Artists
+                    <span className="text-emerald-500">Search</span> Artists
                 </h2>
                 <p className="text-gray-400 mb-4">
                     Search for artists by name.
@@ -151,12 +154,12 @@ client.search.playlists(query)  // Search playlists`}
                     title="search_artists.dart"
                     showLineNumbers
                 />
-            </section>
+            </GlassCard>
 
             {/* Search Playlists */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="playlists" className="text-2xl font-bold text-white mb-4">
-                    Search Playlists
+                    <span className="text-emerald-500">Search</span> Playlists
                 </h2>
                 <p className="text-gray-400 mb-4">
                     Search for playlists by name.
@@ -167,42 +170,42 @@ client.search.playlists(query)  // Search playlists`}
                     title="search_playlists.dart"
                     showLineNumbers
                 />
-            </section>
+            </GlassCard>
 
             {/* Parameters */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="parameters" className="text-2xl font-bold text-white mb-4">
-                    Parameters
+                    <span className="text-emerald-500">Parameters</span>
                 </h2>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="border-b border-border">
-                                <th className="py-3 px-4 text-gray-300 font-semibold">Parameter</th>
-                                <th className="py-3 px-4 text-gray-300 font-semibold">Type</th>
-                                <th className="py-3 px-4 text-gray-300 font-semibold">Description</th>
+                            <tr className="border-b border-white/10">
+                                <th className="py-3 px-4 text-emerald-400 font-semibold">Parameter</th>
+                                <th className="py-3 px-4 text-emerald-400 font-semibold">Type</th>
+                                <th className="py-3 px-4 text-emerald-400 font-semibold">Description</th>
                             </tr>
                         </thead>
                         <tbody className="text-gray-400">
-                            <tr className="border-b border-border">
-                                <td className="py-3 px-4"><code className="text-primary-400">query</code></td>
-                                <td className="py-3 px-4"><code className="text-secondary-400">String</code></td>
+                            <tr className="border-b border-white/[0.05] hover:bg-white/[0.02] transition-colors">
+                                <td className="py-3 px-4"><code className="text-emerald-400 font-mono text-sm">query</code></td>
+                                <td className="py-3 px-4"><code className="text-cyan-400 font-mono text-sm">String</code></td>
                                 <td className="py-3 px-4">The search query string</td>
                             </tr>
-                            <tr className="border-b border-border">
-                                <td className="py-3 px-4"><code className="text-primary-400">limit</code></td>
-                                <td className="py-3 px-4"><code className="text-secondary-400">int?</code></td>
+                            <tr className="border-b border-white/[0.05] hover:bg-white/[0.02] transition-colors">
+                                <td className="py-3 px-4"><code className="text-emerald-400 font-mono text-sm">limit</code></td>
+                                <td className="py-3 px-4"><code className="text-cyan-400 font-mono text-sm">int?</code></td>
                                 <td className="py-3 px-4">Maximum number of results (optional, default: 10)</td>
                             </tr>
-                            <tr className="border-b border-border">
-                                <td className="py-3 px-4"><code className="text-primary-400">page</code></td>
-                                <td className="py-3 px-4"><code className="text-secondary-400">int?</code></td>
+                            <tr className="border-b border-white/[0.05] hover:bg-white/[0.02] transition-colors">
+                                <td className="py-3 px-4"><code className="text-emerald-400 font-mono text-sm">page</code></td>
+                                <td className="py-3 px-4"><code className="text-cyan-400 font-mono text-sm">int?</code></td>
                                 <td className="py-3 px-4">Page index for pagination (optional, default: 0)</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </section>
+            </GlassCard>
         </div>
     );
 };

@@ -55,22 +55,24 @@ const LeftSidebar = ({ onNavigate }: LeftSidebarProps) => {
     };
 
     return (
-        <nav className="p-4 space-y-6">
+        <nav className="p-4 space-y-6 h-full">
             {navigation.map((section) => (
                 <div key={section.title}>
-                    {/* Section header */}
                     <h3 className="px-4 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                         {section.title}
                     </h3>
 
-                    {/* Section items */}
                     <ul className="space-y-1">
                         {section.children?.map((item) => (
                             <li key={item.path}>
                                 <Link
                                     to={item.path}
                                     onClick={onNavigate}
-                                    className={`sidebar-item ${isActive(item.path) ? 'active' : ''}`}
+                                    className={`sidebar-item ${
+                                        isActive(item.path) 
+                                            ? 'active bg-green-500/10 text-green-400 border-l-2 border-green-500' 
+                                            : 'hover:bg-white/5'
+                                    } transition-all duration-200`}
                                 >
                                     <span>{item.title}</span>
                                 </Link>
@@ -80,8 +82,7 @@ const LeftSidebar = ({ onNavigate }: LeftSidebarProps) => {
                 </div>
             ))}
 
-            {/* External links */}
-            <div className="pt-4 border-t border-border">
+            <div className="pt-4 border-t border-white/10">
                 <h3 className="px-4 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Resources
                 </h3>
@@ -91,7 +92,7 @@ const LeftSidebar = ({ onNavigate }: LeftSidebarProps) => {
                             href="https://github.com/krishna-9099/saavn_play"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="sidebar-item"
+                            className="sidebar-item hover:bg-white/5 transition-all duration-200"
                         >
                             <svg
                                 className="w-5 h-5"
@@ -125,7 +126,7 @@ const LeftSidebar = ({ onNavigate }: LeftSidebarProps) => {
                             href="https://pub.dev/packages/saavn_play"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="sidebar-item"
+                            className="sidebar-item hover:bg-white/5 transition-all duration-200"
                         >
                             <svg
                                 className="w-5 h-5"

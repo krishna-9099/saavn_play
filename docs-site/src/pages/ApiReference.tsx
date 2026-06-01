@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import ApiCard from '../components/ui/ApiCard';
+import GlassCard from '../components/ui/GlassCard';
+import CodeBlock from '../components/ui/CodeBlock';
 
 const ApiReference = () => {
     const endpoints = [
@@ -47,26 +49,7 @@ const ApiReference = () => {
         },
     ];
 
-    return (
-        <div className="space-y-8">
-            <div>
-                <h1 className="text-3xl font-bold text-white mb-4">API Reference</h1>
-                <p className="text-gray-400 text-lg">
-                    Complete reference for all available API endpoints in saavn_play.
-                </p>
-            </div>
-
-            {/* Client Overview */}
-            <section>
-                <h2 id="client" className="text-2xl font-bold text-white mb-4">
-                    SaavnPlayClient
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    The main entry point for all API operations. Create an instance to access all endpoints.
-                </p>
-                <div className="p-4 rounded-xl bg-background-darker border border-border">
-                    <pre className="text-sm text-gray-300">
-                        {`final client = SaavnPlayClient();
+    const clientOverviewCode = `final client = SaavnPlayClient();
 
 // Access endpoints through the client
 client.search    // Search operations
@@ -75,16 +58,49 @@ client.albums    // Album operations
 client.artists   // Artist operations
 client.home      // Home/launch feed operations
 client.podcasts  // Podcast operations
-client.radio     // Radio operations
-`}
-                    </pre>
-                </div>
-            </section>
+client.radio     // Radio operations`;
+
+    const errorHandlingCode = `try {
+  final songs = await client.search.songs('query');
+  // Handle success
+} on SaavnPlayException catch (e) {
+  // Handle API-specific errors
+  print('API Error: \${e.message}');
+} catch (e) {
+  // Handle other errors
+  print('Error: \$e');
+}`;
+
+    return (
+        <div className="space-y-8">
+            <div>
+                <h1 className="text-3xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">API</span> Reference
+                </h1>
+                <p className="text-gray-400 text-lg">
+                    Complete reference for all available API endpoints in saavn_play.
+                </p>
+            </div>
+
+            {/* Client Overview */}
+            <GlassCard className="p-6">
+                <h2 id="client" className="text-2xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">SaavnPlayClient</span>
+                </h2>
+                <p className="text-gray-400 mb-4">
+                    The main entry point for all API operations. Create an instance to access all endpoints.
+                </p>
+                <CodeBlock
+                    code={clientOverviewCode}
+                    language="dart"
+                    title="client.dart"
+                />
+            </GlassCard>
 
             {/* Endpoints Grid */}
             <section>
-                <h2 id="endpoints" className="text-2xl font-bold text-white mb-4">
-                    Available Endpoints
+                <h2 id="endpoints" className="text-2xl font-bold text-white mb-6">
+                    <span className="text-emerald-500">Available</span> Endpoints
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {endpoints.map((endpoint, index) => (
@@ -100,47 +116,38 @@ client.radio     // Radio operations
             </section>
 
             {/* Response Models */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="models" className="text-2xl font-bold text-white mb-4">
-                    Response Models
+                    <span className="text-emerald-500">Response</span> Models
                 </h2>
                 <p className="text-gray-400 mb-4">
                     All API responses are strongly typed. See the Models documentation for detailed information about each model.
                 </p>
                 <Link
                     to="/models"
-                    className="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300"
+                    className="inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors font-medium"
                 >
                     View Models Documentation
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                 </Link>
-            </section>
+            </GlassCard>
 
             {/* Error Handling */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="errors" className="text-2xl font-bold text-white mb-4">
-                    Error Handling
+                    <span className="text-emerald-500">Error</span> Handling
                 </h2>
                 <p className="text-gray-400 mb-4">
                     The API uses standard Dart exceptions for error handling. Wrap your calls in try-catch blocks:
                 </p>
-                <div className="p-4 rounded-xl bg-background-darker border border-border">
-                    <pre className="text-sm text-gray-300">
-                        {`try {
-  final songs = await client.search.songs('query');
-  // Handle success
-} on SaavnPlayException catch (e) {
-  // Handle API-specific errors
-  print('API Error: \${e.message}');
-} catch (e) {
-  // Handle other errors
-  print('Error: \$e');
-}`}
-                    </pre>
-                </div>
-            </section>
+                <CodeBlock
+                    code={errorHandlingCode}
+                    language="dart"
+                    title="error_handling.dart"
+                />
+            </GlassCard>
         </div>
     );
 };

@@ -1,4 +1,5 @@
 import CodeBlock from '../../components/ui/CodeBlock';
+import GlassCard from '../../components/ui/GlassCard';
 
 const ArtistEndpoint = () => {
     const getArtistExample = `import 'package:saavn_play/saavn_play.dart';
@@ -6,40 +7,47 @@ const ArtistEndpoint = () => {
 void main() async {
   final client = SaavnPlayClient();
 
-    // Get full artist page details by ID
-    final artist = await client.artists.getArtistPageDetails('artist_id');
-  
+  // Get artist details by ID
+  final artist = await client.artists.getArtistPageDetails('123456');
+
   print('Artist: \${artist.name}');
-    print('Bio: \${artist.bio}');
-    print('Followers: \${artist.followerCount}');
-    print('Date of Birth: \${artist.dob}');
-    print('Wikipedia: \${artist.wiki}');
-    print('Available Languages: \${artist.availableLanguages?.join(', ')}');
-  print('');
-  
-  // Top songs
-  print('Top Songs:');
-    for (final song in artist.topSongs) {
-    print('  \${song.name}');
-  }
+  print('Verified: \${artist.isVerified}');
+  print('Followers: \${artist.followerCount}');
+  print('Top songs: \${artist.topSongs.length}');
 
   client.close();
 }`;
 
-    const getArtistUrlsExample = `import 'package:saavn_play/saavn_play.dart';
+    const getArtistSongsExample = `import 'package:saavn_play/saavn_play.dart';
 
 void main() async {
   final client = SaavnPlayClient();
 
-    // Get artist page details with URLs
-    final artist = await client.artists.getArtistPageDetails('artist_id');
-  
-    if (artist.urls != null) {
-    print('Albums URL: \${artist.urls?.albums}');
-    print('Bio URL: \${artist.urls?.bio}');
-    print('Songs URL: \${artist.urls?.songs}');
-    print('Overview URL: \${artist.urls?.overview}');
-  }
+  // Get artist's top songs
+  final songs = await client.artists.getArtistSongs(
+    artistId: '123456',
+    page: 0,
+    sortBy: 'popularity',
+    sortOrder: 'desc',
+  );
+
+  print('Songs: \${songs.length}');
+
+  client.close();
+}`;
+
+    const getArtistAlbumsExample = `import 'package:saavn_play/saavn_play.dart';
+
+void main() async {
+  final client = SaavnPlayClient();
+
+  // Get artist's albums
+  final albums = await client.artists.getArtistAlbums(
+    artistId: '123456',
+    page: 0,
+  );
+
+  print('Albums: \${albums.length}');
 
   client.close();
 }`;
@@ -47,40 +55,39 @@ void main() async {
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-white mb-4">Artist API</h1>
+                <h1 className="text-3xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">Artist</span> API
+                </h1>
                 <p className="text-gray-400 text-lg">
-                    Retrieve artist profiles, top songs, albums, biography, social links, and related artists.
+                    Access artist profiles, top songs, albums, and full artist page sections.
                 </p>
             </div>
 
             {/* Overview */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="overview" className="text-2xl font-bold text-white mb-4">
-                    Overview
+                    <span className="text-emerald-500">Overview</span>
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    The Artist API provides map-based and strongly typed methods for artist details including
-                    biography, social media links, available languages, and page navigation URLs.
+                    The Artist API provides methods to retrieve artist details, songs, and albums.
                 </p>
-                <div className="p-4 rounded-xl bg-background-darker border border-border">
-                    <pre className="text-sm text-gray-300">
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+                    <pre className="text-sm text-gray-300 font-mono">
                         {`// Available artist methods
-client.artists.detailsById(id)               // Raw artist data map
-client.artists.getArtistPageDetails(id)      // Typed ArtistPageDetails model
-client.artists.artistSongs(id, page: 0)      // Paginated artist songs
-client.artists.artistAlbums(id, page: 0)     // Paginated artist albums`}
+client.artists.getArtistPageDetails(id)   // Get full artist page
+client.artists.getArtistSongs(...)        // Get artist songs
+client.artists.getArtistAlbums(...)       // Get artist albums`}
                     </pre>
                 </div>
-            </section>
+            </GlassCard>
 
             {/* Get Artist Details */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="get-details" className="text-2xl font-bold text-white mb-4">
-                    Get Artist Details
+                    <span className="text-emerald-500">Get</span> Artist Details
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Retrieve detailed artist page information including top songs, top albums,
-                    latest releases, playlist sections, biography, and social links.
+                    Retrieve complete artist page data including top songs, albums, and similar artists.
                 </p>
                 <CodeBlock
                     code={getArtistExample}
@@ -88,74 +95,79 @@ client.artists.artistAlbums(id, page: 0)     // Paginated artist albums`}
                     title="get_artist.dart"
                     showLineNumbers
                 />
-            </section>
+            </GlassCard>
 
-            {/* Get Artist URLs */}
-            <section>
-                <h2 id="get-urls" className="text-2xl font-bold text-white mb-4">
-                    Get Artist URLs
+            {/* Get Artist Songs */}
+            <GlassCard className="p-6">
+                <h2 id="get-songs" className="text-2xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">Get</span> Artist Songs
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Access artist page navigation URLs for albums, bio, songs, and overview pages.
+                    Retrieve an artist's songs with sorting and pagination options.
                 </p>
                 <CodeBlock
-                    code={getArtistUrlsExample}
+                    code={getArtistSongsExample}
                     language="dart"
-                    title="get_artist_urls.dart"
+                    title="get_artist_songs.dart"
                     showLineNumbers
                 />
-            </section>
+            </GlassCard>
+
+            {/* Get Artist Albums */}
+            <GlassCard className="p-6">
+                <h2 id="get-albums" className="text-2xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">Get</span> Artist Albums
+                </h2>
+                <p className="text-gray-400 mb-4">
+                    Retrieve an artist's albums with pagination.
+                </p>
+                <CodeBlock
+                    code={getArtistAlbumsExample}
+                    language="dart"
+                    title="get_artist_albums.dart"
+                    showLineNumbers
+                />
+            </GlassCard>
 
             {/* Parameters */}
-            <section>
+            <GlassCard className="p-6">
                 <h2 id="parameters" className="text-2xl font-bold text-white mb-4">
-                    Parameters
+                    <span className="text-emerald-500">Parameters</span>
                 </h2>
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="border-b border-border">
-                                <th className="py-3 px-4 text-gray-300 font-semibold">Parameter</th>
-                                <th className="py-3 px-4 text-gray-300 font-semibold">Type</th>
-                                <th className="py-3 px-4 text-gray-300 font-semibold">Description</th>
+                            <tr className="border-b border-white/10">
+                                <th className="py-3 px-4 text-emerald-400 font-semibold">Parameter</th>
+                                <th className="py-3 px-4 text-emerald-400 font-semibold">Type</th>
+                                <th className="py-3 px-4 text-emerald-400 font-semibold">Description</th>
                             </tr>
                         </thead>
                         <tbody className="text-gray-400">
-                            <tr className="border-b border-border">
-                                <td className="py-3 px-4"><code className="text-primary-400">id</code></td>
-                                <td className="py-3 px-4"><code className="text-secondary-400">String</code></td>
+                            <tr className="border-b border-white/[0.05] hover:bg-white/[0.02] transition-colors">
+                                <td className="py-3 px-4"><code className="text-emerald-400 font-mono text-sm">artistId</code></td>
+                                <td className="py-3 px-4"><code className="text-cyan-400 font-mono text-sm">String</code></td>
                                 <td className="py-3 px-4">The artist ID</td>
+                            </tr>
+                            <tr className="border-b border-white/[0.05] hover:bg-white/[0.02] transition-colors">
+                                <td className="py-3 px-4"><code className="text-emerald-400 font-mono text-sm">page</code></td>
+                                <td className="py-3 px-4"><code className="text-cyan-400 font-mono text-sm">int</code></td>
+                                <td className="py-3 px-4">Page index for pagination (default: 0)</td>
+                            </tr>
+                            <tr className="border-b border-white/[0.05] hover:bg-white/[0.02] transition-colors">
+                                <td className="py-3 px-4"><code className="text-emerald-400 font-mono text-sm">sortBy</code></td>
+                                <td className="py-3 px-4"><code className="text-cyan-400 font-mono text-sm">String</code></td>
+                                <td className="py-3 px-4">Sort field ('popularity', 'date', etc.)</td>
+                            </tr>
+                            <tr className="border-b border-white/[0.05] hover:bg-white/[0.02] transition-colors">
+                                <td className="py-3 px-4"><code className="text-emerald-400 font-mono text-sm">sortOrder</code></td>
+                                <td className="py-3 px-4"><code className="text-cyan-400 font-mono text-sm">String</code></td>
+                                <td className="py-3 px-4">Sort direction ('asc' or 'desc')</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </section>
-
-            {/* Response */}
-            <section>
-                <h2 id="response" className="text-2xl font-bold text-white mb-4">
-                    Response
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Returns an <code className="text-primary-400">ArtistPageDetails</code> model with
-                    all artist page sections including:
-                </p>
-                <ul className="list-disc list-inside text-gray-400 space-y-2 ml-4">
-                    <li><code className="text-primary-400">topSongs</code> - Artist's top songs</li>
-                    <li><code className="text-primary-400">topAlbums</code> - Artist's top albums</li>
-                    <li><code className="text-primary-400">latestRelease</code> - Latest album releases</li>
-                    <li><code className="text-primary-400">singles</code> - Single tracks</li>
-                    <li><code className="text-primary-400">dedicatedPlaylists</code> - Playlists dedicated to artist</li>
-                    <li><code className="text-primary-400">featuredInPlaylists</code> - Playlists where artist is featured</li>
-                    <li><code className="text-primary-400">bio</code> - Artist biography</li>
-                    <li><code className="text-primary-400">dob</code> - Date of birth</li>
-                    <li><code className="text-primary-400">fb</code> - Facebook profile URL</li>
-                    <li><code className="text-primary-400">twitter</code> - Twitter profile URL</li>
-                    <li><code className="text-primary-400">wiki</code> - Wikipedia URL</li>
-                    <li><code className="text-primary-400">urls</code> - Page navigation URLs</li>
-                    <li><code className="text-primary-400">availableLanguages</code> - Languages with content</li>
-                </ul>
-            </section>
+            </GlassCard>
         </div>
     );
 };

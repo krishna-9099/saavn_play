@@ -1,6 +1,10 @@
+import { useState } from 'react';
 import CodeBlock from '../components/ui/CodeBlock';
+import GlassCard from '../components/ui/GlassCard';
 
 const Examples = () => {
+    const [activeTab, setActiveTab] = useState('search');
+
     const searchExample = `import 'package:saavn_play/saavn_play.dart';
 
 void main() async {
@@ -151,126 +155,70 @@ void main() async {
     client.close();
 }`;
 
+    const tabs = [
+        { id: 'search', label: 'Search', code: searchExample, title: 'search_example.dart' },
+        { id: 'song', label: 'Song', code: songExample, title: 'song_example.dart' },
+        { id: 'album', label: 'Album', code: albumExample, title: 'album_example.dart' },
+        { id: 'artist', label: 'Artist', code: artistExample, title: 'artist_example.dart' },
+        { id: 'home', label: 'Home', code: homeExample, title: 'home_example.dart' },
+        { id: 'podcast', label: 'Podcast', code: podcastExample, title: 'podcast_example.dart' },
+        { id: 'radio', label: 'Radio', code: radioExample, title: 'radio_example.dart' },
+    ];
+
+    const activeExample = tabs.find((tab) => tab.id === activeTab) || tabs[0];
+
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-white mb-4">Examples</h1>
+                <h1 className="text-3xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">Examples</span>
+                </h1>
                 <p className="text-gray-400 text-lg">
                     Practical examples for the current SaavnPlayClient endpoint surface.
                 </p>
             </div>
 
-            {/* Search Example */}
-            <section>
-                <h2 id="search" className="text-2xl font-bold text-white mb-4">
-                    Search
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Search for songs, albums, and artists across the JioSaavn catalog.
-                </p>
-                <CodeBlock
-                    code={searchExample}
-                    language="dart"
-                    title="search_example.dart"
-                    showLineNumbers
-                />
-            </section>
+            {/* Tabbed Examples */}
+            <GlassCard className="overflow-hidden" hover={false}>
+                {/* Tabs */}
+                <div className="flex flex-wrap gap-1 p-2 border-b border-white/[0.08] bg-white/[0.02]">
+                    {tabs.map((tab) => (
+                        <button
+                            key={tab.id}
+                            onClick={() => setActiveTab(tab.id)}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                                activeTab === tab.id
+                                    ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                    : 'text-gray-400 hover:text-white hover:bg-white/[0.05]'
+                            }`}
+                        >
+                            {tab.label}
+                        </button>
+                    ))}
+                </div>
 
-            {/* Song Example */}
-            <section>
-                <h2 id="song" className="text-2xl font-bold text-white mb-4">
-                    Song Details
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Retrieve detailed information about specific songs.
-                </p>
-                <CodeBlock
-                    code={songExample}
-                    language="dart"
-                    title="song_example.dart"
-                    showLineNumbers
-                />
-            </section>
-
-            {/* Album Example */}
-            <section>
-                <h2 id="album" className="text-2xl font-bold text-white mb-4">
-                    Album Details
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Get album information with full track listings.
-                </p>
-                <CodeBlock
-                    code={albumExample}
-                    language="dart"
-                    title="album_example.dart"
-                    showLineNumbers
-                />
-            </section>
-
-            {/* Artist Example */}
-            <section>
-                <h2 id="artist" className="text-2xl font-bold text-white mb-4">
-                    Artist Page Details
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Access full artist page data including top songs and top albums.
-                </p>
-                <CodeBlock
-                    code={artistExample}
-                    language="dart"
-                    title="artist_example.dart"
-                    showLineNumbers
-                />
-            </section>
-
-            {/* Home Example */}
-            <section>
-                <h2 id="home" className="text-2xl font-bold text-white mb-4">
-                    Home Feed
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Fetch launch data modules like charts, playlists, and radio blocks.
-                </p>
-                <CodeBlock
-                    code={homeExample}
-                    language="dart"
-                    title="home_example.dart"
-                    showLineNumbers
-                />
-            </section>
-
-            {/* Podcast Example */}
-            <section>
-                <h2 id="podcast" className="text-2xl font-bold text-white mb-4">
-                    Podcasts
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Discover top podcast shows with pagination.
-                </p>
-                <CodeBlock
-                    code={podcastExample}
-                    language="dart"
-                    title="podcast_example.dart"
-                    showLineNumbers
-                />
-            </section>
-
-            {/* Radio Example */}
-            <section>
-                <h2 id="radio" className="text-2xl font-bold text-white mb-4">
-                    Radio
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Create a station from featured metadata and fetch playable songs.
-                </p>
-                <CodeBlock
-                    code={radioExample}
-                    language="dart"
-                    title="radio_example.dart"
-                    showLineNumbers
-                />
-            </section>
+                {/* Content */}
+                <div className="p-6">
+                    <h2 className="text-2xl font-bold text-white mb-2">
+                        <span className="text-emerald-500">{activeExample.label}</span> Example
+                    </h2>
+                    <p className="text-gray-400 mb-4">
+                        {activeTab === 'search' && 'Search for songs, albums, and artists across the JioSaavn catalog.'}
+                        {activeTab === 'song' && 'Retrieve detailed information about specific songs.'}
+                        {activeTab === 'album' && 'Get album information with full track listings.'}
+                        {activeTab === 'artist' && 'Access full artist page data including top songs and top albums.'}
+                        {activeTab === 'home' && 'Fetch launch data modules like charts, playlists, and radio blocks.'}
+                        {activeTab === 'podcast' && 'Discover top podcast shows with pagination.'}
+                        {activeTab === 'radio' && 'Create a station from featured metadata and fetch playable songs.'}
+                    </p>
+                    <CodeBlock
+                        code={activeExample.code}
+                        language="dart"
+                        title={activeExample.title}
+                        showLineNumbers
+                    />
+                </div>
+            </GlassCard>
         </div>
     );
 };

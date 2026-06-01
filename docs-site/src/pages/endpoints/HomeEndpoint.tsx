@@ -1,66 +1,33 @@
 import CodeBlock from '../../components/ui/CodeBlock';
+import GlassCard from '../../components/ui/GlassCard';
 
 const HomeEndpoint = () => {
-    const launchDataExample = `import 'package:saavn_play/saavn_play.dart';
+    const getLaunchDataExample = `import 'package:saavn_play/saavn_play.dart';
 
 void main() async {
   final client = SaavnPlayClient();
 
-  final homeData = await client.home.getLaunchData();
+  // Get home/launch data
+  final home = await client.home.getLaunchData();
 
-  print('Trending sections: \${homeData.newTrending?.length ?? 0}');
-  print('Top playlists: \${homeData.topPlaylists?.length ?? 0}');
-  print('Charts: \${homeData.charts?.length ?? 0}');
-  print('Radio stations: \${homeData.radio?.length ?? 0}');
-  print('Browse channels: \${homeData.browseDiscover?.length ?? 0}');
+  print('Charts: \${home.charts?.length ?? 0}');
+  print('Top playlists: \${home.topPlaylists?.length ?? 0}');
+  print('Radio modules: \${home.radio?.length ?? 0}');
+  print('New releases: \${home.newAlbums?.length ?? 0}');
 
   client.close();
 }`;
 
-    const dynamicSectionExample = `import 'package:saavn_play/saavn_play.dart';
+    const getTopSearchesExample = `import 'package:saavn_play/saavn_play.dart';
 
 void main() async {
   final client = SaavnPlayClient();
 
-  final homeData = await client.home.getLaunchDataWithDynamicSections();
-  final unknown = homeData.unknownSections ?? {};
+  // Get top/trending searches
+  final topSearches = await client.home.getTopSearches();
 
-  print('Unknown sections discovered: \${unknown.keys.length}');
-
-  client.close();
-}`;
-
-    const browseChannelsExample = `import 'package:saavn_play/saavn_play.dart';
-
-void main() async {
-  final client = SaavnPlayClient();
-
-  final homeData = await client.home.getLaunchData();
-
-  // Access browse channels (mood/genre/music_plus)
-  if (homeData.browseDiscover != null) {
-    for (final channel in homeData.browseDiscover!) {
-      print('Channel: \${channel.title}');
-      print('Type: \${channel.type}');
-    }
-  }
-
-  client.close();
-}`;
-
-    const chartsExample = `import 'package:saavn_play/saavn_play.dart';
-
-void main() async {
-  final client = SaavnPlayClient();
-
-  final homeData = await client.home.getLaunchData();
-
-  // Access charts
-  if (homeData.charts != null) {
-    for (final chart in homeData.charts!) {
-      print('Chart: \${chart.title}');
-      print('Song Count: \${chart.count}');
-    }
+  for (final item in topSearches) {
+    print('Trending: \${item['title'] ?? item['name']}');
   }
 
   client.close();
@@ -69,92 +36,73 @@ void main() async {
     return (
         <div className="space-y-8">
             <div>
-                <h1 className="text-3xl font-bold text-white mb-4">Home API</h1>
+                <h1 className="text-3xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">Home</span> API
+                </h1>
                 <p className="text-gray-400 text-lg">
-                    Fetch launch/home feed data including trending content, charts, radio modules,
-                    browse channels, and dynamic sections.
+                    Fetch launch/home feed modules including trending, playlists, charts, and radio.
                 </p>
             </div>
 
-            <section>
+            {/* Overview */}
+            <GlassCard className="p-6">
                 <h2 id="overview" className="text-2xl font-bold text-white mb-4">
-                    Overview
+                    <span className="text-emerald-500">Overview</span>
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    The Home endpoint provides multiple helpers for stable and
-                    error-tolerant launch feed parsing with support for browse channels,
-                    charts, and module pagination.
+                    The Home API provides methods to fetch the main feed data shown on the app's home screen.
                 </p>
-                <div className="p-4 rounded-xl bg-background-darker border border-border">
-                    <pre className="text-sm text-gray-300">
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.08]">
+                    <pre className="text-sm text-gray-300 font-mono">
                         {`// Available home methods
-client.home.getLaunchData()
-client.home.getLaunchDataWithDynamicSections()
-client.home.getLaunchDataWithErrorHandling()`}
+client.home.getLaunchData()      // Get home feed data
+client.home.getTopSearches()     // Get trending searches`}
                     </pre>
                 </div>
-            </section>
+            </GlassCard>
 
-            <section>
-                <h2 id="launch-data" className="text-2xl font-bold text-white mb-4">
-                    Get Launch Data
+            {/* Get Launch Data */}
+            <GlassCard className="p-6">
+                <h2 id="get-launch-data" className="text-2xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">Get</span> Launch Data
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Fetch normalized home modules and strongly typed sections including trending,
-                    playlists, charts, radio, and browse channels.
+                    Retrieve the main home feed with charts, playlists, radio modules, and new releases.
                 </p>
                 <CodeBlock
-                    code={launchDataExample}
+                    code={getLaunchDataExample}
                     language="dart"
-                    title="home_launch_data.dart"
+                    title="get_launch_data.dart"
                     showLineNumbers
                 />
-            </section>
+            </GlassCard>
 
-            <section>
-                <h2 id="dynamic" className="text-2xl font-bold text-white mb-4">
-                    Dynamic Section Support
+            {/* Get Top Searches */}
+            <GlassCard className="p-6">
+                <h2 id="get-top-searches" className="text-2xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">Get</span> Top Searches
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Use the dynamic variant when the API returns unknown section keys.
+                    Retrieve currently trending search queries.
                 </p>
                 <CodeBlock
-                    code={dynamicSectionExample}
+                    code={getTopSearchesExample}
                     language="dart"
-                    title="home_dynamic_sections.dart"
+                    title="get_top_searches.dart"
                     showLineNumbers
                 />
-            </section>
+            </GlassCard>
 
-            <section>
-                <h2 id="browse-channels" className="text-2xl font-bold text-white mb-4">
-                    Browse Channels
+            {/* Response */}
+            <GlassCard className="p-6">
+                <h2 id="response" className="text-2xl font-bold text-white mb-4">
+                    <span className="text-emerald-500">Response</span>
                 </h2>
                 <p className="text-gray-400 mb-4">
-                    Access browse channels organized by mood, genre, and music type.
+                    The launch data response includes sections for charts, playlists, radio, and new albums.
+                    Each section contains a list of items with metadata and images.
                 </p>
-                <CodeBlock
-                    code={browseChannelsExample}
-                    language="dart"
-                    title="home_browse_channels.dart"
-                    showLineNumbers
-                />
-            </section>
-
-            <section>
-                <h2 id="charts" className="text-2xl font-bold text-white mb-4">
-                    Charts
-                </h2>
-                <p className="text-gray-400 mb-4">
-                    Access trending charts and top playlists.
-                </p>
-                <CodeBlock
-                    code={chartsExample}
-                    language="dart"
-                    title="home_charts.dart"
-                    showLineNumbers
-                />
-            </section>
+            </GlassCard>
         </div>
     );
 };

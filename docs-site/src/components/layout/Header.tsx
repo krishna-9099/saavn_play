@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { colors } from '../../theme';
 import SearchModal from '../ui/SearchModal';
 
 interface HeaderProps {
@@ -12,6 +11,7 @@ interface HeaderProps {
 const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProps) => {
   const location = useLocation();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const navLinks = [
     { path: '/', label: 'Home' },
@@ -28,7 +28,14 @@ const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProp
     return location.pathname.startsWith(path);
   };
 
-  // Keyboard shortcut for search (Cmd/Ctrl + K)
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -44,16 +51,18 @@ const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProp
   return (
     <>
       <header
-        className="sticky top-0 z-40 bg-background-darker/95 backdrop-blur-md border-b border-border"
+        className={`sticky top-0 z-40 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-background-darker/60 backdrop-blur-xl border-b border-white/10 shadow-lg shadow-black/20'
+            : 'bg-background-darker/80 backdrop-blur-md border-b border-white/5'
+        }`}
         style={{ height: '64px' }}
       >
         <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          {/* Left section - Logo and menu button */}
           <div className="flex items-center gap-4">
-            {/* Mobile menu button */}
             <button
               onClick={onMenuClick}
-              className="lg:hidden p-2 rounded-lg hover:bg-background-hover transition-colors"
+              className="lg:hidden p-2 rounded-lg hover:bg-white/5 transition-colors"
               aria-label="Toggle menu"
             >
               <svg
@@ -80,48 +89,47 @@ const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProp
               </svg>
             </button>
 
-            {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
               <img
                 src="/saavn_play/favicon.svg"
                 alt="saavn_play logo"
-                className="w-10 h-10"
+                className="w-10 h-10 transition-transform duration-300 group-hover:scale-110"
               />
               <span className="text-xl font-bold group-hover:opacity-80 transition-opacity">
-                <span className="text-primary-400">saavn</span><span className="text-pink-400">_play</span>
+                <span className="text-green-400">saavn</span><span className="text-pink-400">_play</span>
               </span>
             </Link>
           </div>
 
-          {/* Center/Right section - Navigation */}
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`nav-link px-4 py-2 rounded-lg text-sm font-medium transition-colors ${isActive(link.path)
-                  ? 'text-white bg-primary-500/10'
-                  : 'text-gray-400 hover:text-white hover:bg-background-hover'
-                  }`}
+                className={`nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  isActive(link.path)
+                    ? 'text-white bg-green-500/10 shadow-sm shadow-green-500/10'
+                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                }`}
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          {/* Mobile Navigation Menu - Only show on pages without sidebars (homepage) */}
           {hideSidebars && isSidebarOpen && (
-            <div className="md:hidden fixed left-0 right-0 top-[64px] bg-background-darker border-b border-border shadow-xl z-50">
+            <div className="md:hidden fixed left-0 right-0 top-[64px] bg-background-darker/80 backdrop-blur-xl border-b border-white/10 shadow-xl z-50">
               <nav className="max-w-md mx-auto px-4 py-4 flex flex-col gap-1">
                 {navLinks.map((link) => (
                   <Link
                     key={link.path}
                     to={link.path}
                     onClick={onMenuClick}
-                    className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${isActive(link.path)
-                      ? 'text-white bg-primary-500/10'
-                      : 'text-gray-400 hover:text-white hover:bg-background-hover'
-                      }`}
+                    className={`px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
+                      isActive(link.path)
+                        ? 'text-white bg-green-500/10'
+                        : 'text-gray-400 hover:text-white hover:bg-white/5'
+                    }`}
                   >
                     {link.label}
                   </Link>
@@ -130,12 +138,10 @@ const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProp
             </div>
           )}
 
-          {/* Right section - Search and links */}
           <div className="flex items-center gap-3">
-            {/* Search Button */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors border border-white/10 hover:border-white/20"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 transition-all duration-200 border border-white/10 hover:border-white/20 backdrop-blur-sm"
               aria-label="Search documentation"
             >
               <svg
@@ -157,12 +163,11 @@ const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProp
               </kbd>
             </button>
 
-            {/* GitHub link */}
             <a
               href="https://github.com/krishna-9099/saavn_play"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-background-hover transition-colors"
+              className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
               aria-label="GitHub"
             >
               <svg
@@ -178,16 +183,11 @@ const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProp
               </svg>
             </a>
 
-            {/* Pub.dev badge */}
             <a
               href="https://pub.dev/packages/saavn_play"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium"
-              style={{
-                backgroundColor: `${colors.primary[500]}20`,
-                color: colors.primary[400]
-              }}
+              className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium bg-green-500/10 text-green-400 hover:bg-green-500/20 transition-colors border border-green-500/20"
             >
               <svg
                 className="w-4 h-4"
@@ -202,7 +202,6 @@ const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProp
         </div>
       </header>
 
-      {/* Search Modal */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}

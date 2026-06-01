@@ -1,23 +1,19 @@
-import { colors } from '../../theme';
-
 const Footer = () => {
     const currentYear = new Date().getFullYear();
 
     return (
         <footer
-            className="bg-background-darker border-t border-border py-8"
+            className="bg-background-darker/60 backdrop-blur-xl border-t border-white/10 py-8"
             style={{ minHeight: '80px' }}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-                    {/* Logo and copyright */}
                     <div className="flex items-center gap-3">
                         <div
-                            className="w-8 h-8 rounded-lg flex items-center justify-center"
-                            style={{ backgroundColor: colors.primary[500] }}
+                            className="w-8 h-8 rounded-lg flex items-center justify-center bg-green-500/20 border border-green-500/30"
                         >
                             <svg
-                                className="w-5 h-5 text-white"
+                                className="w-5 h-5 text-green-400"
                                 fill="none"
                                 stroke="currentColor"
                                 viewBox="0 0 24 24"
@@ -35,13 +31,12 @@ const Footer = () => {
                         </span>
                     </div>
 
-                    {/* Links */}
                     <div className="flex items-center gap-6">
                         <a
                             href="https://github.com/krishna-9099/saavn_play"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm text-gray-400 hover:text-white transition-colors"
+                            className="text-sm text-gray-400 hover:text-green-400 transition-colors duration-200"
                         >
                             GitHub
                         </a>
@@ -49,7 +44,7 @@ const Footer = () => {
                             href="https://pub.dev/packages/saavn_play"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm text-gray-400 hover:text-white transition-colors"
+                            className="text-sm text-gray-400 hover:text-green-400 transition-colors duration-200"
                         >
                             pub.dev
                         </a>
@@ -57,15 +52,14 @@ const Footer = () => {
                             href="https://github.com/krishna-9099/saavn_play/issues"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-sm text-gray-400 hover:text-white transition-colors"
+                            className="text-sm text-gray-400 hover:text-green-400 transition-colors duration-200"
                         >
                             Report an Issue
                         </a>
                     </div>
                 </div>
 
-                {/* Disclaimer */}
-                <div className="mt-6 pt-6 border-t border-border">
+                <div className="mt-6 pt-6 border-t border-white/10">
                     <p className="text-xs text-gray-500 text-center">
                         <strong>Educational Purpose Disclaimer:</strong> This package is intended for educational
                         and research purposes only. It is not affiliated with, endorsed by, or connected to
