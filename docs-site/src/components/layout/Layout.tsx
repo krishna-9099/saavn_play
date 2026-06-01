@@ -61,7 +61,7 @@ const Layout = ({ children, hideSidebars = false }: LayoutProps) => {
           </aside>
         )}
 
-        <main className="flex-1 min-w-0 overflow-x-hidden">
+        <main id="main-content" className="flex-1 min-w-0 overflow-x-hidden">
           <div className={`${hideSidebars ? 'max-w-7xl' : 'max-w-4xl'} mx-auto px-4 sm:px-6 lg:px-8 py-8`}>
             {!hideSidebars && <Breadcrumbs />}
             {children}
