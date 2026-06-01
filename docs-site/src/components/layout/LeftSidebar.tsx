@@ -22,6 +22,7 @@ const LeftSidebar = ({ onNavigate }: LeftSidebarProps) => {
                 { title: 'Introduction', path: '/' },
                 { title: 'Installation', path: '/installation' },
                 { title: 'Quick Start', path: '/examples' },
+                { title: 'Playground', path: '/playground' },
             ],
         },
         {

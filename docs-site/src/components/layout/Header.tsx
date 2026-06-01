@@ -18,6 +18,7 @@ const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProp
     { path: '/installation', label: 'Installation' },
     { path: '/api-reference', label: 'API Reference' },
     { path: '/examples', label: 'Examples' },
+    { path: '/playground', label: 'Playground' },
     { path: '/models', label: 'Models' },
   ];
 

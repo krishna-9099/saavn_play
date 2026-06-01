@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Installation from './pages/Installation';
 import ApiReference from './pages/ApiReference';
 import Examples from './pages/Examples';
+import Playground from './pages/Playground';
 import SearchEndpoint from './pages/endpoints/SearchEndpoint';
 import SongEndpoint from './pages/endpoints/SongEndpoint';
 import AlbumEndpoint from './pages/endpoints/AlbumEndpoint';
@@ -16,14 +17,16 @@ import Models from './pages/Models';
 function App() {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  const isPlayground = location.pathname === '/playground';
 
   return (
-    <Layout hideSidebars={isHomePage}>
+    <Layout hideSidebars={isHomePage || isPlayground}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/installation" element={<Installation />} />
         <Route path="/api-reference" element={<ApiReference />} />
         <Route path="/examples" element={<Examples />} />
+        <Route path="/playground" element={<Playground />} />
         <Route path="/api/search" element={<SearchEndpoint />} />
         <Route path="/api/song" element={<SongEndpoint />} />
         <Route path="/api/album" element={<AlbumEndpoint />} />
