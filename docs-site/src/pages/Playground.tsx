@@ -17,6 +17,7 @@ import EnvironmentVariables, {
 } from '../components/playground/EnvironmentVariables';
 import ShareButton, { parseShareUrl } from '../components/playground/ShareButton';
 import BatchRequests from '../components/playground/BatchRequests';
+import ModelGenerator from '../components/playground/ModelGenerator';
 import { getEndpointById } from '../components/playground/endpoints';
 import { ApiResponse, HistoryEntry, EnvironmentVariable } from '../components/playground/types';
 import { useKeyboardShortcuts, Shortcut } from '../components/playground/KeyboardShortcuts';
@@ -73,7 +74,7 @@ const Playground = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [history, setHistory] = useState<HistoryEntry[]>(loadHistory);
     const [envVars, setEnvVars] = useState<EnvironmentVariable[]>([]);
-    const [activeTab, setActiveTab] = useState<'response' | 'code'>('response');
+    const [activeTab, setActiveTab] = useState<'response' | 'code' | 'model'>('response');
     const [isBatchMode, setIsBatchMode] = useState(false);
     const [showShortcutsHelp, setShowShortcutsHelp] = useState(false);
     const [isMockMode, setIsMockMode] = useState(loadMockMode);
@@ -516,6 +517,16 @@ const Playground = () => {
                                     >
                                         Code
                                     </button>
+                                    <button
+                                        onClick={() => setActiveTab('model')}
+                                        className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${
+                                            activeTab === 'model'
+                                                ? 'bg-emerald-500/20 text-emerald-400'
+                                                : 'text-gray-500 hover:text-gray-300'
+                                        }`}
+                                    >
+                                        Model
+                                    </button>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2">
@@ -532,6 +543,13 @@ const Playground = () => {
                                     error={response?.error}
                                     isLoading={isLoading}
                                     isMock={isMockResponse}
+                                    onGenerateModel={() => setActiveTab('model')}
+                                />
+                            ) : activeTab === 'model' ? (
+                                <ModelGenerator
+                                    data={response?.data ?? null}
+                                    endpointName={endpoint?.name}
+                                    onClose={() => setActiveTab('response')}
                                 />
                             ) : endpoint ? (
                                 <CodeSnippetGenerator

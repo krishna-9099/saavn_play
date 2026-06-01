@@ -14,9 +14,10 @@ interface ResponseViewerProps {
     error?: string;
     isLoading: boolean;
     isMock?: boolean;
+    onGenerateModel?: () => void;
 }
 
-const ResponseViewer = ({ data, status, duration, url, error, isLoading, isMock }: ResponseViewerProps) => {
+const ResponseViewer = ({ data, status, duration, url, error, isLoading, isMock, onGenerateModel }: ResponseViewerProps) => {
     const [copied, setCopied] = useState(false);
     const [showRaw, setShowRaw] = useState(false);
     const [expanded, setExpanded] = useState(true);
@@ -194,6 +195,18 @@ const ResponseViewer = ({ data, status, duration, url, error, isLoading, isMock 
                     )}
                 </div>
                 <div className="flex items-center gap-2">
+                    {data !== null && data !== undefined && onGenerateModel && (
+                        <button
+                            onClick={onGenerateModel}
+                            className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium transition-all text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10"
+                            title="Generate Dart Model Classes"
+                        >
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                            </svg>
+                            Model
+                        </button>
+                    )}
                     <button
                         onClick={() => setShowSearch(true)}
                         className={`px-2.5 py-1 rounded text-xs font-medium transition-all ${
