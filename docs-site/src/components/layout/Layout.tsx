@@ -4,6 +4,8 @@ import LeftSidebar from './LeftSidebar';
 import RightSidebar from './RightSidebar';
 import Footer from './Footer';
 import Breadcrumbs from '../ui/Breadcrumbs';
+import FeedbackForm from '../ui/FeedbackForm';
+import BackButton from '../ui/BackButton';
 import { spacing } from '../../theme';
 
 interface LayoutProps {
@@ -79,6 +81,8 @@ const Layout = ({ children, hideSidebars = false }: LayoutProps) => {
       </div>
 
       <Footer />
+      <FeedbackForm />
+      <BackButton />
     </div>
   );
 };

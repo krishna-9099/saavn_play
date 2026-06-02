@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import SearchModal from '../ui/SearchModal';
 import { useThrottle } from '../../hooks/useThrottle';
+import { usePrefetch } from '../../hooks/usePrefetch';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -15,6 +16,7 @@ const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProp
   const [scrollY, setScrollY] = useState(0);
   const throttledScrollY = useThrottle(scrollY, 100);
   const isScrolled = throttledScrollY > 10;
+  const { prefetch } = usePrefetch();
 
   const navLinks = [
     { path: '/', label: 'Home' },
@@ -94,11 +96,14 @@ const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProp
             </button>
 
             <Link to="/" className="flex items-center gap-3 group">
-              <img
-                src="/saavn_play/favicon.svg"
-                alt="saavn_play logo"
-                className="w-10 h-10 transition-transform duration-300 group-hover:scale-110"
-              />
+              <div className="relative">
+                <img
+                  src="/saavn_play/favicon.svg"
+                  alt="saavn_play logo"
+                  className="w-10 h-10 transition-all duration-300 group-hover:scale-110 logo-pulse"
+                />
+                <div className="absolute inset-0 rounded-full bg-green-500/0 group-hover:bg-green-500/20 blur-lg transition-all duration-500 opacity-0 group-hover:opacity-100" />
+              </div>
               <span className="text-xl font-bold group-hover:opacity-80 transition-opacity">
                 <span className="text-green-400">saavn</span><span className="text-pink-400">_play</span>
               </span>
@@ -110,6 +115,7 @@ const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProp
               <Link
                 key={link.path}
                 to={link.path}
+                onMouseEnter={() => prefetch(link.path)}
                 className={`nav-link px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                   isActive(link.path)
                     ? 'text-white bg-green-500/10 shadow-sm shadow-green-500/10'
@@ -129,6 +135,7 @@ const Header = ({ onMenuClick, isSidebarOpen, hideSidebars = false }: HeaderProp
                     key={link.path}
                     to={link.path}
                     onClick={onMenuClick}
+                    onMouseEnter={() => prefetch(link.path)}
                     className={`px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
                       isActive(link.path)
                         ? 'text-white bg-green-500/10'

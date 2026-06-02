@@ -352,6 +352,37 @@
     }
 }
 
+/* Logo animation */
+.logo-pulse {
+    animation: logo-pulse 3s ease-in-out infinite;
+}
+
+@keyframes logo-pulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 0px rgba(16, 185, 129, 0));
+    }
+    50% {
+        filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.3));
+    }
+}
+
+/* Custom cursor */
+body.custom-cursor-active {
+    cursor: none !important;
+}
+
+body.custom-cursor-active * {
+    cursor: none !important;
+}
+
+.custom-cursor-ring.hovering {
+    width: 50px !important;
+    height: 50px !important;
+    top: -25px !important;
+    left: -25px !important;
+    border-color: rgba(16, 185, 129, 0.8) !important;
+}
+
 /* Keyframes for animations */
 @keyframes float {
     0%, 100% {

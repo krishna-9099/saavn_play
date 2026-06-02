@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>saavn_play Changelog</title>
+        <link>https://krishna-9099.github.io/saavn_play/</link>
+        <description>Changelog for saavn_play - Dart API Client for JioSaavn</description>
+        <language>en-us</language>
+        <lastBuildDate>Tue, 15 Jan 2025 00:00:00 GMT</lastBuildDate>
+        <atom:link href="https://krishna-9099.github.io/saavn_play/feed.xml" rel="self" type="application/rss+xml" />
+        <image>
+            <url>https://krishna-9099.github.io/saavn_play/favicon.svg</url>
+            <title>saavn_play</title>
+            <link>https://krishna-9099.github.io/saavn_play/</link>
+        </image>
+
+        <item>
+            <title>saavn_play v1.3.0</title>
+            <link>https://krishna-9099.github.io/saavn_play/#changelog</link>
+            <guid>https://krishna-9099.github.io/saavn_play/#v1.3.0</guid>
+            <pubDate>Wed, 15 Jan 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[
+                <h3>v1.3.0 - January 15, 2025</h3>
+                <ul>
+                    <li><strong>Added:</strong> New Podcast API for discovering top shows</li>
+                    <li><strong>Added:</strong> Radio API for accessing radio stations and streaming content</li>
+                    <li><strong>Added:</strong> Lyrics API for fetching song lyrics with copyright info</li>
+                    <li><strong>Added:</strong> Playlist API for getting playlist details and featured lists</li>
+                    <li><strong>Added:</strong> Home endpoint for launch data with trending modules and charts</li>
+                    <li><strong>Added:</strong> Interactive API playground for testing endpoints</li>
+                    <li><strong>Added:</strong> Batch request support for multiple API calls</li>
+                    <li><strong>Added:</strong> Request history and collections features</li>
+                    <li><strong>Changed:</strong> Improved error handling with detailed error messages</li>
+                    <li><strong>Changed:</strong> Enhanced type safety across all models</li>
+                    <li><strong>Fixed:</strong> Resolved timeout issues on large search results</li>
+                    <li><strong>Fixed:</strong> Fixed null safety issues in Artist model</li>
+                </ul>
+            ]]></description>
+            <category>Release</category>
+        </item>
+
+        <item>
+            <title>saavn_play v1.2.0</title>
+            <link>https://krishna-9099.github.io/saavn_play/#changelog</link>
+            <guid>https://krishna-9099.github.io/saavn_play/#v1.2.0</guid>
+            <pubDate>Thu, 20 Nov 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[
+                <h3>v1.2.0 - November 20, 2024</h3>
+                <ul>
+                    <li><strong>Added:</strong> Artist API with profile, songs, and albums support</li>
+                    <li><strong>Added:</strong> ArtistPageDetails typed response model</li>
+                    <li><strong>Added:</strong> Social links extraction for artist profiles</li>
+                    <li><strong>Added:</strong> Language and dominant type fields for artists</li>
+                    <li><strong>Changed:</strong> Refactored search to support pagination parameters</li>
+                    <li><strong>Changed:</strong> Updated Song model with additional metadata fields</li>
+                    <li><strong>Fixed:</strong> Fixed album track listing order inconsistency</li>
+                    <li><strong>Fixed:</strong> Resolved image URL encoding issues</li>
+                </ul>
+            ]]></description>
+            <category>Release</category>
+        </item>
+
+        <item>
+            <title>saavn_play v1.1.0</title>
+            <link>https://krishna-9099.github.io/saavn_play/#changelog</link>
+            <guid>https://krishna-9099.github.io/saavn_play/#v1.1.0</guid>
+            <pubDate>Tue, 10 Sep 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[
+                <h3>v1.1.0 - September 10, 2024</h3>
+                <ul>
+                    <li><strong>Added:</strong> Album API with detailed album information</li>
+                    <li><strong>Added:</strong> Album recommendations endpoint</li>
+                    <li><strong>Added:</strong> Song recommendations based on listening history</li>
+                    <li><strong>Added:</strong> Cover art and image URL support for albums</li>
+                    <li><strong>Changed:</strong> Improved search result accuracy</li>
+                    <li><strong>Changed:</strong> Enhanced error messages for API failures</li>
+                    <li><strong>Fixed:</strong> Fixed client connection pooling issues</li>
+                </ul>
+            ]]></description>
+            <category>Release</category>
+        </item>
+
+        <item>
+            <title>saavn_play v1.0.0</title>
+            <link>https://krishna-9099.github.io/saavn_play/#changelog</link>
+            <guid>https://krishna-9099.github.io/saavn_play/#v1.0.0</guid>
+            <pubDate>Mon, 01 Jul 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[
+                <h3>v1.0.0 - July 1, 2024</h3>
+                <ul>
+                    <li><strong>Added:</strong> Initial release of saavn_play package</li>
+                    <li><strong>Added:</strong> Search API for songs, albums, artists, and playlists</li>
+                    <li><strong>Added:</strong> Song details API with comprehensive metadata</li>
+                    <li><strong>Added:</strong> SaavnPlayClient with configurable base URL</li>
+                    <li><strong>Added:</strong> Full type safety with Dart 3.x support</li>
+                    <li><strong>Added:</strong> MIT License for open source usage</li>
+                </ul>
+            ]]></description>
+            <category>Release</category>
+        </item>
+    </channel>
+</rss>

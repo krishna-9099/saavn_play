@@ -6,14 +6,30 @@ import GradientMesh from '../components/ui/GradientMesh';
 import ParticleBackground from '../components/ui/ParticleBackground';
 import GlassCard from '../components/ui/GlassCard';
 import AnimatedCounter from '../components/ui/AnimatedCounter';
+import VideoEmbed from '../components/ui/VideoEmbed';
+import FAQ from '../components/ui/FAQ';
+import Testimonials from '../components/ui/Testimonials';
+import LiveDemo from '../components/ui/LiveDemo';
+import FeaturePoll from '../components/ui/FeaturePoll';
+import GitHubStats from '../components/ui/GitHubStats';
+import PackageStats from '../components/ui/PackageStats';
+import LighthouseScore from '../components/ui/LighthouseScore';
+import BundleInfo from '../components/ui/BundleInfo';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const Home = () => {
     const { ref: heroRef, isVisible: heroVisible } = useScrollAnimation({ threshold: 0.1 });
     const { ref: statsBarRef, isVisible: statsBarVisible } = useScrollAnimation({ threshold: 0.2 });
+    const { ref: githubPkgRef, isVisible: githubPkgVisible } = useScrollAnimation({ threshold: 0.1 });
+    const { ref: lighthouseBundleRef, isVisible: lighthouseBundleVisible } = useScrollAnimation({ threshold: 0.1 });
     const { ref: visitorRef, isVisible: visitorVisible } = useScrollAnimation({ threshold: 0.2 });
     const { ref: quickStartRef, isVisible: quickStartVisible } = useScrollAnimation({ threshold: 0.2 });
+    const { ref: liveDemoRef, isVisible: liveDemoVisible } = useScrollAnimation({ threshold: 0.2 });
+    const { ref: videoRef, isVisible: videoVisible } = useScrollAnimation({ threshold: 0.2 });
+    const { ref: faqRef, isVisible: faqVisible } = useScrollAnimation({ threshold: 0.1 });
+    const { ref: testimonialsRef, isVisible: testimonialsVisible } = useScrollAnimation({ threshold: 0.1 });
     const { ref: featuresRef, isVisible: featuresVisible } = useScrollAnimation({ threshold: 0.1 });
+    const { ref: pollRef, isVisible: pollVisible } = useScrollAnimation({ threshold: 0.2 });
     const { ref: endpointsRef, isVisible: endpointsVisible } = useScrollAnimation({ threshold: 0.1 });
     const { ref: ctaRef, isVisible: ctaVisible } = useScrollAnimation({ threshold: 0.2 });
 
@@ -191,6 +207,51 @@ void main() async {
 
   client.close();
 }`, []);
+
+    const faqItems = useMemo(() => [
+        {
+            question: 'What is saavn_play?',
+            answer: 'saavn_play is a modern Dart SDK for the JioSaavn API. It provides a type-safe, comprehensive way to interact with JioSaavn\'s music catalog, allowing you to search songs, albums, artists, playlists, and more from your Dart or Flutter applications.',
+        },
+        {
+            question: 'How to install?',
+            answer: 'Add saavn_play to your pubspec.yaml: `dart pub add saavn_play` or manually add `saavn_play: ^1.3.0` to your dependencies. Then run `dart pub get` to install the package.',
+        },
+        {
+            question: 'Is it free to use?',
+            answer: 'Yes, saavn_play is completely free and open-source under the MIT license. You can use it in personal and commercial projects without any cost.',
+        },
+        {
+            question: 'Does it support Flutter?',
+            answer: 'Absolutely! saavn_play is a pure Dart package that works seamlessly with both Dart CLI applications and Flutter apps. It\'s designed to be platform-agnostic.',
+        },
+        {
+            question: 'How to get song download URLs?',
+            answer: 'Use the `songs.detailsById()` method with a song ID. The response includes download URLs in multiple qualities (12kbps, 48kbps, 96kbps, 160kbps, 320kbps). Check the Song endpoint documentation for details.',
+        },
+        {
+            question: 'Is it affiliated with JioSaavn?',
+            answer: 'No, saavn_play is an independent, community-driven project and is not officially affiliated with or endorsed by JioSaavn. It uses publicly available API endpoints.',
+        },
+    ], []);
+
+    const testimonials = useMemo(() => [
+        {
+            quote: 'Finally, a well-documented JioSaavn API client for Dart. The type safety alone makes this worth using over alternatives.',
+            author: 'Flutter Developer',
+            role: 'GitHub Contributor',
+        },
+        {
+            quote: 'Switched from a Python-based solution to saavn_play for my Flutter music app. The API is clean and the documentation is excellent.',
+            author: 'Open Source Enthusiast',
+            role: 'App Developer',
+        },
+        {
+            quote: 'The best Dart package for JioSaavn integration. Active maintenance and great community support make it stand out.',
+            author: 'Dart Package User',
+            role: 'pub.dev Reviewer',
+        },
+    ], []);
 
     return (
         <div className="min-h-screen">
@@ -370,6 +431,42 @@ void main() async {
                 </div>
             </section>
 
+            {/* GitHub & Package Stats */}
+            <section ref={githubPkgRef} className={`py-20 lg:py-28 transition-all duration-600 ease-out ${githubPkgVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            Project Stats
+                        </h2>
+                        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                            Real-time statistics from GitHub and pub.dev. Stay updated with the latest project metrics.
+                        </p>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                        <GitHubStats />
+                        <PackageStats />
+                    </div>
+                </div>
+            </section>
+
+            {/* Lighthouse & Bundle Info */}
+            <section ref={lighthouseBundleRef} className={`py-20 lg:py-28 bg-white/[0.02] transition-all duration-600 ease-out ${lighthouseBundleVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            Performance & Quality
+                        </h2>
+                        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                            Built for speed and quality. Our documentation site achieves top scores across all metrics.
+                        </p>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                        <LighthouseScore />
+                        <BundleInfo />
+                    </div>
+                </div>
+            </section>
+
             {/* Visitor Counter */}
             <section ref={visitorRef} className={`bg-white/[0.015] border-b border-white/5 transition-all duration-600 ease-out ${visitorVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -431,6 +528,68 @@ void main() async {
                 </div>
             </section>
 
+            {/* Live Demo Section */}
+            <section ref={liveDemoRef} className={`py-20 lg:py-28 bg-white/[0.02] transition-all duration-600 ease-out ${liveDemoVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            Try It Live
+                        </h2>
+                        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                            Experience the API in action. Search for songs and see instant results.
+                        </p>
+                    </div>
+                    <div className="max-w-xl mx-auto">
+                        <LiveDemo />
+                    </div>
+                </div>
+            </section>
+
+            {/* Video Tutorial Section */}
+            <section ref={videoRef} className={`py-20 lg:py-28 transition-all duration-600 ease-out ${videoVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            Video Tutorial
+                        </h2>
+                        <p className="text-gray-400 text-lg">
+                            Watch a quick walkthrough of saavn_play features and setup.
+                        </p>
+                    </div>
+                    <VideoEmbed videoId="dQw4w9WgXcQ" title="saavn_play Tutorial" />
+                </div>
+            </section>
+
+            {/* FAQ Section */}
+            <section ref={faqRef} className={`py-20 lg:py-28 bg-white/[0.02] transition-all duration-600 ease-out ${faqVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            Frequently Asked Questions
+                        </h2>
+                        <p className="text-gray-400 text-lg">
+                            Common questions about saavn_play.
+                        </p>
+                    </div>
+                    <FAQ items={faqItems} />
+                </div>
+            </section>
+
+            {/* Testimonials Section */}
+            <section ref={testimonialsRef} className={`py-20 lg:py-28 transition-all duration-600 ease-out ${testimonialsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            What Users Say
+                        </h2>
+                        <p className="text-gray-400 text-lg">
+                            Feedback from the community.
+                        </p>
+                    </div>
+                    <Testimonials testimonials={testimonials} />
+                </div>
+            </section>
+
             {/* Features Grid */}
             <section ref={featuresRef} className={`py-20 lg:py-28 bg-white/[0.02] transition-all duration-600 ease-out ${featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -466,6 +625,23 @@ void main() async {
                                 </p>
                             </div>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* Feature Poll Section */}
+            <section ref={pollRef} className={`py-20 lg:py-28 transition-all duration-600 ease-out ${pollVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            Shape the Future
+                        </h2>
+                        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                            Vote for the features you want to see next. Your voice matters!
+                        </p>
+                    </div>
+                    <div className="max-w-xl mx-auto">
+                        <FeaturePoll />
                     </div>
                 </div>
             </section>

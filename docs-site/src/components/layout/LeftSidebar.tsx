@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import { usePrefetch } from '../../hooks/usePrefetch';
 
 interface LeftSidebarProps {
     onNavigate?: () => void;
@@ -13,6 +14,7 @@ interface NavItem {
 
 const LeftSidebar = ({ onNavigate }: LeftSidebarProps) => {
     const location = useLocation();
+    const { prefetch } = usePrefetch();
 
     const navigation: NavItem[] = [
         {
@@ -69,10 +71,11 @@ const LeftSidebar = ({ onNavigate }: LeftSidebarProps) => {
                                 <Link
                                     to={item.path}
                                     onClick={onNavigate}
+                                    onMouseEnter={() => prefetch(item.path)}
                                     className={`sidebar-item ${
-                                        isActive(item.path) 
-                                            ? 'active bg-green-500/10 text-green-400 border-l-2 border-green-500' 
-                                            : 'hover:bg-white/5'
+                                        isActive(item.path)
+                                            ? 'active bg-green-500/10 text-green-400 border-l-2 border-green-500 shadow-sm shadow-green-500/5'
+                                            : 'hover:bg-white/5 border-l-2 border-transparent'
                                     } transition-all duration-200`}
                                 >
                                     <span>{item.title}</span>
@@ -90,9 +93,36 @@ const LeftSidebar = ({ onNavigate }: LeftSidebarProps) => {
                 <ul className="space-y-1">
                     <li>
                         <Link
+                            to="/blog"
+                            onClick={onNavigate}
+                            onMouseEnter={() => prefetch('/blog')}
+                            className={`sidebar-item ${isActive('/blog') ? 'active bg-green-500/10 text-green-400 border-l-2 border-green-500 shadow-sm shadow-green-500/5' : 'hover:bg-white/5 border-l-2 border-transparent'} transition-all duration-200`}
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                            </svg>
+                            <span>Blog</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
                             to="/changelog"
                             onClick={onNavigate}
-                            className={`sidebar-item ${isActive('/changelog') ? 'active bg-green-500/10 text-green-400 border-l-2 border-green-500' : 'hover:bg-white/5'} transition-all duration-200`}
+                            onMouseEnter={() => prefetch('/changelog')}
+                            className={`sidebar-item ${isActive('/changelog') ? 'active bg-green-500/10 text-green-400 border-l-2 border-green-500 shadow-sm shadow-green-500/5' : 'hover:bg-white/5 border-l-2 border-transparent'} transition-all duration-200`}
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                            <span>Changelog</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/changelog"
+                            onClick={onNavigate}
+                            onMouseEnter={() => prefetch('/changelog')}
+                            className={`sidebar-item ${isActive('/changelog') ? 'active bg-green-500/10 text-green-400 border-l-2 border-green-500 shadow-sm shadow-green-500/5' : 'hover:bg-white/5 border-l-2 border-transparent'} transition-all duration-200`}
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
@@ -104,7 +134,8 @@ const LeftSidebar = ({ onNavigate }: LeftSidebarProps) => {
                         <Link
                             to="/contributing"
                             onClick={onNavigate}
-                            className={`sidebar-item ${isActive('/contributing') ? 'active bg-green-500/10 text-green-400 border-l-2 border-green-500' : 'hover:bg-white/5'} transition-all duration-200`}
+                            onMouseEnter={() => prefetch('/contributing')}
+                            className={`sidebar-item ${isActive('/contributing') ? 'active bg-green-500/10 text-green-400 border-l-2 border-green-500 shadow-sm shadow-green-500/5' : 'hover:bg-white/5 border-l-2 border-transparent'} transition-all duration-200`}
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
