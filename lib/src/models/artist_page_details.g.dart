@@ -56,7 +56,7 @@ ArtistPageDetails _$ArtistPageDetailsFromJson(Map<String, dynamic> json) =>
           ?.map((e) => e as String)
           .toList(),
       topEpisodes: json['topEpisodes'] as List<dynamic>?,
-      modules: json['modules'] as Map<String, dynamic>?,
+      modules: json['modules'] as List<dynamic>?,
     );
 
 Map<String, dynamic> _$ArtistPageDetailsToJson(ArtistPageDetails instance) =>

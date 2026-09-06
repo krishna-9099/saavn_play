@@ -70,7 +70,7 @@ class ArtistPageDetails {
   final List<String>? availableLanguages;
   @JsonKey(name: 'topEpisodes')
   final List<dynamic>? topEpisodes;
-  final Map<String, dynamic>? modules;
+  final List<dynamic>? modules;
 
   ArtistPageDetails({
     required this.artistId,
